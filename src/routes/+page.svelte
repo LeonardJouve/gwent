@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import {iconURL, largeURL} from "$lib/utils";
     import cards from "$lib/cards";
     import factions from "$lib/factions";
