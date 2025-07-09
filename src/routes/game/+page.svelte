@@ -8,6 +8,28 @@
         height: number;
     };
 
+    const rowTopPercents = [
+        1.4,
+        13.8,
+        26.4,
+        40.3,
+        52.7,
+        65.3,
+    ];
+    const rowHeightPercent = 10.8;
+
+    const pileWidthPercent = 5.6;
+    const pileHeightPercent = 13.4;
+    const pileTopPercents = [
+        6.5,
+        76.6,
+    ];
+
+    const scoreWidthPercent = 2.5;
+    const scoreHeightPercent = 4.4;
+
+    const laneLeftPercent = 29.7;
+
     let boardImage: HTMLImageElement;
     let boardBoundingRect = $state<Rect>({
         top: 0,
@@ -37,26 +59,105 @@
         return () => window.removeEventListener("resize", resizeImage);
     });
 
-    const getRowPosition = $derived((index: number) => {
-        const verticalPositions = [
-            1.4,
-            13.8,
-            26.4,
-            40.3,
-            52.7,
-            65.3,
-        ];
-        const horizontalPosition = 36.9;
-        const widthPercent = 42;
-        const heightPercent = 10.8;
-
+    const getPosition = $derived((getLeftPercent: () => number, getWidthPercent: () => number, getTopPercent: () => number, getHeightPercent: () => number) => {
         const horizontalPercent = boardBoundingRect.width / 100;
         const verticalPercent = boardBoundingRect.height / 100;
-        const left = `left: ${boardBoundingRect.left + (horizontalPosition * horizontalPercent)}px`;
-        const top = `top: ${boardBoundingRect.top + (verticalPositions[index] * verticalPercent)}px`;
-        const width = `width: ${widthPercent * horizontalPercent}px`;
-        const height = `height: ${heightPercent * verticalPercent}px`;
+
+        const left = `left: ${boardBoundingRect.left + (getLeftPercent() * horizontalPercent)}px`;
+        const top = `top: ${boardBoundingRect.top + (getTopPercent() * verticalPercent)}px`;
+        const width = `width: ${getWidthPercent() * horizontalPercent}px`;
+        const height = `height: ${getHeightPercent() * verticalPercent}px`;
         return [left, top, width, height].join("; ");
+    })
+
+    const getRowPosition = $derived((index: number) => {
+        const leftPercent = 36.9;
+        const widthPercent = 42.2;
+
+        return getPosition(() => leftPercent, () => widthPercent, () => rowTopPercents[index], () => rowHeightPercent);
+    });
+
+    const getHornPosition = $derived((index: number) => {
+        const widthPercent = 6.6;
+
+        return getPosition(() => laneLeftPercent, () => widthPercent, () => rowTopPercents[index], () => rowHeightPercent);
+    });
+
+    const getRowScorePosition = $derived((index: number) => {
+        const leftPercent = 26.6;
+        const topPercents = [
+            4.5,
+            16.6,
+            29.4,
+            43.1,
+            55.5,
+            68.2,
+        ];
+
+        return getPosition(() => leftPercent, () => scoreWidthPercent, () => topPercents[index], () => scoreHeightPercent);
+    });
+
+    const getScorePosition = $derived((index: number) => {
+        const leftPercent = 22.3;
+        const topPercents = [
+            28.4,
+            65.6,
+        ];
+
+        return getPosition(() => leftPercent, () => scoreWidthPercent, () => topPercents[index], () => scoreHeightPercent);
+    });
+
+    const getLeaderPosition = $derived((index: number) => {
+        const leftPercent = 7.1;
+        const widthPercent = 5.5;
+        const heightPercent = 12.9;
+        const topPercents = [
+            7.1,
+            76.8,
+        ];
+
+        return getPosition(() => leftPercent, () => widthPercent, () => topPercents[index], () => heightPercent);
+    });
+
+    const getLeaderStatusPosition = $derived((index: number) => {
+        const leftPercent = 13.5;
+        const widthPercent = 1.8;
+        const heightPercent = 3.2;
+        const topPercents = [
+            12,
+            81.8,
+        ];
+
+        return getPosition(() => leftPercent, () => widthPercent, () => topPercents[index], () => heightPercent);
+    });
+
+    const getGravePosition = $derived((index: number) => {
+        const leftPercent = 80.5;
+
+        return getPosition(() => leftPercent, () => pileWidthPercent, () => pileTopPercents[index], () => pileHeightPercent);
+    });
+
+    const getDeckPosition = $derived((index: number) => {
+        const leftPercent = 89.8;
+
+        return getPosition(() => leftPercent, () => pileWidthPercent, () => pileTopPercents[index], () => pileHeightPercent);
+    });
+
+    const getHandPosition = $derived(() => {
+        const widthPercent = 49.4;
+        const heightPercent = 12;
+        const topPercent = 77.8;
+
+        return getPosition(() => laneLeftPercent, () => widthPercent, () => topPercent, () => heightPercent);
+    });
+
+    const getWeatherPosition = $derived(() => {
+        const leftPercent = 7.3;
+        const widthPercent = 14.6;
+        const heightPercent = 13;
+        const topPercent = 41.3;
+
+        return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent);
     });
 </script>
 
@@ -69,9 +170,21 @@
     />
 
     {#each {length: 6}, i}
+        <div class="score" style={getRowScorePosition(i)}></div>
+        <div class="horn" style={getHornPosition(i)}></div>
         <div class="row" style={getRowPosition(i)}></div>
     {/each}
 
+    {#each {length: 2}, i}
+        <div class="leader" style={getLeaderPosition(i)}></div>
+        <div class="leader-status" style={getLeaderStatusPosition(i)}></div>
+        <div class="score" style={getScorePosition(i)}></div>
+        <div class="grave" style={getGravePosition(i)}></div>
+        <div class="deck" style={getDeckPosition(i)}></div>
+    {/each}
+
+    <div class="hand" style={getHandPosition()}></div>
+    <div class="weather" style={getWeatherPosition()}></div>
 </div>
 
 <style>
@@ -89,9 +202,13 @@
         transform: translate(-50%, -50%);
     }
 
-    .row {
+    .row, .horn, .leader, .leader-status, .grave, .deck, .hand, .weather, .score {
         border: solid 2px goldenrod;
         background-color: rgba(218, 165, 32, 0.1);
         position: absolute;
+    }
+
+    .score, .leader-status {
+        border-radius: 50%;
     }
 </style>
