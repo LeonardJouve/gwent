@@ -6,7 +6,7 @@
         card: CardData;
         isSelectible?: boolean;
     }
-    const {card, isSelectible = true}: Props = $props();
+    const {card, isSelectible}: Props = $props();
 
     const abilities = $derived(card.ability.split(" "));
     const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");

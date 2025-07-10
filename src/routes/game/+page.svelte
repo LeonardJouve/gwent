@@ -1,5 +1,6 @@
 <script lang="ts">
     import Deck from "$lib/components/deck.svelte";
+    import Grave from "$lib/components/grave.svelte";
     import Hand from "$lib/components/hand.svelte";
     import Leader from "$lib/components/leader.svelte";
     import LeaderStatus from "$lib/components/leader_status.svelte";
@@ -192,7 +193,9 @@
             <LeaderStatus player={player}/>
         </div>
         <div class="score" style={getScorePosition(i)}></div>
-        <div class="grave" style={getGravePosition(i)}></div>
+        <div class="grave" style={getGravePosition(i)}>
+            <Grave player={player}/>
+        </div>
         <div class="deck" style={getDeckPosition(i)}>
             <Deck player={player}/>
         </div>

@@ -3,6 +3,7 @@
     import CardPile from "$lib/components/card_pile.svelte";
     import {store} from "$lib/store/deck.svelte";
     import {iconURL} from "$lib/utils";
+    import type {CardData} from "$lib/types/card";
 
     type Props = {
         player: Player;
@@ -12,19 +13,16 @@
     const deck = $derived(store[player]);
 </script>
 
-<div class="deck">
-    <CardPile
-        cards={deck.cards}
-        showCounter={true}
-        getSource={() => iconURL("deck_back_" + deck.faction, "jpg")}
+{#snippet cardBack(card: CardData)}
+    <img
+        alt={card.name}
+        src={iconURL("deck_back_" + deck.faction, "jpg")}
+        style:height={"100%"}
     />
-</div>
+{/snippet}
 
-<style>
-    .deck {
-        width: 100%;
-        height: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-</style>
+<CardPile
+    cards={deck.cards}
+    showCounter={true}
+    render={cardBack}
+/>

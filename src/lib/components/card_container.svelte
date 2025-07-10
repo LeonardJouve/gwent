@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {CardData} from "$lib/types/card";
-    import Card from "./card.svelte";
+    import Card from "$lib/components/card.svelte";
 
     type Props = {
         cards: CardData[];
@@ -10,7 +10,10 @@
 
 <div class="hoverable hand">
     {#each cards as card}
-        <Card card={card}/>
+        <Card
+            card={card}
+            isSelectible={true}
+        />
     {/each}
 </div>
 
