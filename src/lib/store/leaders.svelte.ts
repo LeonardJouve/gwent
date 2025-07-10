@@ -10,11 +10,12 @@ type Leader = {
 type LeadersStore = Record<Player, Leader>;
 
 export const store = $state<LeadersStore>({
+    opponent: {
+        leader: cards.find(({row}) => row === "leader"),
+        available: false,
+    },
     me: {
         leader: cards.find(({row}) => row === "leader"),
         available: true,
-    },
-    opponent: {
-        available: false,
     },
 });

@@ -2,6 +2,7 @@
     import {store} from "$lib/store/leaders.svelte";
     import type {Player} from "$lib/types/player";
     import { smallURL } from "$lib/utils";
+    import Card from "./card.svelte";
 
     type Props = {
         player: Player;
@@ -14,10 +15,9 @@
 
 <div class="leader">
     {#if leader.leader}
-        <img
-            class={{hoverable: leader.available}}
-            alt={leader.leader.name}
-            src={smallURL(leader.leader)}
+        <Card
+            card={leader.leader}
+            isSelectible={leader.available}
         />
     {/if}
 </div>
@@ -28,9 +28,6 @@
         height: 100%;
         display: flex;
         justify-content: center;
-    }
-
-    img {
-        height: 100%;
+        align-items: end;
     }
 </style>

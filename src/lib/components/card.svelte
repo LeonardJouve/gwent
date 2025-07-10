@@ -4,15 +4,18 @@
 
     type Props = {
         card: CardData;
+        isSelectible?: boolean;
     }
-    const {card}: Props = $props();
+    const {card, isSelectible = true}: Props = $props();
 
     const abilities = $derived(card.ability.split(" "));
     const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");
     const isHero = $derived(abilities[0] === "hero");
 
     const power = $derived.by(() => {
-        if (isHero) {
+        if (card.row === "leader") {
+            return null;
+        } else if (isHero) {
             return "power_hero";
         } else if (card.deck === "weather" || card.deck === "special") {
             return "power_" + abilities[0];
@@ -39,17 +42,22 @@
     });
 </script>
 
-<div class="hoverable card">
+<div class={{
+    hoverable: isSelectible,
+    card: true,
+}}>
     <img
         class="texture"
         alt={card.name}
         src={smallURL(card)}
     />
-    <img
-        class="power"
-        alt="power"
-        src={iconURL(power)}
-    />
+    {#if power !== null}
+        <img
+            class="power"
+            alt="power"
+            src={iconURL(power)}
+        />
+    {/if}
     {#if isUnit}
         <p class={{
             strength: true,
@@ -80,7 +88,7 @@
         box-sizing: content-box;
         position: relative;
 
-        &:hover {
+        &.hoverable:hover {
             margin-bottom: 10px;
         }
 
