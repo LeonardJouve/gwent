@@ -2,6 +2,7 @@
     import Hand from "$lib/components/hand.svelte";
     import Leader from "$lib/components/leader.svelte";
     import LeaderStatus from "$lib/components/leader_status.svelte";
+    import Weather from "$lib/components/weather.svelte";
     import type { Player } from "$lib/types/player";
     import {onMount} from "svelte";
 
@@ -197,7 +198,9 @@
     <div class="hand" style={getHandPosition()}>
         <Hand/>
     </div>
-    <div class="weather" style={getWeatherPosition()}></div>
+    <div class="weather" style={getWeatherPosition()}>
+        <Weather/>
+    </div>
 </div>
 
 <style>
