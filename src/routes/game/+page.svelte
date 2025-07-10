@@ -9,6 +9,7 @@
     import Row from "$lib/components/row.svelte";
     import type {Player} from "$lib/types/player";
     import type {UnitRow} from "$lib/types/card";
+    import RowSpecial from "$lib/components/row_special.svelte";
 
     type Rect = {
         top: number;
@@ -90,7 +91,7 @@
         return getPosition(() => leftPercent, () => widthPercent, () => rowTopPercents[index], () => rowHeightPercent);
     });
 
-    const getHornPosition = $derived((index: number) => {
+    const getSpecialPosition = $derived((index: number) => {
         const widthPercent = 6.6;
 
         return getPosition(() => laneLeftPercent, () => widthPercent, () => rowTopPercents[index], () => rowHeightPercent);
@@ -183,10 +184,18 @@
     />
 
     {#each players as player, i}
-        {#each player === "opponent" ? rows.reverse() : rows as row, j}
-            {@const indexOffset = player === "opponent" ? 0 : 3}
+        {#each rows as _, j}
+            {@const isMe = player === "me"}
+            {@const indexOffset = isMe ? 3 : 0}
+            {@const row = rows[isMe ? j : (2 - j)]}
+
             <div style={getRowScorePosition(j + indexOffset)}></div>
-            <div style={getHornPosition(j + indexOffset)}></div>
+            <div style={getSpecialPosition(j + indexOffset)}>
+                <RowSpecial
+                    player={player}
+                    rowName={row}
+                />
+            </div>
             <div style={getRowPosition(j + indexOffset)}>
                 <Row
                     player={player}

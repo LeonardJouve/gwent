@@ -35,7 +35,7 @@ export const store = $state<BoardStore>({
         },
         siege: {
             units: cards.slice(0, 1),
-            specials: [],
+            specials: [cards.find(({ability}) => ability === "horn")!], // eslint-disable-line @typescript-eslint/no-non-null-assertion
         },
     },
 });
