@@ -1,5 +1,8 @@
 <script lang="ts">
     import Hand from "$lib/components/hand.svelte";
+    import Leader from "$lib/components/leader.svelte";
+    import LeaderStatus from "$lib/components/leader_status.svelte";
+    import type { Player } from "$lib/types/player";
     import {onMount} from "svelte";
 
     type Rect = {
@@ -38,6 +41,8 @@
         width: 0,
         height: 0,
     });
+
+    const players: Player[] = ["opponent", "me"];
 
     onMount(() => {
         function resizeImage() {
@@ -122,12 +127,12 @@
     });
 
     const getLeaderStatusPosition = $derived((index: number) => {
-        const leftPercent = 13.5;
+        const leftPercent = 13.6;
         const widthPercent = 1.8;
         const heightPercent = 3.2;
         const topPercents = [
-            12,
-            81.8,
+            12.2,
+            81.9,
         ];
 
         return getPosition(() => leftPercent, () => widthPercent, () => topPercents[index], () => heightPercent);
@@ -177,9 +182,13 @@
         <div class="row" style={getRowPosition(i)}></div>
     {/each}
 
-    {#each {length: 2}, i}
-        <div class="leader" style={getLeaderPosition(i)}></div>
-        <div class="leader-status" style={getLeaderStatusPosition(i)}></div>
+    {#each players as player, i}
+        <div class="leader" style={getLeaderPosition(i)}>
+            <Leader player={player}/>
+        </div>
+        <div class="leader-status" style={getLeaderStatusPosition(i)}>
+            <LeaderStatus player={player}/>
+        </div>
         <div class="score" style={getScorePosition(i)}></div>
         <div class="grave" style={getGravePosition(i)}></div>
         <div class="deck" style={getDeckPosition(i)}></div>

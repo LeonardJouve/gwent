@@ -1,8 +1,4 @@
-export type PremadeDeck = {
-    faction: string;
-    leader: number;
-    cards: [number, number][];
-};
+import type {PremadeDeck} from "$lib/types/deck";
 
 const premadeDeck: PremadeDeck[] = [
     {

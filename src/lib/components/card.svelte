@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {CardData} from "$lib/cards";
+    import type {CardData} from "$lib/types/card";
     import {iconURL, smallURL} from "$lib/utils";
 
     type Props = {

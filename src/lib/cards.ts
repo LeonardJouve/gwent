@@ -1,13 +1,4 @@
-export type CardData = {
-    name: string;
-    id: string;
-    deck: string;
-    row: string;
-    strength: string;
-    ability: string;
-    filename: string;
-    count: string;
-};
+import type {CardData} from "$lib/types/card";
 
 const cards: CardData[] = [
     {

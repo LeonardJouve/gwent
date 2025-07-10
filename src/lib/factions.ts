@@ -1,8 +1,4 @@
-interface Faction {
-    id: string;
-    name: string;
-    description: string;
-}
+import type {Faction} from "$lib/types/faction";
 
 const factions: Record<string, Faction> = {
     realms: {

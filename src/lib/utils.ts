@@ -1,4 +1,4 @@
-import type {CardData} from "./cards";
+import type {CardData} from "$lib/types/card";
 
 const imgURL = (prefix: string, file: string, ext: string): string => "assets/img/" + prefix + "/" + file + "." + ext;
 
