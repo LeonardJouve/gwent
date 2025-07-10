@@ -8,7 +8,7 @@
     }
     const {card, isSelectible}: Props = $props();
 
-    const abilities = $derived(card.ability.split(" "));
+    const abilities = $derived(card.ability.split(" ").filter((ability) => Boolean(ability) && ability !== "hero"));
     const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");
     const isHero = $derived(abilities[0] === "hero");
 
@@ -25,7 +25,7 @@
     });
 
     const ability = $derived.by(() => {
-        if (card.deck !== "special" && card.deck !== "weather" && abilities.length > 0) {
+        if (card.row !== "leader" && card.deck !== "special" && card.deck !== "weather" && abilities.length > 0) {
             let abilityName = abilities[abilities.length - 1];
             if (abilityName.startsWith("avenger")) {
                 abilityName = "avenger";
