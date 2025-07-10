@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Hand from "$lib/components/hand.svelte";
     import {onMount} from "svelte";
 
     type Rect = {
@@ -63,11 +64,12 @@
         const horizontalPercent = boardBoundingRect.width / 100;
         const verticalPercent = boardBoundingRect.height / 100;
 
+        const position = "position: absolute";
         const left = `left: ${boardBoundingRect.left + (getLeftPercent() * horizontalPercent)}px`;
         const top = `top: ${boardBoundingRect.top + (getTopPercent() * verticalPercent)}px`;
         const width = `width: ${getWidthPercent() * horizontalPercent}px`;
         const height = `height: ${getHeightPercent() * verticalPercent}px`;
-        return [left, top, width, height].join("; ");
+        return [position, left, top, width, height].join("; ");
     })
 
     const getRowPosition = $derived((index: number) => {
@@ -183,7 +185,9 @@
         <div class="deck" style={getDeckPosition(i)}></div>
     {/each}
 
-    <div class="hand" style={getHandPosition()}></div>
+    <div class="hand" style={getHandPosition()}>
+        <Hand/>
+    </div>
     <div class="weather" style={getWeatherPosition()}></div>
 </div>
 
@@ -202,13 +206,16 @@
         transform: translate(-50%, -50%);
     }
 
-    .row, .horn, .leader, .leader-status, .grave, .deck, .hand, .weather, .score {
-        border: solid 2px goldenrod;
-        background-color: rgba(218, 165, 32, 0.1);
-        position: absolute;
-    }
+    :global(.hoverable) {
+        box-sizing: border-box;
 
-    .score, .leader-status {
-        border-radius: 50%;
+        &:hover {
+            border: solid 2px goldenrod;
+            background-color: rgba(218, 165, 32, 0.1);
+        }
+
+        &:not(:hover) {
+            border: solid 2px transparent;
+        }
     }
 </style>
