@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Deck from "$lib/components/deck.svelte";
     import Hand from "$lib/components/hand.svelte";
     import Leader from "$lib/components/leader.svelte";
     import LeaderStatus from "$lib/components/leader_status.svelte";
@@ -23,7 +24,7 @@
     ];
     const rowHeightPercent = 10.8;
 
-    const pileWidthPercent = 5.6;
+    const pileWidthPercent = 5.8;
     const pileHeightPercent = 13.4;
     const pileTopPercents = [
         6.5,
@@ -192,7 +193,9 @@
         </div>
         <div class="score" style={getScorePosition(i)}></div>
         <div class="grave" style={getGravePosition(i)}></div>
-        <div class="deck" style={getDeckPosition(i)}></div>
+        <div class="deck" style={getDeckPosition(i)}>
+            <Deck player={player}/>
+        </div>
     {/each}
 
     <div class="hand" style={getHandPosition()}>

@@ -1,6 +1,6 @@
 <script lang="ts">
+    import { store } from "$lib/store/deck.svelte";
     import type {Player} from "$lib/types/player";
-    import {store} from "$lib/store/leaders.svelte";
     import {iconURL} from "$lib/utils";
 
     type Props = {
@@ -9,10 +9,10 @@
 
     const {player}: Props = $props();
 
-    const leader = $derived(store[player]);
+    const deck = $derived(store[player]);
 </script>
 
-{#if leader.available}
+{#if deck.isLeaderAvailable}
     <img
         alt="active"
         src={iconURL("icon_leader_active")}

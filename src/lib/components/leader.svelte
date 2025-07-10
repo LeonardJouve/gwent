@@ -1,7 +1,6 @@
 <script lang="ts">
-    import {store} from "$lib/store/leaders.svelte";
+    import {store} from "$lib/store/deck.svelte";
     import type {Player} from "$lib/types/player";
-    import { smallURL } from "$lib/utils";
     import Card from "./card.svelte";
 
     type Props = {
@@ -10,14 +9,14 @@
 
     const {player}: Props = $props();
 
-    const leader = $derived(store[player]);
+    const deck = $derived(store[player]);
 </script>
 
 <div class="leader">
-    {#if leader.leader}
+    {#if deck.leader}
         <Card
-            card={leader.leader}
-            isSelectible={leader.available}
+            card={deck.leader}
+            isSelectible={deck.isLeaderAvailable}
         />
     {/if}
 </div>
