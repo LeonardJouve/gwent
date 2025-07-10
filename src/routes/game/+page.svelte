@@ -1,12 +1,14 @@
 <script lang="ts">
+    import {onMount} from "svelte";
     import Deck from "$lib/components/deck.svelte";
     import Grave from "$lib/components/grave.svelte";
     import Hand from "$lib/components/hand.svelte";
     import Leader from "$lib/components/leader.svelte";
     import LeaderStatus from "$lib/components/leader_status.svelte";
     import Weather from "$lib/components/weather.svelte";
-    import type { Player } from "$lib/types/player";
-    import {onMount} from "svelte";
+    import Row from "$lib/components/row.svelte";
+    import type {Player} from "$lib/types/player";
+    import type {UnitRow} from "$lib/types/card";
 
     type Rect = {
         top: number;
@@ -46,6 +48,7 @@
     });
 
     const players: Player[] = ["opponent", "me"];
+    const rows: UnitRow[] = ["close", "ranged", "siege"];
 
     onMount(() => {
         function resizeImage() {
@@ -179,32 +182,38 @@
         bind:this={boardImage}
     />
 
-    {#each {length: 6}, i}
-        <div class="score" style={getRowScorePosition(i)}></div>
-        <div class="horn" style={getHornPosition(i)}></div>
-        <div class="row" style={getRowPosition(i)}></div>
-    {/each}
-
     {#each players as player, i}
-        <div class="leader" style={getLeaderPosition(i)}>
+        {#each player === "opponent" ? rows.reverse() : rows as row, j}
+            {@const indexOffset = player === "opponent" ? 0 : 3}
+            <div style={getRowScorePosition(j + indexOffset)}></div>
+            <div style={getHornPosition(j + indexOffset)}></div>
+            <div style={getRowPosition(j + indexOffset)}>
+                <Row
+                    player={player}
+                    rowName={row}
+                />
+            </div>
+        {/each}
+
+        <div style={getLeaderPosition(i)}>
             <Leader player={player}/>
         </div>
-        <div class="leader-status" style={getLeaderStatusPosition(i)}>
+        <div style={getLeaderStatusPosition(i)}>
             <LeaderStatus player={player}/>
         </div>
-        <div class="score" style={getScorePosition(i)}></div>
-        <div class="grave" style={getGravePosition(i)}>
+        <div style={getScorePosition(i)}></div>
+        <div style={getGravePosition(i)}>
             <Grave player={player}/>
         </div>
-        <div class="deck" style={getDeckPosition(i)}>
+        <div style={getDeckPosition(i)}>
             <Deck player={player}/>
         </div>
     {/each}
 
-    <div class="hand" style={getHandPosition()}>
+    <div style={getHandPosition()}>
         <Hand/>
     </div>
-    <div class="weather" style={getWeatherPosition()}>
+    <div style={getWeatherPosition()}>
         <Weather/>
     </div>
 </div>
