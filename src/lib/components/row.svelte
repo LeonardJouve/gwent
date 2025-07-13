@@ -1,8 +1,8 @@
 <script lang="ts">
     import CardContainer from "./card_container.svelte";
-    import type {UnitRow} from "$lib/types/card";
+    import type {CardData, UnitRow} from "$lib/types/card";
     import type {Player} from "$lib/types/player";
-    import { store } from "$lib/store/board.svelte";
+    import {getCardScore, store} from "$lib/store/board.svelte";
 
     type Props = {
         rowName: UnitRow;
@@ -11,10 +11,15 @@
     const {rowName, player}: Props = $props();
 
     const row = $derived(store[player][rowName]);
+
+    const getScore = $derived((card: CardData) => getCardScore(card, rowName, player));
 </script>
 
 <div class="hoverable row">
-    <CardContainer cards={row.units}/>
+    <CardContainer
+        cards={row.units}
+        getScore={getScore}
+    />
 </div>
 
 <style>

@@ -5,10 +5,15 @@
     type Props = {
         card: CardData;
         isSelectible?: boolean;
-    }
-    const {card, isSelectible}: Props = $props();
+        getScore?: (card: CardData) => number;
+    };
+    const {
+        card,
+        isSelectible,
+        getScore = (card) => card.strength,
+    }: Props = $props();
 
-    const abilities = $derived(card.ability.split(" ").filter((ability) => Boolean(ability) && ability !== "hero"));
+    const abilities = $derived(card.abilities.filter((ability) => ability !== "hero"));
     const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");
     const isHero = $derived(abilities[0] === "hero");
 
@@ -63,7 +68,7 @@
             strength: true,
             hero: isHero,
         }}>
-            {card.strength}
+            {getScore(card)}
         </p>
     {/if}
     <div class="abilities">
@@ -117,7 +122,6 @@
             top: -2%;
             left: -4%;
             width: 70%;
-
         }
 
         .strength {

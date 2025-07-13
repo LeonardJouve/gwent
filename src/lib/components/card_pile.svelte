@@ -10,8 +10,8 @@
     const {cards, showCounter, render}: Props = $props();
 
     const offset = {
-        x: -1,
-        y: -2,
+        x: -0.02,
+        y: -0.04,
     };
 </script>
 
@@ -20,7 +20,7 @@
         {#each cards as card, i}
             <div
                 class="card"
-                style:transform={`translate(calc(-50% + ${offset.x * i}px), ${offset.y * i}px)`}
+                style:transform={`translate(calc(-50% + ${offset.x * i}vw), ${offset.y * i}vh)`}
             >
                 {@render render(card, i)}
             </div>
@@ -28,7 +28,7 @@
         {#if showCounter}
             <div
                 class="counter"
-                style:transform={`translate(calc(-50% + ${offset.x * cards.length}px), ${offset.y * cards.length}px)`}
+                style:transform={`translate(calc(-50% + ${offset.x * cards.length}vw), ${offset.y * cards.length}vh)`}
             >
                 <p>{cards.length}</p>
             </div>
@@ -62,7 +62,7 @@
         position: absolute;
         bottom: 10px;
         left: 50%;
-        padding: 10px 30px 10px 30px;
+        padding: 0.5vh 1vw 0.5vh 1vw;
         font-size: 1.3vw;
         color: tan;
         background-color: rgba(20,20,20, 0.8);

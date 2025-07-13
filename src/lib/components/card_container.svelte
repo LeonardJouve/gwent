@@ -4,8 +4,9 @@
 
     type Props = {
         cards: CardData[];
-    }
-    const {cards}: Props = $props();
+        getScore?: (card: CardData) => number;
+    };
+    const {cards, getScore}: Props = $props();
 </script>
 
 <div class="hoverable hand">
@@ -13,6 +14,7 @@
         <Card
             card={card}
             isSelectible={true}
+            getScore={getScore}
         />
     {/each}
 </div>

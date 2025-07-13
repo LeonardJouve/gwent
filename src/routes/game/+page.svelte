@@ -10,6 +10,8 @@
     import type {Player} from "$lib/types/player";
     import type {UnitRow} from "$lib/types/card";
     import RowSpecial from "$lib/components/row_special.svelte";
+    import Score from "$lib/components/score.svelte";
+    import {getPlayerScore, getRowScore} from "$lib/store/board.svelte";
 
     type Rect = {
         top: number;
@@ -35,8 +37,8 @@
         76.6,
     ];
 
-    const scoreWidthPercent = 2.5;
-    const scoreHeightPercent = 4.4;
+    const scoreWidthPercent = 2.7;
+    const scoreHeightPercent = 5;
 
     const laneLeftPercent = 29.7;
 
@@ -189,7 +191,9 @@
             {@const indexOffset = isMe ? 3 : 0}
             {@const row = rows[isMe ? j : (2 - j)]}
 
-            <div style={getRowScorePosition(j + indexOffset)}></div>
+            <div style={getRowScorePosition(j + indexOffset)}>
+                <Score getScore={() => getRowScore(row, player)}/>
+            </div>
             <div style={getSpecialPosition(j + indexOffset)}>
                 <RowSpecial
                     player={player}
@@ -210,7 +214,9 @@
         <div style={getLeaderStatusPosition(i)}>
             <LeaderStatus player={player}/>
         </div>
-        <div style={getScorePosition(i)}></div>
+        <div style={getScorePosition(i)}>
+            <Score getScore={() => getPlayerScore(player)}/>
+        </div>
         <div style={getGravePosition(i)}>
             <Grave player={player}/>
         </div>
