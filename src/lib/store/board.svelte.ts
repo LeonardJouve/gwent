@@ -42,7 +42,7 @@ export const store = $state<BoardStore>({
     },
     me: {
         close: {
-            units: cards.slice(0, 10),
+            units: cards.slice(0, 3),
             hasWeather: false,
             special: {
                 hasHorn: false,
@@ -78,7 +78,9 @@ export const getCardScore = (card: CardData, rowName: UnitRow, player: Player): 
     if (hasWeather(rowName, player)) {
         total = Math.min(1, total);
     }
-    if (/* doubleSpyPower TODO && */card.abilities.includes("spy")) {
+
+    // eslint-disable-next-line
+    if (/* doubleSpyPower TODO && */false && card.abilities.includes("spy")) {
         total *= 2;
     }
 
@@ -87,9 +89,9 @@ export const getCardScore = (card: CardData, rowName: UnitRow, player: Player): 
         total *= Number(bond);
     }
 
-    total += Math.max(0, getMoraleBoost(rowName, player) - (card.abilities.includes("morale") ? 1 : 0));
+    total += getMoraleBoost(rowName, player) - (card.abilities.includes("morale") ? 1 : 0);
 
-    if (hasHorn(rowName, player)) {
+    if (getHorn(rowName, player) - (card.abilities.includes("horn") ? 1 : 0)) {
         total *= 2;
     }
 
@@ -104,10 +106,10 @@ export const getBond = (cardId: CardData["id"], rowName: UnitRow, player: Player
 
 export const getMoraleBoost = (rowName: UnitRow, player: Player): number => store[player][rowName].units.filter((card) => card.abilities.includes("morale")).length;
 
-export const hasHorn = (rowName: UnitRow, player: Player): boolean => {
+export const getHorn = (rowName: UnitRow, player: Player): number => {
     const row = store[player][rowName];
 
-    return row.special.hasHorn || row.units.some(({abilities}) => abilities.includes("horn"));
+    return Number(row.special.hasHorn) + row.units.reduce((acc, {abilities}) => acc + Number(abilities.includes("horn")), 0);
 };
 
 export const hasMardroeme = (rowName: UnitRow, player: Player): boolean => {
