@@ -15,7 +15,7 @@
 
     const abilities = $derived(card.abilities.filter((ability) => ability !== "hero"));
     const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");
-    const isHero = $derived(abilities[0] === "hero");
+    const isHero = $derived(card.abilities.includes("hero"));
 
     const power = $derived.by(() => {
         if (card.row === "leader") {
@@ -119,7 +119,7 @@
 
         .power {
             position: absolute;
-            top: -2%;
+            top: -2.2%;
             left: -4%;
             width: 70%;
         }
