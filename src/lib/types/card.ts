@@ -3,10 +3,10 @@ export type CardData = {
     id: string;
     deck: string;
     row: UnitRow | "agile" | "leader" | "";
-    strength: string;
-    ability: string;
+    strength: number;
+    abilities: string[];
     filename: string;
-    count: string;
+    count: number;
 };
 
 export type UnitRow = "close" | "ranged" | "siege";
