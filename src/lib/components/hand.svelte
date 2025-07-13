@@ -7,7 +7,16 @@
     const handleSelect = $derived((card: CardData) => selectedCardStore.card = card);
 </script>
 
-<CardContainer
-    cards={deckStore["me"].hand}
-    onSelect={handleSelect}
-/>
+<div class="hoverable hand">
+    <CardContainer
+        cards={deckStore["me"].hand}
+        onSelect={handleSelect}
+    />
+</div>
+
+<style>
+    .hand {
+        width: 100%;
+        height: 100%;
+    }
+</style>

@@ -10,7 +10,7 @@
     const {cards, onSelect, getScore}: Props = $props();
 </script>
 
-<div class="hoverable hand">
+<div class="container">
     {#each cards as card}
         <Card
             card={card}
@@ -22,7 +22,7 @@
 </div>
 
 <style>
-    .hand {
+    .container {
         width: 100%;
         height: 100%;
         display: flex;

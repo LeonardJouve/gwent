@@ -4,3 +4,4 @@ TODOS:
 - Popup
 - Weather overlay
 - Notification
+- Player infos
