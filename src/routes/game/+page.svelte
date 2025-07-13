@@ -12,6 +12,7 @@
     import RowSpecial from "$lib/components/row_special.svelte";
     import Score from "$lib/components/score.svelte";
     import {getPlayerScore, getRowScore} from "$lib/store/board.svelte";
+    import SoundtrackToggle from "$lib/components/soundtrack_toggle.svelte";
 
     type Rect = {
         top: number;
@@ -175,6 +176,15 @@
 
         return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent);
     });
+
+    const getSoundtrackTogglePosition = $derived(() => {
+        const leftPercent = 26;
+        const widthPercent = 3.5;
+        const heightPercent = 6;
+        const topPercent = 81;
+
+        return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent);
+    });
 </script>
 
 <div class="game">
@@ -230,6 +240,9 @@
     </div>
     <div style={getWeatherPosition()}>
         <Weather/>
+    </div>
+    <div style={getSoundtrackTogglePosition()}>
+        <SoundtrackToggle/>
     </div>
 </div>
 
