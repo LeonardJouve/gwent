@@ -14,8 +14,6 @@
 
 <style>
     .toggle {
-        background-color: transparent;
-        border: none;
         width: 100%;
         height: 100%;
         color: goldenrod;

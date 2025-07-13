@@ -6,5 +6,5 @@ type WeatherStore = {
 };
 
 export const store = $state<WeatherStore>({
-    cards: cards.filter(({deck}) => deck === "weather").slice(0, 3), // [],
+    cards: cards.filter(({deck}) => deck === "weather").slice(0, 3),
 });

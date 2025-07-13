@@ -12,6 +12,12 @@
     :global(p, h1, h2, body) {
         margin: 0;
     }
+
+    :global(button) {
+        padding: 0;
+        background-color: transparent;
+        border: none;
+    }
 </style>
 
 <section class="main">

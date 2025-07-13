@@ -13,6 +13,7 @@
     import Score from "$lib/components/score.svelte";
     import {getPlayerScore, getRowScore} from "$lib/store/board.svelte";
     import SoundtrackToggle from "$lib/components/soundtrack_toggle.svelte";
+    import SelectedCard from "$lib/components/selected_card.svelte";
 
     type Rect = {
         top: number;
@@ -160,7 +161,7 @@
         return getPosition(() => leftPercent, () => pileWidthPercent, () => pileTopPercents[index], () => pileHeightPercent);
     });
 
-    const getHandPosition = $derived(() => {
+    const handPosition = $derived.by(() => {
         const widthPercent = 49.4;
         const heightPercent = 12;
         const topPercent = 77.8;
@@ -168,7 +169,7 @@
         return getPosition(() => laneLeftPercent, () => widthPercent, () => topPercent, () => heightPercent);
     });
 
-    const getWeatherPosition = $derived(() => {
+    const weatherPosition = $derived.by(() => {
         const leftPercent = 7.3;
         const widthPercent = 14.6;
         const heightPercent = 13;
@@ -177,13 +178,22 @@
         return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent);
     });
 
-    const getSoundtrackTogglePosition = $derived(() => {
+    const soundtrackTogglePosition = $derived.by(() => {
         const leftPercent = 26;
         const widthPercent = 3.5;
         const heightPercent = 6;
         const topPercent = 81;
 
         return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent);
+    });
+
+    const selectedCardPosition = $derived.by(() => {
+        const leftPercent = 79.3;
+        const widthPercent = 17;
+        const heightPercent = 56.3;
+        const topPercent = 20;
+
+        return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent)
     });
 </script>
 
@@ -235,14 +245,17 @@
         </div>
     {/each}
 
-    <div style={getHandPosition()}>
+    <div style={handPosition}>
         <Hand/>
     </div>
-    <div style={getWeatherPosition()}>
+    <div style={weatherPosition}>
         <Weather/>
     </div>
-    <div style={getSoundtrackTogglePosition()}>
+    <div style={soundtrackTogglePosition}>
         <SoundtrackToggle/>
+    </div>
+    <div style={selectedCardPosition}>
+        <SelectedCard/>
     </div>
 </div>
 

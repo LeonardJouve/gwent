@@ -1,5 +1,7 @@
+import type {FactionName} from "./faction";
+
 export type PremadeDeck = {
-    faction: string;
+    faction: FactionName;
     leader: number;
     cards: [number, number][];
 };

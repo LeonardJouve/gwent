@@ -14,15 +14,13 @@
 </script>
 
 {#snippet card(card: CardData)}
-    <Card
-        card={card}
-        isSelectible={true}
-    />
+    <Card card={card}/>
 {/snippet}
 
 <div class="grave hoverable">
     <CardPile
         cards={deck.grave}
+
         render={card}
     />
 </div>

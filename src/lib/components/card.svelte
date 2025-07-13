@@ -5,11 +5,13 @@
     type Props = {
         card: CardData;
         isSelectible?: boolean;
+        onSelect?: (card: CardData) => void;
         getScore?: (card: CardData) => number;
     };
     const {
         card,
         isSelectible,
+        onSelect,
         getScore = (card) => card.strength,
     }: Props = $props();
 
@@ -45,12 +47,17 @@
 
         return null;
     });
+
+    const handleSelect = $derived(() => onSelect?.(card))
 </script>
 
-<div class={{
-    hoverable: isSelectible,
-    card: true,
-}}>
+<button
+    class={{
+        hoverable: isSelectible,
+        card: true,
+    }}
+    onclick={handleSelect}
+>
     <img
         class="texture"
         alt={card.name}
@@ -85,7 +92,7 @@
             />
         {/if}
     </div>
-</div>
+</button>
 
 <style>
     .card {
