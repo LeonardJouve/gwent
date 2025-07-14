@@ -4,23 +4,40 @@
     import type {Player} from "$lib/types/player";
     import Card from "$lib/components/card.svelte";
     import CardPile from "$lib/components/card_pile.svelte";
+    import Carousel from "./carousel.svelte";
 
     type Props = {
         player: Player;
     };
     const {player}: Props = $props();
 
-    const deck = $derived(store[player]);
+    const cards = $derived(store[player].grave);
+
+    let isCarouselOpen = $state(false);
+
+    const handleOpenCarousel = () => isCarouselOpen = true;
+
+    const handleCloseCarousel = () => isCarouselOpen = false;
 </script>
 
 {#snippet card(card: CardData)}
     <Card card={card}/>
 {/snippet}
 
-<div class="grave hoverable">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div
+    class="grave hoverable"
+    onclick={handleOpenCarousel}
+>
+    {#if isCarouselOpen && cards.length}
+        <Carousel
+            cards={cards}
+            onClose={handleCloseCarousel}
+        />
+    {/if}
     <CardPile
-        cards={deck.grave}
-
+        cards={cards}
         render={card}
     />
 </div>

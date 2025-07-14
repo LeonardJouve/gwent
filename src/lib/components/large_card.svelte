@@ -5,14 +5,20 @@
     type Props = {
         card: CardData;
         size?: "width" | "height";
-        onClick?: (card: CardData) => void;
+        onClick?: (card: CardData, event: MouseEvent) => void;
     };
     const {card, size = "height", onClick}: Props = $props();
 
-    const handleClick = $derived(() => onClick?.(card));
+    const handleClick = $derived((event: MouseEvent) => onClick?.(card, event));
 </script>
 
-<button onclick={handleClick}>
+<button
+    class={{
+        height: size === "height",
+        width: size === "width",
+    }}
+    onclick={handleClick}
+>
     <img
         class={{
             height: size === "height",

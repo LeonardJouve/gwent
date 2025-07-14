@@ -1,30 +1,51 @@
 <script lang="ts">
     import LargeCard from "$lib/components/large_card.svelte";
     import type {CardData} from "$lib/types/card";
+    import {onMount} from "svelte";
 
     type Props = {
+        onClose: () => void;
         cards: CardData[];
         startIndex?: number;
+        onSelect?: (card: CardData) => void;
     };
-    const {cards, startIndex = 0}: Props = $props();
+    const {
+        onClose,
+        cards,
+        startIndex = 0,
+        onSelect,
+    }: Props = $props();
 
     let index = $state(startIndex);
 
     let modal: HTMLDialogElement;
     let carousel: HTMLDivElement;
 
-    $effect(() => modal.showModal());
+    onMount(() => modal.showModal());
 
     const leftSlides = $derived(cards.slice(0, index).reverse());
     const currentSlide = $derived(cards[index]);
     const rightSlides = $derived(cards.slice(index + 1));
 
-    const handleClick = (card: CardData) => index = cards.findIndex(({id}) => card.id === id);
+    const handleClose = $derived(() => {
+        onClose();
+        modal.close();
+    });
 
-    const handleBackdropClick = ({target}: MouseEvent) => {
-        if (target === modal || target === carousel) {
-            modal.close();
-        }
+    const handleSelect = $derived((card: CardData, event: MouseEvent) => {
+        event.stopPropagation();
+        onSelect?.(card);
+        handleClose();
+    });
+
+    const handleBackdropClick = $derived((event: MouseEvent) => {
+        event.stopPropagation();
+        handleClose();
+    });
+
+    const handleClick = (card: CardData, event: MouseEvent) => {
+        event.stopPropagation();
+        index = cards.findIndex(({id}) => card.id === id);
     };
 </script>
 
@@ -56,7 +77,7 @@
             <LargeCard
                 card={currentSlide}
                 size="width"
-                onClick={handleClick}
+                onClick={handleSelect}
             />
         </div>
         <div class="side">
@@ -70,6 +91,7 @@
 <style>
     .modal {
         max-width: none;
+        width: 100%;
 
         &::backdrop {
             background-color: black;

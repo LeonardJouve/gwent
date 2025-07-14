@@ -5,7 +5,7 @@
     type Props = {
         card: CardData;
         isSelectible?: boolean;
-        onSelect?: (card: CardData) => void;
+        onSelect?: (card: CardData, event: MouseEvent) => void;
         getScore?: (card: CardData) => number;
     };
     const {
@@ -48,7 +48,7 @@
         return null;
     });
 
-    const handleSelect = $derived(() => onSelect?.(card))
+    const handleSelect = $derived((event: MouseEvent) => onSelect?.(card, event))
 </script>
 
 <button

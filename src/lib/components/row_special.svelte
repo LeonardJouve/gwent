@@ -14,7 +14,7 @@
 </script>
 
 <div class="hoverable row">
-    <CardContainer cards={row.specials}/>
+    <!-- <CardContainer cards={row.specials}/> -->
 </div>
 
 <style>
