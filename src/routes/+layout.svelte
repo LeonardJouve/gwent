@@ -13,10 +13,12 @@
         margin: 0;
     }
 
-    :global(button) {
+    :global(button, dialog) {
         padding: 0;
         background-color: transparent;
         border: none;
+        outline: none;
+        cursor: unset;
     }
 </style>
 

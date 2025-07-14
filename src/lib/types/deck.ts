@@ -1,4 +1,4 @@
-import type {FactionName} from "./faction";
+import type {FactionName} from "$lib/types/faction";
 
 export type PremadeDeck = {
     faction: FactionName;

@@ -4,18 +4,31 @@
 
     type Props = {
         card: CardData;
+        size?: "width" | "height";
+        onClick?: (card: CardData) => void;
     };
-    const {card}: Props = $props();
+    const {card, size = "height", onClick}: Props = $props();
+
+    const handleClick = $derived(() => onClick?.(card));
 </script>
 
-<img
-    class="card"
-    alt={card.name}
-    src={largeURL(card)}
-/>
+<button onclick={handleClick}>
+    <img
+        class={{
+            height: size === "height",
+            width: size === "width",
+        }}
+        alt={card.name}
+        src={largeURL(card)}
+    />
+</button>
 
 <style>
-    .card {
+    .width {
+        width: 100%;
+    }
+
+    .height {
         height: 100%;
     }
 </style>

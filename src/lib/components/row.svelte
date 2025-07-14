@@ -1,5 +1,5 @@
 <script lang="ts">
-    import CardContainer from "./card_container.svelte";
+    import CardContainer from "$lib/components/card_container.svelte";
     import type {CardData, UnitRow} from "$lib/types/card";
     import type {Player} from "$lib/types/player";
     import {getCardScore, store} from "$lib/store/board.svelte";
