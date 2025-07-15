@@ -210,6 +210,7 @@ const cards: CardData[] = [
         filename: "olgierd",
         count: 1,
         abilities: [
+            "agile",
             "morale",
         ],
     },
@@ -1174,7 +1175,9 @@ const cards: CardData[] = [
         strength: 2,
         filename: "celaeno_harpy",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Cockatrice",
@@ -1378,7 +1381,9 @@ const cards: CardData[] = [
         strength: 2,
         filename: "harpy",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Ice Giant",
@@ -1412,6 +1417,7 @@ const cards: CardData[] = [
         count: 1,
         abilities: [
             "hero",
+            "agile",
             "morale",
         ],
     },
@@ -1633,7 +1639,9 @@ const cards: CardData[] = [
         strength: 3,
         filename: "ciaran",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Barclay Els",
@@ -1643,7 +1651,9 @@ const cards: CardData[] = [
         strength: 6,
         filename: "barclay",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Dennis Cranmer",
@@ -1673,7 +1683,9 @@ const cards: CardData[] = [
         strength: 6,
         filename: "dol_infantry",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Dol Blathanna Scout",
@@ -1683,7 +1695,9 @@ const cards: CardData[] = [
         strength: 6,
         filename: "dol_infantry_1",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Dol Blathanna Scout",
@@ -1693,7 +1707,9 @@ const cards: CardData[] = [
         strength: 6,
         filename: "dol_infantry_2",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Dwarven Skirmisher",
@@ -1787,7 +1803,9 @@ const cards: CardData[] = [
         strength: 6,
         filename: "filavandrel",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Havekar Healer",
@@ -2008,7 +2026,9 @@ const cards: CardData[] = [
         strength: 5,
         filename: "vrihedd_brigade",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Vrihedd Brigade Veteran",
@@ -2018,7 +2038,9 @@ const cards: CardData[] = [
         strength: 5,
         filename: "vrihedd_brigade_1",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Yaevinn",
@@ -2028,7 +2050,9 @@ const cards: CardData[] = [
         strength: 6,
         filename: "yaevinn",
         count: 1,
-        abilities: [],
+        abilities: [
+            "agile",
+        ],
     },
     {
         name: "Berserker",
@@ -2291,6 +2315,7 @@ const cards: CardData[] = [
         filename: "olaf",
         count: 1,
         abilities: [
+            "agile",
             "morale",
         ],
     },

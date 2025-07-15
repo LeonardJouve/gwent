@@ -1,6 +1,7 @@
 <script lang="ts">
     import type {CardData} from "$lib/types/card";
     import {iconURL, smallURL} from "$lib/utils";
+    import CardAbility from "$lib/components/card_ability.svelte";
 
     type Props = {
         card: CardData;
@@ -15,7 +16,6 @@
         getScore = (card) => card.strength,
     }: Props = $props();
 
-    const abilities = $derived(card.abilities.filter((ability) => ability !== "hero"));
     const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");
     const isHero = $derived(card.abilities.includes("hero"));
 
@@ -25,27 +25,10 @@
         } else if (isHero) {
             return "power_hero";
         } else if (card.deck === "weather" || card.deck === "special") {
-            return "power_" + abilities[0];
+            return "power_" + card.abilities[0];
         } else {
             return "power_normal";
         }
-    });
-
-    const ability = $derived.by(() => {
-        if (card.row !== "leader" && card.deck !== "special" && card.deck !== "weather" && abilities.length > 0) {
-            let abilityName = abilities[abilities.length - 1];
-            if (abilityName.startsWith("avenger")) {
-                abilityName = "avenger";
-            } else if (abilityName.startsWith("scorch")) {
-                abilityName = "scorch";
-            }
-
-            return "card_ability_" + abilityName;
-        } else if (card.row === "agile") {
-            return "card_ability_agile";
-        }
-
-        return null;
     });
 
     const handleSelect = $derived((event: MouseEvent) => onSelect?.(card, event))
@@ -63,7 +46,7 @@
         alt={card.name}
         src={smallURL(card)}
     />
-    {#if power !== null}
+    {#if power}
         <img
             class="power"
             alt="power"
@@ -79,12 +62,12 @@
         </p>
     {/if}
     <div class="abilities">
-        {#if ability !== null}
-            <img
-                alt={ability}
-                src={iconURL(ability)}
+        <div>
+            <CardAbility
+                card={card}
+                size="width"
             />
-        {/if}
+        </div>
         {#if isUnit}
             <img
                 alt={card.row}
@@ -119,7 +102,7 @@
             justify-content: end;
             gap: 3px;
 
-            img {
+            * {
                 width: 33%;
             }
         }

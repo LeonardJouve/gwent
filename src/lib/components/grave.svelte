@@ -4,7 +4,7 @@
     import type {Player} from "$lib/types/player";
     import Card from "$lib/components/card.svelte";
     import CardPile from "$lib/components/card_pile.svelte";
-    import Carousel from "./carousel.svelte";
+    import Carousel from "$lib/components/carousel.svelte";
 
     type Props = {
         player: Player;

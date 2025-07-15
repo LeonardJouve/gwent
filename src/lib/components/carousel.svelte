@@ -2,6 +2,7 @@
     import LargeCard from "$lib/components/large_card.svelte";
     import type {CardData} from "$lib/types/card";
     import {onMount} from "svelte";
+    import CardDescription from "$lib/components/card_description.svelte";
 
     type Props = {
         onClose: () => void;
@@ -19,7 +20,6 @@
     let index = $state(startIndex);
 
     let modal: HTMLDialogElement;
-    let carousel: HTMLDivElement;
 
     onMount(() => modal.showModal());
 
@@ -64,21 +64,21 @@
     bind:this={modal}
     onclick={handleBackdropClick}
 >
-    <div
-        class="carousel"
-        bind:this={carousel}
-    >
+    <div class="carousel">
         <div class="side">
             {#each leftSlides as slide, i}
                 {@render card(slide, i)}
             {/each}
         </div>
-        <div class="slide center">
+        <div class="center">
             <LargeCard
                 card={currentSlide}
                 size="width"
                 onClick={handleSelect}
             />
+            <div class="description">
+                <CardDescription card={currentSlide}/>
+            </div>
         </div>
         <div class="side">
             {#each rightSlides as slide, i}
@@ -100,8 +100,7 @@
     }
 
     .carousel {
-        overflow: hidden;
-        height: 100%;
+        overflow-x: hidden;
         width: 100%;
 
         --center-size: 20%;
@@ -127,6 +126,15 @@
     .center {
         width: var(--center-size);
         justify-content: center;
+
+        .description {
+            position: absolute;
+            width: 30vw;
+            height: unset;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0%);
+        }
     }
 
     .side {

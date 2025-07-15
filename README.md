@@ -1,7 +1,6 @@
 TODOS:
 - Selected card description
-- Card preview
-- Modal
+- Carousel card description
 - Weather overlay
 - Notification
 - Player infos
