@@ -4,7 +4,6 @@
     import Grave from "$lib/components/grave.svelte";
     import Hand from "$lib/components/hand.svelte";
     import Leader from "$lib/components/leader.svelte";
-    import LeaderStatus from "$lib/components/leader_status.svelte";
     import Weather from "$lib/components/weather.svelte";
     import Row from "$lib/components/row.svelte";
     import type {Player} from "$lib/types/player";
@@ -137,18 +136,6 @@
         return getPosition(() => leftPercent, () => widthPercent, () => topPercents[index], () => heightPercent);
     });
 
-    const getLeaderStatusPosition = $derived((index: number) => {
-        const leftPercent = 13.6;
-        const widthPercent = 1.8;
-        const heightPercent = 3.2;
-        const topPercents = [
-            12.2,
-            81.9,
-        ];
-
-        return getPosition(() => leftPercent, () => widthPercent, () => topPercents[index], () => heightPercent);
-    });
-
     const getGravePosition = $derived((index: number) => {
         const leftPercent = 80.5;
 
@@ -211,6 +198,7 @@
             {@const indexOffset = isMe ? 3 : 0}
             {@const row = rows[isMe ? j : (2 - j)]}
 
+            <!--  -->
             <div style={getRowScorePosition(j + indexOffset)}>
                 <Score getScore={() => getRowScore(row, player)}/>
             </div>
@@ -226,14 +214,13 @@
                     rowName={row}
                 />
             </div>
+            <!--  -->
         {/each}
 
         <div style={getLeaderPosition(i)}>
             <Leader player={player}/>
         </div>
-        <div style={getLeaderStatusPosition(i)}>
-            <LeaderStatus player={player}/>
-        </div>
+
         <div style={getScorePosition(i)}>
             <Score getScore={() => getPlayerScore(player)}/>
         </div>

@@ -2,6 +2,7 @@
     import {store} from "$lib/store/deck.svelte";
     import type {Player} from "$lib/types/player";
     import Card from "$lib/components/card.svelte";
+    import {iconURL} from "$lib/utils";
 
     type Props = {
         player: Player;
@@ -19,6 +20,13 @@
             isSelectible={deck.isLeaderAvailable}
         />
     {/if}
+    {#if deck.isLeaderAvailable}
+        <img
+            class="status"
+            alt="active"
+            src={iconURL("icon_leader_active")}
+        />
+    {/if}
 </div>
 
 <style>
@@ -28,5 +36,14 @@
         display: flex;
         justify-content: center;
         align-items: end;
+        position: relative;
+    }
+
+    .status {
+        position: absolute;
+        right: -14%;
+        top: 50%;
+        height: 30%;
+        transform: translate(100%, -50%);
     }
 </style>
