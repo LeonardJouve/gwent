@@ -1,6 +1,7 @@
 import cards from "$lib/cards";
 import type {CardData, UnitRow} from "$lib/types/card";
 import type {Player} from "$lib/types/player";
+import type {Weather} from "$lib/types/weather";
 
 type Row = {
     units: CardData[];
@@ -43,7 +44,7 @@ export const store = $state<BoardStore>({
     me: {
         close: {
             units: cards.slice(0, 3),
-            hasWeather: false,
+            hasWeather: true,
             special: {
                 hasHorn: false,
                 hasMardroeme: false,
@@ -51,7 +52,7 @@ export const store = $state<BoardStore>({
         },
         ranged: {
             units: cards.slice(0, 2),
-            hasWeather: false,
+            hasWeather: true,
             special: {
                 hasHorn: false,
                 hasMardroeme: false,
@@ -119,3 +120,17 @@ export const hasMardroeme = (rowName: UnitRow, player: Player): boolean => {
 };
 
 export const hasWeather = (rowName: UnitRow, player: Player): boolean => store[player][rowName].hasWeather;
+
+export const getRowWeather = (rowName: UnitRow, player: Player): Weather|null => {
+    if (!store[player][rowName].hasWeather) {
+        return null;
+    }
+
+    const rowWeather: Record<UnitRow, Weather> = {
+        close: "frost",
+        ranged: "fog",
+        siege: "rain",
+    };
+
+    return rowWeather[rowName];
+};

@@ -8,9 +8,8 @@
     import Row from "$lib/components/row.svelte";
     import type {Player} from "$lib/types/player";
     import type {UnitRow} from "$lib/types/card";
-    import RowSpecial from "$lib/components/row_special.svelte";
     import Score from "$lib/components/score.svelte";
-    import {getPlayerScore, getRowScore} from "$lib/store/board.svelte";
+    import {getPlayerScore} from "$lib/store/board.svelte";
     import SoundtrackToggle from "$lib/components/soundtrack_toggle.svelte";
     import SelectedCard from "$lib/components/selected_card.svelte";
 
@@ -75,43 +74,22 @@
         return () => window.removeEventListener("resize", resizeImage);
     });
 
-    const getPosition = $derived((getLeftPercent: () => number, getWidthPercent: () => number, getTopPercent: () => number, getHeightPercent: () => number) => {
+    const getPosition = $derived((leftPercent: number, widthPercent: number, topPercent: number, heightPercent: number) => {
         const horizontalPercent = boardBoundingRect.width / 100;
         const verticalPercent = boardBoundingRect.height / 100;
 
         const position = "position: absolute";
-        const left = `left: ${boardBoundingRect.left + (getLeftPercent() * horizontalPercent)}px`;
-        const top = `top: ${boardBoundingRect.top + (getTopPercent() * verticalPercent)}px`;
-        const width = `width: ${getWidthPercent() * horizontalPercent}px`;
-        const height = `height: ${getHeightPercent() * verticalPercent}px`;
+        const left = `left: ${boardBoundingRect.left + (leftPercent * horizontalPercent)}px`;
+        const top = `top: ${boardBoundingRect.top + (topPercent * verticalPercent)}px`;
+        const width = `width: ${widthPercent * horizontalPercent}px`;
+        const height = `height: ${heightPercent * verticalPercent}px`;
         return [position, left, top, width, height].join("; ");
     })
 
     const getRowPosition = $derived((index: number) => {
-        const leftPercent = 36.9;
-        const widthPercent = 42.2;
+        const widthPercent = 49.4;
 
-        return getPosition(() => leftPercent, () => widthPercent, () => rowTopPercents[index], () => rowHeightPercent);
-    });
-
-    const getSpecialPosition = $derived((index: number) => {
-        const widthPercent = 6.6;
-
-        return getPosition(() => laneLeftPercent, () => widthPercent, () => rowTopPercents[index], () => rowHeightPercent);
-    });
-
-    const getRowScorePosition = $derived((index: number) => {
-        const leftPercent = 26.6;
-        const topPercents = [
-            4.5,
-            16.6,
-            29.4,
-            43.1,
-            55.5,
-            68.2,
-        ];
-
-        return getPosition(() => leftPercent, () => scoreWidthPercent, () => topPercents[index], () => scoreHeightPercent);
+        return getPosition(laneLeftPercent, widthPercent, rowTopPercents[index], rowHeightPercent);
     });
 
     const getScorePosition = $derived((index: number) => {
@@ -121,7 +99,7 @@
             65.6,
         ];
 
-        return getPosition(() => leftPercent, () => scoreWidthPercent, () => topPercents[index], () => scoreHeightPercent);
+        return getPosition(leftPercent, scoreWidthPercent, topPercents[index], scoreHeightPercent);
     });
 
     const getLeaderPosition = $derived((index: number) => {
@@ -133,19 +111,19 @@
             76.8,
         ];
 
-        return getPosition(() => leftPercent, () => widthPercent, () => topPercents[index], () => heightPercent);
+        return getPosition(leftPercent, widthPercent, topPercents[index], heightPercent);
     });
 
     const getGravePosition = $derived((index: number) => {
         const leftPercent = 80.5;
 
-        return getPosition(() => leftPercent, () => pileWidthPercent, () => pileTopPercents[index], () => pileHeightPercent);
+        return getPosition(leftPercent, pileWidthPercent, pileTopPercents[index], pileHeightPercent);
     });
 
     const getDeckPosition = $derived((index: number) => {
         const leftPercent = 89.8;
 
-        return getPosition(() => leftPercent, () => pileWidthPercent, () => pileTopPercents[index], () => pileHeightPercent);
+        return getPosition(leftPercent, pileWidthPercent, pileTopPercents[index], pileHeightPercent);
     });
 
     const handPosition = $derived.by(() => {
@@ -153,7 +131,7 @@
         const heightPercent = 12;
         const topPercent = 77.8;
 
-        return getPosition(() => laneLeftPercent, () => widthPercent, () => topPercent, () => heightPercent);
+        return getPosition(laneLeftPercent, widthPercent, topPercent, heightPercent);
     });
 
     const weatherPosition = $derived.by(() => {
@@ -162,7 +140,7 @@
         const heightPercent = 13;
         const topPercent = 41.3;
 
-        return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent);
+        return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
     });
 
     const soundtrackTogglePosition = $derived.by(() => {
@@ -171,7 +149,7 @@
         const heightPercent = 6;
         const topPercent = 81;
 
-        return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent);
+        return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
     });
 
     const selectedCardPosition = $derived.by(() => {
@@ -180,7 +158,7 @@
         const heightPercent = 56.3;
         const topPercent = 20;
 
-        return getPosition(() => leftPercent, () => widthPercent, () => topPercent, () => heightPercent)
+        return getPosition(leftPercent, widthPercent, topPercent, heightPercent)
     });
 </script>
 
@@ -198,23 +176,12 @@
             {@const indexOffset = isMe ? 3 : 0}
             {@const row = rows[isMe ? j : (2 - j)]}
 
-            <!--  -->
-            <div style={getRowScorePosition(j + indexOffset)}>
-                <Score getScore={() => getRowScore(row, player)}/>
-            </div>
-            <div style={getSpecialPosition(j + indexOffset)}>
-                <RowSpecial
-                    player={player}
-                    rowName={row}
-                />
-            </div>
             <div style={getRowPosition(j + indexOffset)}>
                 <Row
                     player={player}
                     rowName={row}
                 />
             </div>
-            <!--  -->
         {/each}
 
         <div style={getLeaderPosition(i)}>
@@ -252,6 +219,7 @@
         height: 100vh;
         position: relative;
         background-color: rgba(10,10,10,.95);
+        z-index: 0;
     }
 
     .board {
@@ -259,6 +227,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        z-index: -1;
     }
 
     :global(.hoverable) {
