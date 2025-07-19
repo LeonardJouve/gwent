@@ -64,34 +64,34 @@
         isMe,
     }}>
         <div>
-            <h2 class="name">
-                {playerData.name}
-            </h2>
-            <p>
-                {faction.name}
-            </p>
+            <h2>{playerData.name}</h2>
+            <p>{faction.name}</p>
         </div>
         <div class="stats">
-            <img
-                alt="card"
-                src={iconURL("icon_card_count")}
-            />
-            <p>{handSize}</p>
-            {#each {length: 2}, i}
-                {#if playerData.gems >= (i + 1)}
-                    <img
-                        class="gem"
-                        alt="gem"
-                        src={iconURL("icon_gem_on")}
-                    />
-                {:else}
-                    <img
-                        class="gem"
-                        alt="empty gem"
-                        src={iconURL("icon_gem_off")}
-                    />
-                {/if}
-            {/each}
+            <div class="hand">
+                <img
+                    alt="card"
+                    src={iconURL("icon_card_count")}
+                />
+                <p>{handSize}</p>
+            </div>
+            <div class="gems">
+                {#each {length: 2}, i}
+                    {#if playerData.gems >= (i + 1)}
+                        <img
+                            class="gem"
+                            alt="gem"
+                            src={iconURL("icon_gem_on")}
+                        />
+                    {:else}
+                        <img
+                            class="gem"
+                            alt="empty gem"
+                            src={iconURL("icon_gem_off")}
+                        />
+                    {/if}
+                {/each}
+            </div>
         </div>
     </div>
 </div>
@@ -100,7 +100,7 @@
     .infos {
         width: 100%;
         height: 100%;
-        padding: 3% 0 3% 20%;
+        padding: 3% 0 3% 15%;
         box-sizing: border-box;
         position: relative;
         display: flex;
@@ -180,17 +180,26 @@
         flex-direction: column-reverse;
     }
 
-    .name {
-    }
-
     .stats {
         display: flex;
         align-items: center;
         gap: 3px;
     }
 
-    .gem {
-        width: 25%;
+    .gems {
+        display: flex;
+        flex: 1;
+        justify-content: end;
+        gap: 3%;
+    }
 
+    .gem {
+        width: 40%;
+    }
+
+    .hand {
+        display: flex;
+        align-items: center;
+        gap: 3%;
     }
 </style>
