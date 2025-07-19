@@ -211,9 +211,7 @@
     <div style={selectedCardPosition}>
         <SelectedCard/>
     </div>
-    <div class="notification">
-        <Notification/>
-    </div>
+    <Notification/>
 </div>
 
 <style>
@@ -231,16 +229,6 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: -1;
-    }
-
-    .notification {
-        position: absolute;
-        left: 0px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 100%;
-        height: 13%;
-        z-index: 10;
     }
 
     :global(.hoverable) {

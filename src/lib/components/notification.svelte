@@ -32,8 +32,14 @@
 
 <style>
     .notification {
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
         width: 100%;
-        height: 100%;
+        height: 13%;
+        z-index: 10;
+
         color: goldenrod;
         font-size: 1.6vw;
         text-align:left;
