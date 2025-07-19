@@ -1,15 +1,15 @@
 <script lang="ts">
     import CardContainer from "$lib/components/card_container.svelte";
-    import {store as deckStore} from "$lib/store/deck.svelte";
-    import {store as selectedCardStore} from "$lib/store/selected_card.svelte";
+    import {store} from "$lib/store/game.svelte";
     import type {CardData} from "$lib/types/card";
 
-    const handleSelect = $derived((card: CardData) => selectedCardStore.card = card);
+    const handleSelect = $derived((card: CardData) => store.selectedCard = card);
+    const hand = $derived(store.playerDatas["me"].hand);
 </script>
 
 <div class="hoverable hand">
     <CardContainer
-        cards={deckStore["me"].hand}
+        cards={hand}
         onSelect={handleSelect}
     />
 </div>

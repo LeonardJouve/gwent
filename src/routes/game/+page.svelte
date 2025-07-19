@@ -8,11 +8,10 @@
     import Row from "$lib/components/row.svelte";
     import type {Player} from "$lib/types/player";
     import type {UnitRow} from "$lib/types/card";
-    import Score from "$lib/components/score.svelte";
-    import {getPlayerScore} from "$lib/store/board.svelte";
     import SoundtrackToggle from "$lib/components/soundtrack_toggle.svelte";
     import SelectedCard from "$lib/components/selected_card.svelte";
     import Notification from "$lib/components/notification.svelte";
+    import PlayerInformations from "$lib/components/player_informations.svelte";
 
     type Rect = {
         top: number;
@@ -37,9 +36,6 @@
         6.5,
         76.6,
     ];
-
-    const scoreWidthPercent = 2.7;
-    const scoreHeightPercent = 5;
 
     const laneLeftPercent = 29.7;
 
@@ -93,16 +89,6 @@
         return getPosition(laneLeftPercent, widthPercent, rowTopPercents[index], rowHeightPercent);
     });
 
-    const getScorePosition = $derived((index: number) => {
-        const leftPercent = 22.3;
-        const topPercents = [
-            28.4,
-            65.6,
-        ];
-
-        return getPosition(leftPercent, scoreWidthPercent, topPercents[index], scoreHeightPercent);
-    });
-
     const getLeaderPosition = $derived((index: number) => {
         const leftPercent = 7.1;
         const widthPercent = 5.5;
@@ -125,6 +111,18 @@
         const leftPercent = 89.8;
 
         return getPosition(leftPercent, pileWidthPercent, pileTopPercents[index], pileHeightPercent);
+    });
+
+    const getPlayerInformationsPosition = $derived((index: number) => {
+        const leftPercent = 0;
+        const widthPercent = 23.5;
+        const topPercents = [
+            23.3,
+            60.5,
+        ];
+        const heightPercent = 15;
+
+        return getPosition(leftPercent, widthPercent, topPercents[index], heightPercent);
     });
 
     const handPosition = $derived.by(() => {
@@ -188,14 +186,14 @@
         <div style={getLeaderPosition(i)}>
             <Leader player={player}/>
         </div>
-        <div style={getScorePosition(i)}>
-            <Score getScore={() => getPlayerScore(player)}/>
-        </div>
         <div style={getGravePosition(i)}>
             <Grave player={player}/>
         </div>
         <div style={getDeckPosition(i)}>
             <Deck player={player}/>
+        </div>
+        <div style={getPlayerInformationsPosition(i)}>
+            <PlayerInformations player={player}/>
         </div>
     {/each}
 

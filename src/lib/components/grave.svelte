@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {store} from "$lib/store/deck.svelte";
+    import {store} from "$lib/store/game.svelte";
     import type {CardData} from "$lib/types/card";
     import type {Player} from "$lib/types/player";
     import Card from "$lib/components/card.svelte";
@@ -11,7 +11,7 @@
     };
     const {player}: Props = $props();
 
-    const cards = $derived(store[player].grave);
+    const grave = $derived(store.playerDatas[player].grave);
 
     let isCarouselOpen = $state(false);
 
@@ -30,14 +30,14 @@
     class="grave hoverable"
     onclick={handleOpenCarousel}
 >
-    {#if isCarouselOpen && cards.length}
+    {#if isCarouselOpen && grave.length}
         <Carousel
-            cards={cards}
+            cards={grave}
             onClose={handleCloseCarousel}
         />
     {/if}
     <CardPile
-        cards={cards}
+        cards={grave}
         render={card}
     />
 </div>

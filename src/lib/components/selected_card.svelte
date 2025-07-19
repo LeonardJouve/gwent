@@ -1,9 +1,9 @@
 <script>
-    import {store} from "$lib/store/selected_card.svelte";
+    import {store} from "$lib/store/game.svelte";
     import LargeCard from "$lib/components/large_card.svelte";
     import CardDescription from "$lib/components/card_description.svelte";
 
-    const card = $derived(store.card);
+    const card = $derived(store.selectedCard);
 </script>
 
 {#if card}

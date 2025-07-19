@@ -2,7 +2,7 @@
     import CardContainer from "$lib/components/card_container.svelte";
     import type {CardData, UnitRow} from "$lib/types/card";
     import type {Player} from "$lib/types/player";
-    import {getCardScore, getRowScore, getRowWeather, store} from "$lib/store/board.svelte";
+    import {getCardScore, getRowScore, getRowWeather, store} from "$lib/store/game.svelte";
     import Score from "$lib/components/score.svelte";
     import {iconURL} from "$lib/utils";
 
@@ -12,7 +12,7 @@
     };
     const {rowName, player}: Props = $props();
 
-    const row = $derived(store[player][rowName]);
+    const row = $derived(store.playerDatas[player].board[rowName]);
 
     const getScore = $derived((card: CardData) => getCardScore(card, rowName, player));
 
