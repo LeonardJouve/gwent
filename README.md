@@ -1,3 +1,2 @@
 TODOS:
-- Notification
 - Player infos
