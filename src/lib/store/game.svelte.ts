@@ -28,11 +28,13 @@ type PlayerData = {
 type GameStore = {
     selectedCard?: CardData;
     turn: Player;
+    doubleSpyPower: boolean;
     playerDatas: Record<Player, PlayerData>;
 };
 
 export const store = $state<GameStore>({
     turn: "me",
+    doubleSpyPower: false,
     playerDatas: {
         me: {
             name: "you",
@@ -120,8 +122,7 @@ export const getCardScore = (card: CardData, rowName: UnitRow, player: Player): 
         total = Math.min(1, total);
     }
 
-    // eslint-disable-next-line
-    if (/* doubleSpyPower TODO && */false && card.abilities.includes("spy")) {
+    if (store.doubleSpyPower && card.abilities.includes("spy")) {
         total *= 2;
     }
 
