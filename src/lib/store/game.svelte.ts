@@ -29,12 +29,14 @@ type GameStore = {
     selectedCard?: CardData;
     turn: Player;
     doubleSpyPower: boolean;
+    halfWeather: boolean;
     playerDatas: Record<Player, PlayerData>;
 };
 
 export const store = $state<GameStore>({
     turn: "me",
     doubleSpyPower: false,
+    halfWeather: false,
     playerDatas: {
         me: {
             name: "you",
@@ -119,7 +121,11 @@ export const getCardScore = (card: CardData, rowName: UnitRow, player: Player): 
     }
 
     if (hasWeather(rowName, player)) {
-        total = Math.min(1, total);
+        if (store.halfWeather) {
+            total = Math.ceil(total / 2);
+        } else {
+            total = Math.min(1, total);
+        }
     }
 
     if (store.doubleSpyPower && card.abilities.includes("spy")) {

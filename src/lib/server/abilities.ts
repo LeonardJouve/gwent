@@ -315,11 +315,10 @@ const abilities: Record<AbilityId, () => void> = {
     francesca_beautiful: {
         description: "Doubles the strength of all your Ranged Combat units (unless a Commander's Horn is also present on that row).",
         activated: async card => await board.getRow(card, "ranged", card.holder).leaderHorn(),
-        weight: (card, ai) => ai.weightHornRow(card, board.getRow(card, "ranged", card.holder))
     },
     francesca_daisy: {
         description: "Draw an extra card at the beginning of the battle.",
-        placed: card => game.gameStart.push(() => {
+        onGameStart: card => game.gameStart.push(() => {
             let draw = card.holder.deck.removeCard(0);
             card.holder.hand.addCard(draw);
             return true;
@@ -332,7 +331,6 @@ const abilities: Record<AbilityId, () => void> = {
             if (out)
                 await out.autoplay(card.holder.deck);
         },
-        weight: (card, ai) => ai.weightWeatherFromDeck(card, "frost")
     },
     francesca_hope: {
         description: "Move agile units to whichever valid row maximizes their strength (don't move units already in optimal row).",
@@ -342,10 +340,6 @@ const abilities: Record<AbilityId, () => void> = {
             let cards = ability_dict["francesca_hope"].helper(card);
             await Promise.all(cards.map(async p => await board.moveTo(p.card, p.row === close ? ranged : close, p.row)));
 
-        },
-        weight: card => {
-            let cards = ability_dict["francesca_hope"].helper(card);
-            return cards.reduce((a, c) => a + c.weight, 0);
         },
         helper: card => {
             let close = board.getRow(card, "close");
@@ -371,22 +365,9 @@ const abilities: Record<AbilityId, () => void> = {
             Promise.all(card.holder.grave.cards.map(c => board.toDeck(c, card.holder.grave)));
             await Promise.all(card.holder.opponent().grave.cards.map(c => board.toDeck(c, card.holder.opponent().grave)));
         },
-        weight: (card, ai, max, data) => {
-            if (game.roundCount < 2)
-                return 0;
-            let medics = card.holder.hand.findCard(c => c.abilities.includes("medic"));
-            if (medics !== undefined)
-                return 0;
-            let spies = card.holder.hand.findCard(c => c.abilities.includes("spy"));
-            if (spies !== undefined)
-                return 0;
-            if (card.holder.hand.findCard(c => c.abilities.includes("decoy")) !== undefined && (data.medic.length || data.spy.length && card.holder.deck.findCard(c => c.abilities.includes("medic")) !== undefined))
-                return 0;
-            return 15;
-        }
     },
     king_bran: {
         description: "Units only lose half their Strength in bad weather conditions.",
-        placed: card => board.row.filter((c, i) => card.holder === player_me ^ i < 3).forEach(r => r.halfWeather = true)
+        onGameStart: card => board.row.filter((c, i) => card.holder === player_me ^ i < 3).forEach(r => r.halfWeather = true)
     }
 };
