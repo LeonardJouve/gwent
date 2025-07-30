@@ -8,7 +8,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 0,
         filename: "mysterious_elf",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
             "spy",
@@ -20,7 +20,7 @@ const cards: CardData[] = [
         deck: "special",
         strength: 0,
         filename: "decoy",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "decoy",
         ],
@@ -31,7 +31,7 @@ const cards: CardData[] = [
         deck: "weather",
         strength: 0,
         filename: "frost",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "frost",
         ],
@@ -43,7 +43,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 15,
         filename: "ciri",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -54,7 +54,7 @@ const cards: CardData[] = [
         deck: "weather",
         strength: 0,
         filename: "clear",
-        count: 2,
+        maxPerDeck: 2,
         abilities: [
             "clear",
         ],
@@ -65,7 +65,7 @@ const cards: CardData[] = [
         deck: "special",
         strength: 0,
         filename: "horn",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "horn",
         ],
@@ -77,7 +77,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "dandelion",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "horn",
         ],
@@ -89,7 +89,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "emiel",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -99,7 +99,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 15,
         filename: "geralt",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -110,7 +110,7 @@ const cards: CardData[] = [
         deck: "weather",
         strength: 0,
         filename: "fog",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "fog",
         ],
@@ -121,7 +121,7 @@ const cards: CardData[] = [
         deck: "special",
         strength: 0,
         filename: "scorch",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "scorch",
         ],
@@ -132,7 +132,7 @@ const cards: CardData[] = [
         deck: "weather",
         strength: 0,
         filename: "rain",
-        count: 2,
+        maxPerDeck: 2,
         abilities: [
             "rain",
         ],
@@ -144,7 +144,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 7,
         filename: "triss",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -156,7 +156,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "vesemir",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -166,7 +166,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 7,
         filename: "villen",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "scorch_c",
         ],
@@ -178,7 +178,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 7,
         filename: "yennefer",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
             "medic",
@@ -191,7 +191,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "zoltan",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -201,7 +201,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 6,
         filename: "olgierd",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
             "morale",
@@ -214,7 +214,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 2,
         filename: "gaunter_odimm",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -226,7 +226,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "gaunter_odimm_darkness",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "muster",
         ],
@@ -238,7 +238,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 0,
         filename: "cow",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "avenger",
         ],
@@ -250,7 +250,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 8,
         filename: "chort",
-        count: 0,
+        maxPerDeck: 0,
         abilities: [],
     },
     {
@@ -259,7 +259,7 @@ const cards: CardData[] = [
         deck: "realms",
         strength: 0,
         filename: "foltest_silver",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "foltest_king",
@@ -271,7 +271,7 @@ const cards: CardData[] = [
         deck: "realms",
         strength: 0,
         filename: "foltest_gold",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "foltest_lord",
@@ -283,7 +283,7 @@ const cards: CardData[] = [
         deck: "realms",
         strength: 0,
         filename: "foltest_copper",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "foltest_siegemaster",
@@ -295,7 +295,7 @@ const cards: CardData[] = [
         deck: "realms",
         strength: 0,
         filename: "foltest_bronze",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "foltest_steelforged",
@@ -307,7 +307,7 @@ const cards: CardData[] = [
         deck: "realms",
         strength: 0,
         filename: "foltest_son_of_medell",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "foltest_son",
@@ -320,7 +320,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "ballista",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -330,7 +330,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "blue_stripes",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "bond",
         ],
@@ -342,7 +342,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 8,
         filename: "catapult_1",
-        count: 2,
+        maxPerDeck: 2,
         abilities: [
             "bond",
         ],
@@ -354,7 +354,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 5,
         filename: "crinfrid",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "bond",
         ],
@@ -366,7 +366,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 6,
         filename: "dethmold",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -376,7 +376,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 5,
         filename: "banner_nurse",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -388,7 +388,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "esterad",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -400,7 +400,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "natalis",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -412,7 +412,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 1,
         filename: "kaedwen_siege",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "morale",
         ],
@@ -424,7 +424,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 1,
         filename: "kaedwen_siege_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "morale",
         ],
@@ -436,7 +436,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 1,
         filename: "kaedwen_siege_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "morale",
         ],
@@ -448,7 +448,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 5,
         filename: "keira",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -458,7 +458,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "philippa",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -470,7 +470,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 1,
         filename: "poor_infantry",
-        count: 4,
+        maxPerDeck: 4,
         abilities: [
             "bond",
         ],
@@ -482,7 +482,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "stennis",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "spy",
         ],
@@ -494,7 +494,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 1,
         filename: "redania",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -504,7 +504,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 1,
         filename: "redania_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -514,7 +514,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "sheldon",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -524,7 +524,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "siege_tower",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -534,7 +534,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "siegfried",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -544,7 +544,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "dijkstra",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "spy",
         ],
@@ -556,7 +556,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 5,
         filename: "sheala",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -566,7 +566,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 1,
         filename: "thaler",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "spy",
         ],
@@ -578,7 +578,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "sabrina",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -588,7 +588,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "vernon",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -600,7 +600,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "ves",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -610,7 +610,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "yarpen",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -620,7 +620,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "trebuchet",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -630,7 +630,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "trebuchet_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -639,7 +639,7 @@ const cards: CardData[] = [
         deck: "nilfgaard",
         strength: 0,
         filename: "emhyr_silver",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "emhyr_imperial",
@@ -651,7 +651,7 @@ const cards: CardData[] = [
         deck: "nilfgaard",
         strength: 0,
         filename: "emhyr_copper",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "emhyr_emperor",
@@ -663,7 +663,7 @@ const cards: CardData[] = [
         deck: "nilfgaard",
         strength: 0,
         filename: "emhyr_bronze",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "emhyr_whiteflame",
@@ -675,7 +675,7 @@ const cards: CardData[] = [
         deck: "nilfgaard",
         strength: 0,
         filename: "emhyr_gold",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "emhyr_relentless",
@@ -687,7 +687,7 @@ const cards: CardData[] = [
         deck: "nilfgaard",
         strength: 0,
         filename: "emhyr_invader_of_the_north",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "emhyr_invader",
@@ -700,7 +700,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "albrich",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -710,7 +710,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 6,
         filename: "assire",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -720,7 +720,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "black_archer",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -730,7 +730,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "black_archer_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -740,7 +740,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "cahir",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -750,7 +750,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "cynthia",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -760,7 +760,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 1,
         filename: "archer_support",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -772,7 +772,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 1,
         filename: "archer_support_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -784,7 +784,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 6,
         filename: "fringilla",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -794,7 +794,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 10,
         filename: "heavy_zerri",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -804,7 +804,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 3,
         filename: "imperal_brigade",
-        count: 4,
+        maxPerDeck: 4,
         abilities: [
             "bond",
         ],
@@ -816,7 +816,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "letho",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -828,7 +828,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "menno",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
             "medic",
@@ -841,7 +841,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 3,
         filename: "morteisen",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -851,7 +851,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 10,
         filename: "moorvran",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -863,7 +863,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "nauzicaa_2",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "bond",
         ],
@@ -875,7 +875,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 3,
         filename: "puttkammer",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -885,7 +885,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "rainfarn",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -895,7 +895,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 5,
         filename: "renuald",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -905,7 +905,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 3,
         filename: "rotten",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -915,7 +915,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 7,
         filename: "shilard",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "spy",
         ],
@@ -927,7 +927,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "siege_engineer",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -937,7 +937,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 0,
         filename: "siege_support",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -949,7 +949,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 9,
         filename: "stefan",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "spy",
         ],
@@ -961,7 +961,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "sweers",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -971,7 +971,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "tibor",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -983,7 +983,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "vanhemar",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -993,7 +993,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "vattier",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "spy",
         ],
@@ -1005,7 +1005,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "vreemde",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1015,7 +1015,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "young_emissary",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "bond",
         ],
@@ -1027,7 +1027,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "young_emissary_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "bond",
         ],
@@ -1039,7 +1039,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 5,
         filename: "zerri",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1048,7 +1048,7 @@ const cards: CardData[] = [
         deck: "monsters",
         strength: 0,
         filename: "eredin_silver",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "eredin_commander",
@@ -1060,7 +1060,7 @@ const cards: CardData[] = [
         deck: "monsters",
         strength: 0,
         filename: "eredin_bronze",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "eredin_bringer_of_death",
@@ -1072,7 +1072,7 @@ const cards: CardData[] = [
         deck: "monsters",
         strength: 0,
         filename: "eredin_gold",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "eredin_destroyer",
@@ -1084,7 +1084,7 @@ const cards: CardData[] = [
         deck: "monsters",
         strength: 0,
         filename: "eredin_copper",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "eredin_king",
@@ -1096,7 +1096,7 @@ const cards: CardData[] = [
         deck: "monsters",
         strength: 0,
         filename: "eredin_the_treacherous",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "eredin_treacherous",
@@ -1109,7 +1109,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "arachas",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1121,7 +1121,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "arachas_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1133,7 +1133,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "arachas_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1145,7 +1145,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "arachas_behemoth",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1157,7 +1157,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "poroniec",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1167,7 +1167,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 2,
         filename: "celaeno_harpy",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1179,7 +1179,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "cockatrice",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1189,7 +1189,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "witch_velen",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1201,7 +1201,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "witch_velen_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1213,7 +1213,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "witch_velen_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1225,7 +1225,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "draug",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -1237,7 +1237,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "earth_elemental",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1247,7 +1247,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "endrega",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1257,7 +1257,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "fiend",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1267,7 +1267,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "fire_elemental",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1277,7 +1277,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "fogling",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1287,7 +1287,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "forktail",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1297,7 +1297,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "frightener",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1307,7 +1307,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "gargoyle",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1317,7 +1317,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 1,
         filename: "ghoul",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1329,7 +1329,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 1,
         filename: "ghoul_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1341,7 +1341,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 1,
         filename: "ghoul_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1353,7 +1353,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 5,
         filename: "gravehag",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1363,7 +1363,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "gryffin",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1373,7 +1373,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 2,
         filename: "harpy",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1385,7 +1385,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 5,
         filename: "frost_giant",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1395,7 +1395,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "imlerith",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -1407,7 +1407,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 8,
         filename: "kayran",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
             "agile",
@@ -1421,7 +1421,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "leshen",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -1433,7 +1433,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "nekker",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1445,7 +1445,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "nekker_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1457,7 +1457,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "nekker_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1469,7 +1469,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "mighty_maiden",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1479,7 +1479,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "bruxa",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1491,7 +1491,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "ekkima",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1503,7 +1503,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "fleder",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1515,7 +1515,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "garkain",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1527,7 +1527,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "katakan",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1539,7 +1539,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "werewolf",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1549,7 +1549,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "wyvern",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1559,7 +1559,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 7,
         filename: "toad",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "scorch_r",
         ],
@@ -1570,7 +1570,7 @@ const cards: CardData[] = [
         deck: "scoiatael",
         strength: 0,
         filename: "francesca_silver",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "francesca_queen",
@@ -1582,7 +1582,7 @@ const cards: CardData[] = [
         deck: "scoiatael",
         strength: 0,
         filename: "francesca_gold",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "francesca_beautiful",
@@ -1594,7 +1594,7 @@ const cards: CardData[] = [
         deck: "scoiatael",
         strength: 0,
         filename: "francesca_copper",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "francesca_daisy",
@@ -1606,7 +1606,7 @@ const cards: CardData[] = [
         deck: "scoiatael",
         strength: 0,
         filename: "francesca_bronze",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "francesca_pureblood",
@@ -1618,7 +1618,7 @@ const cards: CardData[] = [
         deck: "scoiatael",
         strength: 0,
         filename: "francesca_hope_of_the_aen_seidhe",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "leader",
             "francesca_hope",
@@ -1631,7 +1631,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 3,
         filename: "ciaran",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1643,7 +1643,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 6,
         filename: "barclay",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1655,7 +1655,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "dennis",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1665,7 +1665,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "dol_archer",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1675,7 +1675,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 6,
         filename: "dol_infantry",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1687,7 +1687,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 6,
         filename: "dol_infantry_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1699,7 +1699,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 6,
         filename: "dol_infantry_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1711,7 +1711,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 3,
         filename: "dwarf",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1723,7 +1723,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 3,
         filename: "dwarf_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1735,7 +1735,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 3,
         filename: "dwarf_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1747,7 +1747,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "eithne",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -1759,7 +1759,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "elf_skirmisher",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1771,7 +1771,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "elf_skirmisher_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1783,7 +1783,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "elf_skirmisher_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1795,7 +1795,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 6,
         filename: "filavandrel",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -1807,7 +1807,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 0,
         filename: "havekar_nurse",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -1819,7 +1819,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 0,
         filename: "havekar_nurse_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -1831,7 +1831,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 0,
         filename: "havekar_nurse_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -1843,7 +1843,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "havekar_support",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1855,7 +1855,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "havekar_support_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1867,7 +1867,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "havekar_support_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "muster",
         ],
@@ -1879,7 +1879,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 6,
         filename: "ida",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1889,7 +1889,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "iorveth",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -1901,7 +1901,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "isengrim",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
             "morale",
@@ -1914,7 +1914,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "mahakam",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1924,7 +1924,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "mahakam_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1934,7 +1934,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "mahakam_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1944,7 +1944,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "mahakam_3",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1954,7 +1954,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 5,
         filename: "mahakam_4",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1964,7 +1964,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "milva",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "morale",
         ],
@@ -1976,7 +1976,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 1,
         filename: "riordain",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -1986,7 +1986,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "saskia",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -1998,7 +1998,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "toruviel",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2008,7 +2008,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "vrihedd_cadet",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2018,7 +2018,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 5,
         filename: "vrihedd_brigade",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -2030,7 +2030,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 5,
         filename: "vrihedd_brigade_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -2042,7 +2042,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 6,
         filename: "yaevinn",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
         ],
@@ -2054,7 +2054,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "berserker",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "berserker",
         ],
@@ -2066,7 +2066,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 2,
         filename: "birna",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "medic",
         ],
@@ -2078,7 +2078,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "blueboy",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2088,7 +2088,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 10,
         filename: "cerys",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
             "muster",
@@ -2101,7 +2101,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 6,
         filename: "brokva_archer",
-        count: 2,
+        maxPerDeck: 2,
         abilities: [],
     },
     {
@@ -2111,7 +2111,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 6,
         filename: "dimun_pirate",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "scorch",
         ],
@@ -2123,7 +2123,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "shield_maiden",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "bond",
         ],
@@ -2135,7 +2135,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "shield_maiden_1",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "bond",
         ],
@@ -2147,7 +2147,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "shield_maiden_2",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "bond",
         ],
@@ -2159,7 +2159,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "heymaey",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2169,7 +2169,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "tordarroch",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2179,7 +2179,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "craite_warrior",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "bond",
         ],
@@ -2191,7 +2191,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "donar",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2201,7 +2201,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 2,
         filename: "draig",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "horn",
         ],
@@ -2213,7 +2213,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 8,
         filename: "ermion",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
             "mardroeme",
@@ -2226,7 +2226,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 11,
         filename: "hemdall",
-        count: 0,
+        maxPerDeck: 0,
         abilities: [
             "hero",
         ],
@@ -2238,7 +2238,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 10,
         filename: "hjalmar",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "hero",
         ],
@@ -2250,7 +2250,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 4,
         filename: "holger",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2260,7 +2260,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 0,
         filename: "kambi",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "avenger_kambi",
         ],
@@ -2272,7 +2272,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 4,
         filename: "light_longship",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "muster",
         ],
@@ -2284,7 +2284,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 6,
         filename: "madmad_lugos",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2293,7 +2293,7 @@ const cards: CardData[] = [
         deck: "special",
         strength: 0,
         filename: "mardroeme",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "mardroeme",
         ],
@@ -2305,7 +2305,7 @@ const cards: CardData[] = [
         row: "agile",
         strength: 12,
         filename: "olaf",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "agile",
             "morale",
@@ -2317,7 +2317,7 @@ const cards: CardData[] = [
         deck: "weather",
         strength: 0,
         filename: "storm",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "rain",
             "fog",
@@ -2330,7 +2330,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "svanrige",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2340,7 +2340,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 14,
         filename: "vildkaarl",
-        count: 0,
+        maxPerDeck: 0,
         abilities: [
             "morale",
         ],
@@ -2352,7 +2352,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 8,
         filename: "young_vildkaarl",
-        count: 0,
+        maxPerDeck: 0,
         abilities: [
             "bond",
         ],
@@ -2364,7 +2364,7 @@ const cards: CardData[] = [
         row: "close",
         strength: 4,
         filename: "udalryk",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [],
     },
     {
@@ -2374,7 +2374,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 6,
         filename: "war_longship",
-        count: 2,
+        maxPerDeck: 2,
         abilities: [
             "bond",
         ],
@@ -2386,7 +2386,7 @@ const cards: CardData[] = [
         row: "ranged",
         strength: 2,
         filename: "young_berserker",
-        count: 3,
+        maxPerDeck: 3,
         abilities: [
             "berserker",
         ],
@@ -2397,7 +2397,7 @@ const cards: CardData[] = [
         deck: "skellige",
         strength: 0,
         filename: "crach_an_craite",
-        count: 0,
+        maxPerDeck: 0,
         abilities: [
             "leader",
             "crach_an_craite",
@@ -2409,7 +2409,7 @@ const cards: CardData[] = [
         deck: "skellige",
         strength: 0,
         filename: "king_bran",
-        count: 0,
+        maxPerDeck: 0,
         abilities: [
             "leader",
             "king_bran",
@@ -2422,7 +2422,7 @@ const cards: CardData[] = [
         row: "siege",
         strength: 8,
         filename: "schirru",
-        count: 1,
+        maxPerDeck: 1,
         abilities: [
             "scorch_s",
         ],

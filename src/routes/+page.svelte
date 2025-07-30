@@ -37,7 +37,7 @@
         {#each bank as card}
             <div
                 class="card"
-                style={`--count: "${card.count}"`}
+                style={`--count: "${card.maxPerDeck}"`}
             >
                 <img
                     alt={card.name}
@@ -103,7 +103,7 @@
         {#each deck as card}
             <div
                 class="card"
-                style={`--count: "${card.count}"`}
+                style={`--count: "${card.maxPerDeck}"`}
             >
                 <img
                     alt={card.name}

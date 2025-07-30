@@ -9,7 +9,7 @@ export type CardData = {
     strength: number;
     abilities: AbilityId[];
     filename: string;
-    count: number;
+    maxPerDeck: number;
 };
 
 export type UnitRow = "close" | "ranged" | "siege";
