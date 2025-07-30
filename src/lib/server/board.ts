@@ -1,6 +1,7 @@
 import Row from "$lib/server/row";
 import type {CardData, UnitRow} from "$lib/types/card";
 import type {Options, PlayerBoard, PlayerIndex} from "$lib/server/types/game";
+import type {Weather} from "$lib/types/weather";
 
 export default class Board {
     private board: PlayerBoard[];
@@ -37,7 +38,6 @@ export default class Board {
     }
 
     scorch(row?: UnitRow, playerIndex?: PlayerIndex): void {
-
         // if (row !== undefined)
         //     row.cards.splice(row.cards.indexOf(card), 1);
         // let maxUnits = board.row.map(r => [r, r.maxUnits()]).filter(p => p[1].length > 0);
@@ -60,25 +60,28 @@ export default class Board {
     }
 
     addWeather(card: CardData): void {
+        const weatherRow: Record<Weather, UnitRow> = {
+            frost: "close",
+            fog: "ranged",
+            rain: "siege",
+        };
+
         this.weather.push(card);
-        // TODO: set row weather
-        // TODO: clear weather
-        // getRowWeather(): Weather|null => {
-        //     if (!store.playerDatas[player].board[rowName].hasWeather) {
-        //         return null;
-        //     }
 
-        //     const rowWeather: Record<UnitRow, Weather> = {
-        //         close: "frost",
-        //         ranged: "fog",
-        //         siege: "rain",
-        //     };
 
-        //     return rowWeather[rowName];
-        // };
+        this.board.forEach((playerBoard) => {
+            card.abilities.forEach((ability) => {
+                if (!(ability in weatherRow)) {
+                    return;
+                }
+
+                playerBoard[weatherRow[ability as Weather]].setWeather(true);
+            });
+        });
     }
 
     clearWeather(): CardData[] {
+        this.board.forEach((playerBoard) => Object.values(playerBoard).forEach((row) => row.setWeather(false)));
         return this.weather = [];
     }
 
