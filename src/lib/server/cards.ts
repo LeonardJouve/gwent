@@ -26,10 +26,20 @@ export default class Cards {
     }
 
     static getRandom(cards: CardData[], amount: number): CardData[] {
-        // TODO
+        const indices: number[] = [];
+        const affordableAmount = Math.min(cards.length, amount);
+        for (let i = 0; i < affordableAmount; ++i) {
+            let index = -1;
+            while (index === -1 || indices.includes(index)) {
+                index = Math.floor(Math.random() * cards.length);
+            }
+            indices.push(index);
+        }
+
+        return indices.map((index) => cards[index]);
     }
 
-    private static filterCards(from: CardData[], ...cards: CardData[]): CardData[] {
+    static filterCards(from: CardData[], cards: CardData[]): CardData[] {
         return from.filter((card) => {
             const playingCardIndex = cards.findIndex(({name}) => name === card.name);
             if (playingCardIndex !== -1) {
@@ -41,6 +51,24 @@ export default class Cards {
         });
     }
 
+    redraw(card: CardData): void {
+        const cardIndex = this.hand.findIndex(({name}) => name === card.name);
+        if (cardIndex === -1) {
+            return;
+        }
+
+        this.hand.splice(cardIndex, 1);
+
+        const [newCard] = Cards.getRandom(this.deck, 1);
+        const newCardIndex = this.hand.findIndex(({name}) => name === newCard.name);
+        if (newCardIndex !== -1) {
+            this.deck.splice(newCardIndex, 1);
+            this.hand.push(newCard);
+        }
+
+        this.deck.splice(Math.floor(Math.random() * this.deck.length), 0, card);
+    }
+
     draw(amount = 1): void {
         const affordableAmount = Math.min(this.deck.length, amount);
 
@@ -49,11 +77,12 @@ export default class Cards {
     }
 
     drawCard(...cards: CardData[]): void {
-
+        this.deck = Cards.filterCards(this.deck, cards);
+        this.hand.push(...cards);
     }
 
     play(...cards: CardData[]): void {
-        this.hand = Cards.filterCards(this.hand, ...cards);
+        this.hand = Cards.filterCards(this.hand, cards);
     }
 
     discard(...cards: CardData[]): void {
@@ -61,6 +90,6 @@ export default class Cards {
     }
 
     restore(...cards: CardData[]): void {
-        this.grave = Cards.filterCards(this.grave, ...cards);
+        this.grave = Cards.filterCards(this.grave, cards);
     }
 }

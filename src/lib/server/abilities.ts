@@ -61,7 +61,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     mardroeme: {
         onPlaced: (game, playerIndex, row, card) => {
             const playerRow = game.board.getRow(row, playerIndex);
-            const berserkers = playerRow.units.filter((c) => c.abilities.includes("berserker"));
+            const berserkers = playerRow
+                .getUnits()
+                .filter((c) => c.abilities.includes("berserker"));
+
             berserkers.forEach(() => {
                 playerRow.remove(card);
                 const transformed = card.name === "Young Berserker" ?
@@ -77,16 +80,16 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     scorch: {
-        onPlaced: (game) => game.board.scorch(),
+        onPlaced: (game) => game.scorch(),
     },
     scorch_c: {
-        onPlaced: (game, playerIndex) => game.board.scorch("close", game.getOpponentIndex(playerIndex)),
+        onPlaced: (game, playerIndex) => game.scorch("close", game.getOpponentIndex(playerIndex)),
     },
     scorch_r: {
-        onPlaced: (game, playerIndex) => game.board.scorch("ranged", game.getOpponentIndex(playerIndex)),
+        onPlaced: (game, playerIndex) => game.scorch("ranged", game.getOpponentIndex(playerIndex)),
     },
     scorch_s: {
-        onPlaced: (game, playerIndex) => game.board.scorch("siege", game.getOpponentIndex(playerIndex)),
+        onPlaced: (game, playerIndex) => game.scorch("siege", game.getOpponentIndex(playerIndex)),
     },
     muster: {
         onPlaced: (game, playerIndex, _row, card) => {
@@ -123,11 +126,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             if (game.getOptions().randomRespawn) {
                 [card] = Cards.getRandom(units, 1);
             } else {
-                [card] = await new Promise<CardData[]>((resolve) => game.askSelect(units, playerIndex, resolve));
+                [card] = await game.askSelect(units, playerIndex);
             }
 
             playerCards.restore(card);
-
             game.board.autoplay(card, playerIndex);
         },
     },
@@ -147,10 +149,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "siege"),
     },
     foltest_steelforged: {
-        onPlaced: (game, playerIndex) => game.board.scorch("siege", playerIndex),
+        onPlaced: (game, playerIndex) => game.scorch("siege", game.getOpponentIndex(playerIndex)),
     },
     foltest_son: {
-        onPlaced: (game, playerIndex) => game.board.scorch("ranged", playerIndex),
+        onPlaced: (game, playerIndex) => game.scorch("ranged", game.getOpponentIndex(playerIndex)),
     },
     emhyr_imperial: {
         onPlaced: (game, playerIndex) => playLeaderWeather(game, playerIndex, "Torrential Rain"),
@@ -158,7 +160,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     emhyr_emperor: {
         onPlaced: async (game, playerIndex) => {
             const opponentCards = Cards.getRandom(game.getPlayerCards(game.getOpponentIndex(playerIndex)).hand, 3);
-            await new Promise<void>((resolve) => game.showCards(opponentCards, resolve));
+            await game.showCards(opponentCards);
         },
     },
     emhyr_whiteflame: {
@@ -172,7 +174,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            const [card] = await new Promise<CardData[]>((resolve) => game.askSelect(units, playerIndex, resolve));
+            const [card] = await game.askSelect(units, playerIndex);
             const index = opponentGrave.findIndex(({name}) => name === card.name);
             if (index !== -1) {
                 opponentGrave.splice(index, 1);
@@ -193,7 +195,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            const [card] = await new Promise<CardData[]>((resolve) => game.askSelect(playerCards.grave, playerIndex, resolve));
+            const [card] = await game.askSelect(playerCards.grave, playerIndex);
             game.getPlayerCards(playerIndex).restore(card);
         },
     },
@@ -202,17 +204,17 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             const playerCards = game.getPlayerCards(playerIndex);
             const {hand, deck} = playerCards;
 
-            const toDiscard = await new Promise<CardData[]>((resolve) => game.askSelect(hand, playerIndex, resolve, 2));
+            const toDiscard = await game.askSelect(hand, playerIndex, 2);
             playerCards.discard(...toDiscard);
 
-            const [toDraw] = await new Promise<CardData[]>((resolve) => game.askSelect(deck, playerIndex, resolve, 1));
+            const [toDraw] = await game.askSelect(deck, playerIndex, 1);
             playerCards.drawCard(toDraw);
         },
     },
     eredin_king: {
         onPlaced: async (game, playerIndex) => {
             const weather = game.getPlayerCards(playerIndex).deck.filter(({deck}) => deck === "weather");
-            const [card] = await new Promise<CardData[]>((resolve) => game.askSelect(weather, playerIndex, resolve));
+            const [card] = await game.askSelect(weather, playerIndex);
             game.board.autoplay(card, playerIndex);
         },
     },
@@ -220,7 +222,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onGameStart: (game) => game.enableDoubleSpyPower(),
     },
     francesca_queen: {
-        onPlaced: (game, playerIndex) => game.board.scorch("close", playerIndex),
+        onPlaced: (game, playerIndex) => game.scorch("close", game.getOpponentIndex(playerIndex)),
     },
     francesca_beautiful: {
         onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "ranged"),
@@ -243,7 +245,8 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             const close = game.board.getRow("close", playerIndex);
             const ranged = game.board.getRow("ranged", playerIndex);
 
-            const moveCards = (from: Row, to: Row): void => from.units
+            const moveCards = (from: Row, to: Row): void => from
+                .getUnits()
                 .filter((card) => card.row === "agile" && to.getCardScore(card) > from.getCardScore(card))
                 .forEach((card) => {
                     from.remove(card);

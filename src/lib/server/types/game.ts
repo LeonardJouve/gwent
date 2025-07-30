@@ -29,13 +29,14 @@ export type Player = Omit<PlayerData, "deck"> & {
     isLeaderAvailable: boolean;
     cards: Cards;
     gems: number;
+    hasPassed: boolean;
 };
 
 export type PlayerIndex = number;
 
 export type RoundResult = {
     winner: PlayerIndex|null;
-    scores: [number, number];
+    scores: number[];
 };
 
 export type Effect = {

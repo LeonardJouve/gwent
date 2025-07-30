@@ -1,5 +1,6 @@
 import type {CardData} from "$lib/types/card";
 import type {Options, RowSpecial} from "$lib/server/types/game";
+import Cards from "$lib/server/cards";
 
 export default class Row {
     public units: CardData[];
@@ -82,7 +83,7 @@ export default class Row {
     }
 
     remove(...cards: CardData[]): void {
-
+        this.units = Cards.filterCards(this.units, cards);
     }
 
     getUnits(): CardData[] {

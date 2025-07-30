@@ -14,6 +14,11 @@ export default class Board {
         this.getOptions = getOptions;
     }
 
+    clear(): void {
+        this.clearBoard();
+        this.clearWeather();
+    }
+
     clearBoard(): PlayerBoard[] {
         return this.board = [
             {
@@ -35,20 +40,6 @@ export default class Board {
 
     getPlayerBoard(playerIndex: PlayerIndex): PlayerBoard {
         return this.board[playerIndex];
-    }
-
-    scorch(row?: UnitRow, playerIndex?: PlayerIndex): void {
-        // if (row !== undefined)
-        //     row.cards.splice(row.cards.indexOf(card), 1);
-        // let maxUnits = board.row.map(r => [r, r.maxUnits()]).filter(p => p[1].length > 0);
-        // if (row !== undefined)
-        //     row.cards.push(card);
-        // let maxPower = maxUnits.reduce((a, p) => Math.max(a, p[1][0].power), 0);
-        // let scorched = maxUnits.filter(p => p[1][0].power === maxPower);
-        // let cards = scorched.reduce((a, p) => a.concat(p[1].map(u => [p[0], u])), []);
-
-        // await Promise.all(cards.map(async u => await u[1].animate("scorch", true, false)));
-        // await Promise.all(cards.map(async u => await board.toGrave(u[1], u[0])));
     }
 
     horn(row: UnitRow, playerIndex: PlayerIndex): void {
@@ -75,7 +66,7 @@ export default class Board {
                     return;
                 }
 
-                playerBoard[weatherRow[ability as Weather]].setWeather(true);
+                playerBoard[weatherRow[ability as keyof typeof weatherRow]].setWeather(true);
             });
         });
     }

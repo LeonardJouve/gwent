@@ -1,7 +1,9 @@
 import Cards from "$lib/server/cards";
 import Board from "$lib/server/board";
-import type {Player, Options, PlayerIndex, RoundResult, Effect, PlayerData} from "./types/game";
-import type {CardData} from "$lib/types/card";
+import type {Player, Options, PlayerIndex, RoundResult, Effect, PlayerData} from "$lib/server/types/game";
+import type {CardData, UnitRow} from "$lib/types/card";
+import abilities from "$lib/server/abilities";
+import factions from "$lib/server/factions";
 
 export default class Game {
     private options: Options;
@@ -30,6 +32,7 @@ export default class Game {
             cards: new Cards(deck),
             isLeaderAvailable: true,
             gems: 2,
+            hasPassed: false,
         }));
     }
 
@@ -87,16 +90,140 @@ export default class Game {
         return firstPlayer.faction === secondPlayer.faction;
     }
 
-    askStart(callback: (playerIndex: PlayerIndex) => void): void {
-        callback(0);
-        // TODO
+
+    scorch(rowName?: UnitRow, playerIndex?: PlayerIndex): void {
+        const rows = this.players
+            .filter((_, i) => !playerIndex || i === playerIndex)
+            .map((_, i) => this.board.getPlayerBoard(i))
+            .flatMap((playerBoard, i) => Object.entries(playerBoard)
+                .filter(([name]) => !rowName || rowName === name)
+                .map(([_, row]) => ({
+                    row,
+                    i,
+                })));
+
+        const maxScore = Math.max(...rows.flatMap(({row}) => row
+            .getUnits()
+            .map((card) => row.getCardScore(card))));
+
+        rows.forEach(({row, i}) => row.remove(...row
+            .getUnits()
+            .filter((card) => {
+                if (row.getCardScore(card) !== maxScore) {
+                    return false;
+                }
+
+                this.players[i].cards.discard(card);
+                return true;
+            })));
     }
 
-    askSelect(cards: CardData[], playerIndex: PlayerIndex, callback: (cards: CardData[]) => void, amount = 1): void {
-        // TODO
+    private static runEffects(effects: Effect[]): Effect[] {
+        return effects.filter(({run, once}) => {
+            run();
+            return !once;
+        });
     }
 
-    showCards(cards: CardData[], resolve: () => void): void {
+    playGame(): void {
+        this.startGame();
+
+        while (this.players.some(({gems}) => !gems)) {
+            this.startRound();
+
+            while (!this.players.every(({hasPassed}) => hasPassed)) {
+                this.startTurn();
+
+                // TODO: pass / play card / activate leader
+
+                this.currentPlayerIndex = this.getOpponentIndex(this.currentPlayerIndex);
+            }
+
+            this.endRound();
+        }
+    }
+
+    private startGame(): void {
+        this.players.forEach((player, i) => {
+            player.cards.deck = Cards.shuffle(player.cards.deck);
+
+            player.leader.abilities.forEach((ability) => {
+                abilities[ability]?.onGameStart?.(this, i);
+            });
+
+            factions[player.faction](this, i);
+
+            player.cards.draw(10);
+        });
+
+        this.onGameStart = Game.runEffects(this.onGameStart);
+
+        if (!this.currentPlayerIndex) {
+            this.currentPlayerIndex = Game.tossCoin();
+        }
+
+        this.players.forEach(async (player) => {
+            for (let i = 0; i < 2; ++i) {
+                const [card] = await this.askSelect(player.cards.hand, i);
+                player.cards.redraw(card);
+            }
+        });
+    }
+
+    private startRound(): void {
+        this.players.forEach((player) => player.hasPassed = false);
+
+        const lastRoundResult = this.getLastRoundResult();
+        if (lastRoundResult) {
+            this.currentPlayerIndex = lastRoundResult.winner ?? Game.tossCoin();
+        }
+
+        this.onRoundStart = Game.runEffects(this.onRoundStart);
+    }
+
+    private startTurn(): void {
+        const player = this.players[this.currentPlayerIndex];
+
+        const canPlay = (player.cards.hand.length > 0 || player.isLeaderAvailable) && !player.hasPassed;
+        if (!canPlay) {
+            player.hasPassed = true;
+        }
+    }
+
+    private endRound(): void {
+        const scores = this.players.map((_, i) => this.board.getPlayerScore(i));
+        const [firstScore, secondScore] = scores;
+
+        let winner: PlayerIndex|null = firstScore > secondScore ? 0 : 1;
+        if (firstScore === secondScore) {
+            winner = null;
+        }
+
+        this.roundResults.push({
+            winner,
+            scores,
+        });
+
+        this.players.filter((_, i) => i !== winner)
+            .forEach((player) => --player.gems);
+
+        this.onRoundEnd = Game.runEffects(this.onRoundEnd);
+
+        this.board.clear();
+    }
+
+    async askStart(): Promise<PlayerIndex> {
         // TODO
+        return await new Promise<PlayerIndex>((resolve) => resolve(0));
+    }
+
+    async askSelect(cards: CardData[], playerIndex: PlayerIndex, amount = 1): Promise<CardData[]> {
+        // TODO
+        return await new Promise<CardData[]>((resolve) => resolve(cards.slice(0, amount)));
+    }
+
+    async showCards(cards: CardData[]): Promise<void> {
+        // TODO
+        return await new Promise<void>((resolve) => resolve());
     }
 }

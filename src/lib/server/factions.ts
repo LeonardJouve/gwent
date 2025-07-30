@@ -67,7 +67,7 @@ const factions: Record<FactionName, FactionAbility> = {
                     return;
                 }
 
-                game.currentPlayerIndex = await new Promise<PlayerIndex>((resolve) => game.askStart(resolve));
+                game.currentPlayerIndex = await game.askStart();
             },
         });
     },
@@ -85,7 +85,6 @@ const factions: Record<FactionName, FactionAbility> = {
 
                 game.getPlayerCards(playerIndex).restore(...cards);
                 cards.forEach((card) => game.board.autoplay(card, playerIndex));
-                // TODO: Game restore method -> use for monsters as well
             },
         });
     },
