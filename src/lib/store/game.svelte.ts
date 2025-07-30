@@ -30,6 +30,7 @@ type GameStore = {
     turn: Player;
     doubleSpyPower: boolean;
     halfWeather: boolean;
+    randomRespawn: boolean;
     playerDatas: Record<Player, PlayerData>;
 };
 
@@ -37,6 +38,7 @@ export const store = $state<GameStore>({
     turn: "me",
     doubleSpyPower: false,
     halfWeather: false,
+    randomRespawn: false,
     playerDatas: {
         me: {
             name: "you",

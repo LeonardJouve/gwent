@@ -5,7 +5,7 @@ export type CardData = {
     name: string;
     id: string;
     deck: FactionName | "neutral" | "special" | "weather";
-    row: UnitRow | "agile" | "leader" | "";
+    row?: UnitRow | "agile";
     strength: number;
     abilities: AbilityId[];
     filename: string;

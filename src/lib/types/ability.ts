@@ -14,6 +14,7 @@ export type AbilityId =
     "scorch_r" |
     "scorch_s" |
     "agile" |
+    "leader" |
     "muster" |
     "spy" |
     "medic" |
