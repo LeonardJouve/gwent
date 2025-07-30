@@ -48,7 +48,7 @@ export default class Cards {
         this.hand.push(...cards);
     }
 
-    drawCard(...card: CardData[]): void {
+    drawCard(...cards: CardData[]): void {
 
     }
 

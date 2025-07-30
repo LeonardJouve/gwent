@@ -6,6 +6,21 @@ import type Row from "$lib/server/row";
 import Cards from "$lib/server/cards";
 import cards from "$lib/cards";
 
+const cancelDiscard = (game: Game, playerIndex: PlayerIndex, name: CardData["name"]): void => {
+    game.onRoundStart.push({
+        once: true,
+        run: () => {
+            const {grave} = game.getPlayerCards(playerIndex);
+            const index = grave.findIndex((card) => card.name === name);
+            if (index === -1) {
+                return;
+            }
+
+            grave.splice(index, 1);
+        },
+    });
+};
+
 const playLeaderWeather = (game: Game, playerIndex: PlayerIndex, name: CardData["name"]): void => {
     const playerCards = game.getPlayerCards(playerIndex);
     const card = playerCards.deck.find((card) => card.name === name);
@@ -15,6 +30,25 @@ const playLeaderWeather = (game: Game, playerIndex: PlayerIndex, name: CardData[
 
     playerCards.drawCard(card);
     game.board.autoplay(card, playerIndex);
+};
+
+const playLeaderHorn = (game: Game, playerIndex: PlayerIndex, row: UnitRow): void => {
+    if (game.board.getPlayerBoard(playerIndex)[row].special.hasHorn) {
+        return;
+    }
+
+    game.board.horn(row, playerIndex);
+    cancelDiscard(game, playerIndex, "Commander's Horn");
+};
+
+const playAvenger = (game: Game, playerIndex: PlayerIndex, name: CardData["name"]): void => {
+    const card = cards.find((card) => card.name === name);
+    if (!card) {
+        return;
+    }
+
+    game.board.autoplay(card, playerIndex);
+    cancelDiscard(game, playerIndex, name);
 };
 
 type Ability = {
@@ -98,26 +132,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     avenger: {
-        onRemoved: (game, playerIndex) => {
-            const transformed = cards.find(({name}) => name === "Bovine Defense Force");
-            if (!transformed) {
-                return;
-            }
-
-            game.board.autoplay(transformed, playerIndex);
-            // TODO do not discard bdf
-        },
+        onRemoved: (game, playerIndex) => playAvenger(game, playerIndex, "Bovine Defense Force"),
     },
     avenger_kambi: {
-        onRemoved: (game, playerIndex) => {
-            const transformed = cards.find(({name}) => name === "Hemdall");
-            if (!transformed) {
-                return;
-            }
-
-            game.board.autoplay(transformed, playerIndex);
-            // TODO do not discard hemdall
-        },
+        onRemoved: (game, playerIndex) => playAvenger(game, playerIndex, "Hemdall"),
     },
     foltest_king: {
         onPlaced: (game, playerIndex) => playLeaderWeather(game, playerIndex, "Impenetrable Fog"),
@@ -126,16 +144,13 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onPlaced: (game) => game.board.clearWeather(),
     },
     foltest_siegemaster: {
-        onPlaced: (game, playerIndex) => game.board.getPlayerBoard(playerIndex).siege.horn(),
-        // TODO: do not discard
+        onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "siege"),
     },
     foltest_steelforged: {
         onPlaced: (game, playerIndex) => game.board.scorch("siege", playerIndex),
-        // TODO: do not discard
     },
     foltest_son: {
         onPlaced: (game, playerIndex) => game.board.scorch("ranged", playerIndex),
-        // TODO: do not discard
     },
     emhyr_imperial: {
         onPlaced: (game, playerIndex) => playLeaderWeather(game, playerIndex, "Torrential Rain"),
@@ -169,8 +184,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onGameStart: (game) => game.enableRandomRespawn(),
     },
     eredin_commander: {
-        onPlaced: (game, playerIndex) => game.board.getPlayerBoard(playerIndex).close.horn(),
-        // TODO: do not discard
+        onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "close"),
     },
     eredin_bringer_of_death: {
         onPlaced: async (game, playerIndex) => {
@@ -207,12 +221,9 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     },
     francesca_queen: {
         onPlaced: (game, playerIndex) => game.board.scorch("close", playerIndex),
-        // TODO: do not discard
     },
     francesca_beautiful: {
-        onPlaced: (game, playerIndex) => game.board.getPlayerBoard(playerIndex).ranged.horn(),
-        // TODO: do not discard
-        // TODO sentinel method
+        onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "ranged"),
     },
     francesca_daisy: {
         onGameStart: (game, playerIndex) => game.getPlayerCards(playerIndex).draw(),
