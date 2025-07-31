@@ -1,4 +1,4 @@
-import type {NotificationName} from "$lib/types/notification";
+import type {NotificationName} from "@shared/types/notification";
 
 type WeatherStore = {
     notifications: NotificationName[];

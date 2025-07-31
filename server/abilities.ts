@@ -1,10 +1,10 @@
-import type {AbilityId} from "$lib/types/ability";
-import type Game from "$lib/server/game";
-import type {PlayerIndex} from "$lib/server/types/game";
-import type {CardData, UnitRow} from "$lib/types/card";
-import type Row from "$lib/server/row";
-import Cards from "$lib/server/cards";
-import cards from "$lib/cards";
+import type Game from "./game";
+import Cards from "./cards";
+import type Row from "./row";
+import cards from "../shared/cards";
+import type {PlayerIndex} from "./types/game";
+import type {AbilityId} from "../shared/types/ability";
+import type {CardData, UnitRow} from "../shared/types/card";
 
 const cancelDiscard = (game: Game, playerIndex: PlayerIndex, name: CardData["name"]): void => {
     game.onRoundStart.push({

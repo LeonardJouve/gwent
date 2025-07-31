@@ -1,4 +1,4 @@
-import type {Faction} from "$lib/types/faction";
+import type {Faction} from "@shared/types/faction";
 
 const factions: Record<string, Faction> = {
     realms: {

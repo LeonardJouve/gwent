@@ -1,5 +1,5 @@
-import type {AbilityId} from "$lib/types/ability";
-import type {FactionName} from "$lib/types/faction";
+import type {AbilityId} from "./ability";
+import type {FactionName} from "./faction";
 
 export type CardData = {
     name: string;

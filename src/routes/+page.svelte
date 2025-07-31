@@ -1,6 +1,6 @@
 <script lang="ts">
     import {iconURL, largeURL} from "$lib/utils";
-    import cards from "$lib/cards";
+    import cards from "@shared/cards";
     import factions from "$lib/factions";
 
     const faction = factions["realms"];
@@ -31,7 +31,7 @@
                 <button>Download Deck</button>
             </div>
         </div>
-    	<h2>Cards in Deck</h2>
+        <h2>Cards in Deck</h2>
     </div>
     <div class="card-list">
         {#each bank as card}

@@ -1,5 +1,5 @@
 import {iconURL} from "$lib/utils";
-import type {NotificationName, Notification} from "$lib/types/notification";
+import type {NotificationName, Notification} from "@shared/types/notification";
 
 const notifURL = (name: string): string => iconURL("notif_" + name);
 

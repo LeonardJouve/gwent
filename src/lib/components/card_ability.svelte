@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
     import {iconURL} from "$lib/utils";
 
     type Props = {
@@ -9,7 +9,7 @@
     const {card, size = "height"}: Props = $props();
 
     const ability = $derived.by(() => {
-        if (card.row === "leader" || card.deck === "special" || card.deck === "weather" || !card.abilities.filter((ability) => ability !== "hero").length) {
+        if (card.deck === "special" || card.deck === "weather" || card.abilities.includes("leader") || !card.abilities.filter((ability) => ability !== "hero").length) {
             return null;
         }
 

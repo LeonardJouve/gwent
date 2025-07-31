@@ -1,6 +1,6 @@
 <script lang="ts">
     import {store} from "$lib/store/game.svelte";
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
     import type {Player} from "$lib/types/player";
     import Card from "$lib/components/card.svelte";
     import CardPile from "$lib/components/card_pile.svelte";
@@ -15,9 +15,13 @@
 
     let isCarouselOpen = $state(false);
 
-    const handleOpenCarousel = () => isCarouselOpen = true;
+    const handleOpenCarousel = (): void => {
+        isCarouselOpen = true;
+    };
 
-    const handleCloseCarousel = () => isCarouselOpen = false;
+    const handleCloseCarousel = (): void => {
+        isCarouselOpen = false;
+    };
 </script>
 
 {#snippet card(card: CardData)}

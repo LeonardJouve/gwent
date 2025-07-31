@@ -1,7 +1,9 @@
 <script lang="ts">
     import {store} from "$lib/store/soundtrack.svelte";
 
-    const handleToggle = () => store.muted = !store.muted;
+    const handleToggle = (): void => {
+        store.muted = !store.muted;
+    };
 
     const opacity = $derived(store.muted ? 0.4 : 1);
 </script>

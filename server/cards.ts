@@ -1,4 +1,4 @@
-import type {CardData} from "$lib/types/card";
+import type {CardData} from "../shared/types/card";
 
 export default class Cards {
     public deck: CardData[];

@@ -1,8 +1,8 @@
-import type {CardData, UnitRow} from "$lib/types/card";
-import type {FactionName} from "$lib/types/faction";
+import type {CardData, UnitRow} from "@shared/types/card";
+import type {FactionName} from "@shared/types/faction";
 import type {Player} from "$lib/types/player";
-import type {Weather} from "$lib/types/weather";
-import cards from "$lib/cards";
+import type {Weather} from "@shared/types/weather";
+import cards from "@shared/cards";
 
 type Row = {
     units: CardData[];

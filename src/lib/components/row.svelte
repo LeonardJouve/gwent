@@ -1,6 +1,6 @@
 <script lang="ts">
     import CardContainer from "$lib/components/card_container.svelte";
-    import type {CardData, UnitRow} from "$lib/types/card";
+    import type {CardData, UnitRow} from "@shared/types/card";
     import type {Player} from "$lib/types/player";
     import {getCardScore, getRowScore, getRowWeather, store} from "$lib/store/game.svelte";
     import Score from "$lib/components/score.svelte";
@@ -30,7 +30,7 @@
         />
     </div>
     <div class="score">
-        <Score getScore={() => getRowScore(rowName, player)}/>
+        <Score getScore={(): number => getRowScore(rowName, player)}/>
     </div>
     {#if weather}
         <img

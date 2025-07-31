@@ -1,12 +1,37 @@
-import Cards from "$lib/server/cards";
-import Board from "$lib/server/board";
-import type {Player, Options, PlayerIndex, RoundResult, Effect, PlayerData} from "$lib/server/types/game";
-import type {CardData, UnitRow} from "$lib/types/card";
-import abilities from "$lib/server/abilities";
-import factions from "$lib/server/factions";
+import Cards from "./cards";
+import Board from "./board";
+import abilities from "./abilities";
+import factions from "./factions";
+import type {GameOptions, PlayerIndex} from "./types/game";
+import type {CardData, UnitRow} from "../shared/types/card";
+import type {FactionName} from "../shared/types/faction";
+
+type PlayerData = {
+    name: string;
+    faction: FactionName;
+    leader: CardData;
+    deck: CardData[];
+};
+
+type Player = Omit<PlayerData, "deck"> & {
+    isLeaderAvailable: boolean;
+    cards: Cards;
+    gems: number;
+    hasPassed: boolean;
+};
+
+type RoundResult = {
+    winner: PlayerIndex|null;
+    scores: number[];
+};
+
+type Effect = {
+    once: boolean;
+    run: () => void;
+};
 
 export default class Game {
-    private options: Options;
+    private options: GameOptions;
     public players: Player[];
     public currentPlayerIndex: PlayerIndex;
     private roundResults: RoundResult[];
@@ -68,7 +93,7 @@ export default class Game {
         return this.players[playerIndex].cards;
     }
 
-    getOptions(): Options {
+    getOptions(): GameOptions {
         return this.options;
     }
 

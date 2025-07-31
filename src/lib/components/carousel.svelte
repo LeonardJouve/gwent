@@ -1,6 +1,6 @@
 <script lang="ts">
     import LargeCard from "$lib/components/large_card.svelte";
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
     import {onMount} from "svelte";
     import CardDescription from "$lib/components/card_description.svelte";
 

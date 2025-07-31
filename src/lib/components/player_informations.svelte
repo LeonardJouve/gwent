@@ -77,7 +77,7 @@
             </div>
             <div class="gems">
                 {#each {length: 2}, i}
-                    {#if playerData.gems >= (i + 1)}
+                    {#if playerData.gems >= i + 1}
                         <img
                             class="gem"
                             alt="gem"

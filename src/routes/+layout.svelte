@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Soundtrack from '$lib/components/soundtrack.svelte';
+    import Soundtrack from "$lib/components/soundtrack.svelte";
 
-	const {children} = $props();
+    const {children} = $props();
 </script>
 
 <style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
     import {iconURL, smallURL} from "$lib/utils";
     import CardAbility from "$lib/components/card_ability.svelte";
 
@@ -20,7 +20,7 @@
     const isHero = $derived(card.abilities.includes("hero"));
 
     const power = $derived.by(() => {
-        if (card.row === "leader") {
+        if (card.abilities.includes("leader")) {
             return null;
         } else if (isHero) {
             return "power_hero";
@@ -31,7 +31,7 @@
         }
     });
 
-    const handleSelect = $derived((event: MouseEvent) => onSelect?.(card, event))
+    const handleSelect = $derived((event: MouseEvent) => onSelect?.(card, event));
 </script>
 
 <button

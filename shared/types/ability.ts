@@ -44,8 +44,3 @@ export type AbilityId =
     "francesca_hope" |
     "crach_an_craite" |
     "king_bran";
-
-export type Ability = {
-    name: string;
-    description: string;
-};

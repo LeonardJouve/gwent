@@ -1,4 +1,9 @@
-import type {Ability, AbilityId} from "$lib/types/ability";
+import type {AbilityId} from "@shared/types/ability";
+
+type Ability = {
+    name: string;
+    description: string;
+};
 
 const abilities: Record<AbilityId, Ability> = {
     clear: {

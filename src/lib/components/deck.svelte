@@ -3,7 +3,7 @@
     import CardPile from "$lib/components/card_pile.svelte";
     import {store} from "$lib/store/game.svelte";
     import {iconURL} from "$lib/utils";
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
 
     type Props = {
         player: Player;
@@ -17,7 +17,7 @@
     <img
         alt={card.name}
         src={iconURL("deck_back_" + playerData.faction, "jpg")}
-        style:height={"100%"}
+        style:height="100%"
     />
 {/snippet}
 

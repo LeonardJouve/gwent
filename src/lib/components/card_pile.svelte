@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
     import type {Snippet} from "svelte";
 
     type Props = {

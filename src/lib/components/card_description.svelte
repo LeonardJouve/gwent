@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
     import abilities from "$lib/abilities";
     import CardAbility from "$lib/components/card_ability.svelte";
 
@@ -13,7 +13,7 @@
             return null;
         }
 
-        return  abilities[card.abilities[card.abilities.length - 1]].name;
+        return abilities[card.abilities[card.abilities.length - 1]].name;
     });
 
     const description = $derived.by(() => card.abilities

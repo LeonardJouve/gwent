@@ -1,7 +1,7 @@
 <script lang="ts">
     import CardContainer from "$lib/components/card_container.svelte";
     import {store} from "$lib/store/game.svelte";
-    import type {CardData} from "$lib/types/card";
+    import type {CardData} from "@shared/types/card";
 
     const handleSelect = $derived((card: CardData) => store.selectedCard = card);
     const hand = $derived(store.playerDatas["me"].hand);

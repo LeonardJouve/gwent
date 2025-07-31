@@ -1,14 +1,19 @@
-import type {CardData} from "$lib/types/card";
-import type {Options, RowSpecial} from "$lib/server/types/game";
-import Cards from "$lib/server/cards";
+import Cards from "./cards";
+import type {GameOptions} from "./types/game";
+import type {CardData} from "../shared/types/card";
+
+type RowSpecial = {
+    hasHorn: boolean;
+    hasMardroeme: boolean;
+};
 
 export default class Row {
     public units: CardData[];
     public special: RowSpecial;
     private hasWeather: boolean;
-    private getOptions: () => Options;
+    private getOptions: () => GameOptions;
 
-    constructor(getOptions: () => Options) {
+    constructor(getOptions: () => GameOptions) {
         this.units = [];
         this.special = {
             hasHorn: false,

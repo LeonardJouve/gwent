@@ -7,7 +7,7 @@
     import Weather from "$lib/components/weather.svelte";
     import Row from "$lib/components/row.svelte";
     import type {Player} from "$lib/types/player";
-    import type {UnitRow} from "$lib/types/card";
+    import type {UnitRow} from "@shared/types/card";
     import SoundtrackToggle from "$lib/components/soundtrack_toggle.svelte";
     import SelectedCard from "$lib/components/selected_card.svelte";
     import Notification from "$lib/components/notification.svelte";
@@ -51,7 +51,7 @@
     const rows: UnitRow[] = ["close", "ranged", "siege"];
 
     onMount(() => {
-        function resizeImage() {
+        function resizeImage(): void {
             const imageRatio = boardImage.naturalWidth / boardImage.naturalHeight;
             const viewportRatio = window.innerWidth / window.innerHeight;
 
@@ -68,7 +68,7 @@
 
         resizeImage();
         window.addEventListener("resize", resizeImage);
-        return () => window.removeEventListener("resize", resizeImage);
+        return (): void => window.removeEventListener("resize", resizeImage);
     });
 
     const getPosition = $derived((leftPercent: number, widthPercent: number, topPercent: number, heightPercent: number) => {
@@ -76,12 +76,12 @@
         const verticalPercent = boardBoundingRect.height / 100;
 
         const position = "position: absolute";
-        const left = `left: ${boardBoundingRect.left + (leftPercent * horizontalPercent)}px`;
-        const top = `top: ${boardBoundingRect.top + (topPercent * verticalPercent)}px`;
+        const left = `left: ${boardBoundingRect.left + leftPercent * horizontalPercent}px`;
+        const top = `top: ${boardBoundingRect.top + topPercent * verticalPercent}px`;
         const width = `width: ${widthPercent * horizontalPercent}px`;
         const height = `height: ${heightPercent * verticalPercent}px`;
         return [position, left, top, width, height].join("; ");
-    })
+    });
 
     const getRowPosition = $derived((index: number) => {
         const widthPercent = 49.4;
@@ -173,7 +173,7 @@
         {#each rows as _, j}
             {@const isMe = player === "me"}
             {@const indexOffset = isMe ? 3 : 0}
-            {@const row = rows[isMe ? j : (2 - j)]}
+            {@const row = rows[isMe ? j : 2 - j]}
 
             <div style={getRowPosition(j + indexOffset)}>
                 <Row

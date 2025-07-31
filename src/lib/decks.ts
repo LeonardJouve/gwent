@@ -1,4 +1,10 @@
-import type {PremadeDeck} from "$lib/types/deck";
+import type {FactionName} from "@shared/types/faction";
+
+type PremadeDeck = {
+    faction: FactionName;
+    leader: number;
+    cards: [number, number][];
+};
 
 const premadeDeck: PremadeDeck[] = [
     {

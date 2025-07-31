@@ -1,14 +1,16 @@
-import Row from "$lib/server/row";
-import type {CardData, UnitRow} from "$lib/types/card";
-import type {Options, PlayerBoard, PlayerIndex} from "$lib/server/types/game";
-import type {Weather} from "$lib/types/weather";
+import Row from "./row";
+import type {GameOptions, PlayerIndex} from "./types/game";
+import type {CardData, UnitRow} from "../shared/types/card";
+import type {Weather} from "../shared/types/weather";
+
+type PlayerBoard = Record<UnitRow, Row>;
 
 export default class Board {
     private board: PlayerBoard[];
     private weather: CardData[];
-    private getOptions: () => Options;
+    private getOptions: () => GameOptions;
 
-    constructor(getOptions: () => Options) {
+    constructor(getOptions: () => GameOptions) {
         this.board = this.clearBoard();
         this.weather = this.clearWeather();
         this.getOptions = getOptions;

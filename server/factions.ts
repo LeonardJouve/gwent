@@ -1,8 +1,8 @@
-import type {FactionName} from "$lib/types/faction";
-import type Game from "$lib/server/game";
-import type {PlayerIndex} from "$lib/server/types/game";
-import type {UnitRow} from "$lib/types/card";
-import Cards from "$lib/server/cards";
+import Cards from "./cards";
+import type Game from "./game";
+import type {PlayerIndex} from "./types/game";
+import type {UnitRow} from "../shared/types/card";
+import type {FactionName} from "../shared/types/faction";
 
 type FactionAbility = (game: Game, playerIndex: PlayerIndex) => void;
 
