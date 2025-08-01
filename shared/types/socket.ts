@@ -6,12 +6,13 @@ export type ClientToServerEvents = {
 };
 
 export type ServerToClientEvents = {
-
+    get_data: (callback: (data: SocketData) => void) => void;
 };
 
 export type SocketData = {
-
+    id: string;
+    matchId: string;
 };
 
-export type ServerSideClientSocket = ServerSocket<ClientToServerEvents, ServerToClientEvents, never, SocketData>;
-export type ClientSideClientSocket = ClientSocket<ServerToClientEvents, ClientToServerEvents>;
+export type ServerSideSocket = ServerSocket<ClientToServerEvents, ServerToClientEvents, never, SocketData>;
+export type ClientSideSocket = ClientSocket<ServerToClientEvents, ClientToServerEvents>;
