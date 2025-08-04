@@ -59,6 +59,12 @@ const tryStartGame = (): void => {
 export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => {
     const id = context.req.param("id");
 
+    // TODO
+    // name: string;
+    // faction: FactionName;
+    // leader: CardData;
+    // deck: CardData[];
+
     if (queue.contains(id)) {
         return context.json({error: "already in the queue"}, {status: 400});
     }

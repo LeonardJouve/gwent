@@ -2,27 +2,16 @@ import Cards from "./cards";
 import Board from "./board";
 import abilities from "./abilities";
 import factions from "./factions";
-import type {GameOptions, PlayerIndex} from "./types/game";
-import type {CardData, UnitRow} from "../shared/types/card";
-import type {FactionName} from "../shared/types/faction";
+import type {GameOptions, PlayerIndex, RoundResult} from "./types/game";
+import type {UnitRow} from "../shared/types/card";
+import type {Deck} from "../shared/types/deck";
+import type Listeners from "./listeners";
 
-type PlayerData = {
-    name: string;
-    faction: FactionName;
-    leader: CardData;
-    deck: CardData[];
-};
-
-type Player = Omit<PlayerData, "deck"> & {
+type Player = Omit<Deck, "deck"> & {
     isLeaderAvailable: boolean;
     cards: Cards;
     gems: number;
     hasPassed: boolean;
-};
-
-type RoundResult = {
-    winner: PlayerIndex|null;
-    scores: number[];
 };
 
 type Effect = {
@@ -39,8 +28,10 @@ export default class Game {
     public onRoundStart: Effect[];
     public onRoundEnd: Effect[];
     public board: Board;
+    public listeners: Listeners;
 
-    constructor(players: PlayerData[]) {
+    constructor(listeners: Listeners, decks: Deck[]) {
+        this.listeners = listeners;
         this.board = new Board(this.getOptions.bind(this));
         this.currentPlayerIndex = 0;
         this.roundResults = [];
@@ -52,7 +43,7 @@ export default class Game {
             halfWeather: false,
             randomRespawn: false,
         };
-        this.players = players.map(({deck, ...player}) => ({
+        this.players = decks.map(({deck, ...player}) => ({
             ...player,
             cards: new Cards(deck),
             isLeaderAvailable: true,
@@ -150,7 +141,7 @@ export default class Game {
         });
     }
 
-    playGame(): void {
+    async playGame(): Promise<void> {
         this.startGame();
 
         while (this.players.some(({gems}) => !gems)) {
@@ -159,7 +150,8 @@ export default class Game {
             while (!this.players.every(({hasPassed}) => hasPassed)) {
                 this.startTurn();
 
-                // TODO: pass / play card / activate leader
+                const play = await this.listeners.askPlay(this.currentPlayerIndex);
+                // TODO execute
 
                 this.currentPlayerIndex = this.getOpponentIndex(this.currentPlayerIndex);
             }
@@ -168,7 +160,7 @@ export default class Game {
         }
     }
 
-    private startGame(): void {
+    private async startGame(): Promise<void> {
         this.players.forEach((player, i) => {
             player.cards.deck = Cards.shuffle(player.cards.deck);
 
@@ -187,12 +179,12 @@ export default class Game {
             this.currentPlayerIndex = Game.tossCoin();
         }
 
-        this.players.forEach(async (player) => {
+        await Promise.all(this.players.map(async (player) => {
             for (let i = 0; i < 2; ++i) {
-                const [card] = await this.askSelect(player.cards.hand, i);
+                const [card] = await this.listeners.askSelect(i, player.cards.hand, 1);
                 player.cards.redraw(card);
             }
-        });
+        }));
     }
 
     private startRound(): void {
@@ -235,20 +227,5 @@ export default class Game {
         this.onRoundEnd = Game.runEffects(this.onRoundEnd);
 
         this.board.clear();
-    }
-
-    async askStart(): Promise<PlayerIndex> {
-        // TODO
-        return await new Promise<PlayerIndex>((resolve) => resolve(0));
-    }
-
-    async askSelect(cards: CardData[], playerIndex: PlayerIndex, amount = 1): Promise<CardData[]> {
-        // TODO
-        return await new Promise<CardData[]>((resolve) => resolve(cards.slice(0, amount)));
-    }
-
-    async showCards(cards: CardData[]): Promise<void> {
-        // TODO
-        return await new Promise<void>((resolve) => resolve());
     }
 }

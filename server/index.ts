@@ -6,12 +6,10 @@ import {abort, matchmake} from "./matchmaking";
 const app = new Hono();
 const server = serve({
     fetch: app.fetch,
-    port: 3000,
-}, ({port}) => console.log(`Server listening on port ${port}...`));
+    port: Number(process.env.SOCKET_PORT) || 3000,
+}, ({port}) => console.log(`Socket server listening on port ${port}...`));
 
 initSocketIO(server);
-
-app.get("/", (c) => c.text("Hello Hono!"));
 
 app.get("/matchmaking/:id", matchmake);
 app.delete("/matchmaking/:id", abort);

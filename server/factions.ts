@@ -59,7 +59,7 @@ const factions: Record<FactionName, FactionAbility> = {
             },
         });
     },
-    scoiatael: (game) => {
+    scoiatael: (game, playerIndex) => {
         game.onGameStart.push({
             once: true,
             run: async () => {
@@ -67,7 +67,7 @@ const factions: Record<FactionName, FactionAbility> = {
                     return;
                 }
 
-                game.currentPlayerIndex = await game.askStart();
+                game.currentPlayerIndex = await game.listeners.askStart(playerIndex);
             },
         });
     },

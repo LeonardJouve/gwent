@@ -5,3 +5,8 @@ export type GameOptions = {
 };
 
 export type PlayerIndex = number;
+
+export type RoundResult = {
+    winner: PlayerIndex|null;
+    scores: number[];
+};
