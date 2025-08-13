@@ -84,7 +84,7 @@ const factions: Record<FactionName, FactionAbility> = {
                     .filter(Cards.isUnit), 2);
 
                 game.getPlayerCards(playerIndex).restore(...cards);
-                cards.forEach((card) => game.board.autoplay(card, playerIndex));
+                cards.forEach((card) => game.board.play(card, playerIndex));
             },
         });
     },

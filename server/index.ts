@@ -7,7 +7,7 @@ const app = new Hono();
 const server = serve({
     fetch: app.fetch,
     port: Number(process.env.SOCKET_PORT) || 3000,
-}, ({port}) => console.log(`Socket server listening on port ${port}...`));
+}, ({port}) => console.log(`Websocket server listening on port ${port}...`));
 
 initSocketIO(server);
 

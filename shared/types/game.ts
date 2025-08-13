@@ -5,9 +5,11 @@ import type {PlayerIndicator} from "./player";
 export type Play = {
     type: "pass"|"leader";
     card: undefined;
+    row: undefined;
 } | {
     type: "card";
     card: CardData;
+    row?: UnitRow;
 };
 
 export type RowSpecial = {
@@ -29,6 +31,7 @@ type Player = {
     name: string;
     faction: FactionName;
     gems: number;
+    hasPassed: boolean;
     leader: CardData;
     isLeaderAvailable: boolean;
     grave: CardData[];

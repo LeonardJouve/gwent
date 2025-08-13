@@ -29,7 +29,7 @@ const playLeaderWeather = (game: Game, playerIndex: PlayerIndex, name: CardData[
     }
 
     playerCards.drawCard(card);
-    game.board.autoplay(card, playerIndex);
+    game.board.play(card, playerIndex);
 };
 
 const playLeaderHorn = (game: Game, playerIndex: PlayerIndex, row: UnitRow): void => {
@@ -47,19 +47,23 @@ const playAvenger = (game: Game, playerIndex: PlayerIndex, name: CardData["name"
         return;
     }
 
-    game.board.autoplay(card, playerIndex);
+    game.board.play(card, playerIndex);
     cancelDiscard(game, playerIndex, name);
 };
 
 type Ability = {
     onGameStart?: (game: Game, playerIndex: PlayerIndex) => void;
-    onPlaced?: (game: Game, playerIndex: PlayerIndex, row: UnitRow, card: CardData) => void;
-    onRemoved?: (game: Game, playerIndex: PlayerIndex, row: UnitRow, card: CardData) => void;
+    onPlaced?: (game: Game, playerIndex: PlayerIndex, row: UnitRow|null, card: CardData) => void;
+    onRemoved?: (game: Game, playerIndex: PlayerIndex, row: UnitRow|null, card: CardData) => void;
 };
 
 const abilities: Partial<Record<AbilityId, Ability>> = {
     mardroeme: {
         onPlaced: (game, playerIndex, row, card) => {
+            if (!row) {
+                throw new Error("mardroeme must be placed on a unit row");
+            }
+
             const playerRow = game.board.getRow(row, playerIndex);
             const berserkers = playerRow
                 .getUnits()
@@ -92,7 +96,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onPlaced: (game, playerIndex) => game.scorch("siege", game.getOpponentIndex(playerIndex)),
     },
     muster: {
-        onPlaced: (game, playerIndex, _row, card) => {
+        onPlaced: (game, playerIndex, _, card) => {
             // TODO: refacto
             const i = card.name.indexOf("-");
             const cardName = i === -1 ? card.name : card.name.substring(0, i);
@@ -107,7 +111,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            units.forEach((c) => game.board.autoplay(c, playerIndex));
+            units.forEach((c) => game.board.play(c, playerIndex));
         },
     },
     spy: {
@@ -130,7 +134,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             }
 
             playerCards.restore(card);
-            game.board.autoplay(card, playerIndex);
+            game.board.play(card, playerIndex);
         },
     },
     avenger: {
@@ -215,7 +219,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onPlaced: async (game, playerIndex) => {
             const weather = game.getPlayerCards(playerIndex).deck.filter(({deck}) => deck === "weather");
             const [card] = await game.listeners.selectCards(playerIndex, weather, 1);
-            game.board.autoplay(card, playerIndex);
+            game.board.play(card, playerIndex);
         },
     },
     eredin_treacherous: {

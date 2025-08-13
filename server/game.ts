@@ -6,7 +6,7 @@ import type {GameOptions, PlayerIndex, RoundResult} from "./types/game";
 import type {UnitRow} from "../shared/types/card";
 import type {Deck} from "../shared/types/deck";
 import type Listeners from "./listeners";
-import type {State} from "../shared/types/game";
+import type {Play, State} from "../shared/types/game";
 
 type Player = Omit<Deck, "deck"> & {
     isLeaderAvailable: boolean;
@@ -160,8 +160,11 @@ export default class Game {
             while (!this.players.every(({hasPassed}) => hasPassed)) {
                 this.startTurn();
 
-                const play = await this.listeners.askPlay(this.currentPlayerIndex);
-                // TODO execute
+                if (!this.players[this.currentPlayerIndex].hasPassed) {
+                    const play = await this.listeners.askPlay(this.currentPlayerIndex);
+
+                    this.executePlay(play);
+                }
 
                 this.currentPlayerIndex = this.getOpponentIndex(this.currentPlayerIndex);
 
@@ -243,5 +246,29 @@ export default class Game {
         // TODO: discard cards
 
         this.board.clear();
+    }
+
+    private executePlay(play: Play): void {
+        switch (play.type) {
+        case "pass":
+            this.players[this.currentPlayerIndex].hasPassed = true;
+            break;
+        case "leader":
+            const {leader} = this.players[this.currentPlayerIndex];
+            leader.abilities.forEach((ability) => {
+                abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, leader);
+            });
+
+            this.players[this.currentPlayerIndex].isLeaderAvailable = false;
+            break;
+        case "card":
+            const {card, row} = play;
+            this.board.play(card, this.currentPlayerIndex, row);
+            this.players[this.currentPlayerIndex].cards.play(card);
+            card.abilities.forEach((ability) => {
+                abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
+            });
+            break;
+        }
     }
 }

@@ -82,12 +82,12 @@ export default class Board {
         return Object.values(this.board[player]).reduce((acc, row) => acc + row.getScore(), 0);
     }
 
-    autoplay(card: CardData, playerIndex: PlayerIndex): void {
-        const row = card.row === "agile" ? "close" : card.row;
-        if (!row) {
+    play(card: CardData, playerIndex: PlayerIndex, row?: UnitRow): void {
+        const r = row ?? card.row === "agile" ? "close" : card.row;
+        if (!r) {
             return;
         }
 
-        this.getRow(row, playerIndex).add(card);
+        this.getRow(r, playerIndex).add(card);
     }
 }
