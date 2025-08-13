@@ -126,7 +126,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             if (game.getOptions().randomRespawn) {
                 [card] = Cards.getRandom(units, 1);
             } else {
-                [card] = await game.listeners.askSelect(playerIndex, units, 1);
+                [card] = await game.listeners.selectCards(playerIndex, units, 1);
             }
 
             playerCards.restore(card);
@@ -174,7 +174,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            const [card] = await game.listeners.askSelect(playerIndex, units, 1);
+            const [card] = await game.listeners.selectCards(playerIndex, units, 1);
             const index = opponentGrave.findIndex(({name}) => name === card.name);
             if (index !== -1) {
                 opponentGrave.splice(index, 1);
@@ -195,7 +195,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            const [card] = await game.listeners.askSelect(playerIndex, playerCards.grave, 1);
+            const [card] = await game.listeners.selectCards(playerIndex, playerCards.grave, 1);
             game.getPlayerCards(playerIndex).restore(card);
         },
     },
@@ -204,17 +204,17 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             const playerCards = game.getPlayerCards(playerIndex);
             const {hand, deck} = playerCards;
 
-            const toDiscard = await game.listeners.askSelect(playerIndex, hand, 2);
+            const toDiscard = await game.listeners.selectCards(playerIndex, hand, 2);
             playerCards.discard(...toDiscard);
 
-            const [toDraw] = await game.listeners.askSelect(playerIndex, deck, 1);
+            const [toDraw] = await game.listeners.selectCards(playerIndex, deck, 1);
             playerCards.drawCard(toDraw);
         },
     },
     eredin_king: {
         onPlaced: async (game, playerIndex) => {
             const weather = game.getPlayerCards(playerIndex).deck.filter(({deck}) => deck === "weather");
-            const [card] = await game.listeners.askSelect(playerIndex, weather, 1);
+            const [card] = await game.listeners.selectCards(playerIndex, weather, 1);
             game.board.autoplay(card, playerIndex);
         },
     },

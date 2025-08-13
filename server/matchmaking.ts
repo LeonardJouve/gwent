@@ -2,8 +2,9 @@ import type {Context, Handler} from "hono";
 import type {BlankInput} from "hono/types";
 import Match, {matches} from "./match";
 import type {SocketData} from "../shared/types/socket";
+import {type Deck, DeckSchema} from "../shared/types/deck";
 
-interface QueueItem {
+type QueueItem = Deck & {
     id: string;
     resolve: (data: Response) => void;
     context: Context<never, "/matchmaking/:id", BlankInput>;
@@ -48,38 +49,42 @@ const tryStartGame = (): void => {
     const match = new Match(players.map(({id}) => id));
     matches[match.id] = match;
 
-    players.forEach((item) => {
-        item.resolve(item.context.json({
-            id: item.id,
+    players.forEach(({resolve, context, ...data}) => {
+        resolve(context.json({
             matchId: match.id,
+            ...data,
         } satisfies SocketData, {status: 200}));
     });
 };
 
-export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => {
-    const id = context.req.param("id");
 
-    // TODO
-    // name: string;
-    // faction: FactionName;
-    // leader: CardData;
-    // deck: CardData[];
+export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => {
+    // TODO: get user id from account
+    const id = context.req.param("id");
 
     if (queue.contains(id)) {
         return context.json({error: "already in the queue"}, {status: 400});
     }
 
-    return await new Promise<Response>((resolve) => {
-        const item: QueueItem = {
-            id,
-            resolve,
-            context,
-        };
+    try {
+        const body = await context.req.json();
+        const deck = DeckSchema.parse(body);
 
-        queue.enqueue(item);
+        return await new Promise<Response>((resolve) => {
+            const item: QueueItem = {
+                id,
+                resolve,
+                context,
+                ...deck,
+            };
 
-        tryStartGame();
-    });
+            queue.enqueue(item);
+
+            tryStartGame();
+        });
+    } catch (e) {
+        return context.json({error: "invalid body"}, 400);
+    }
 };
 
 export const abort: Handler<never, "/matchmaking/:id"> = (context) => {

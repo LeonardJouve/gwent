@@ -1,17 +1,9 @@
 import type {CardData, UnitRow} from "@shared/types/card";
 import type {FactionName} from "@shared/types/faction";
-import type {Player} from "$lib/types/player";
+import type {Player} from "@shared/types/player";
+import type {Board} from "@shared/types/game";
 import type {Weather} from "@shared/types/weather";
 import cards from "@shared/cards";
-
-type Row = {
-    units: CardData[];
-    hasWeather: boolean;
-    special: {
-        hasHorn: boolean;
-        hasMardroeme: boolean;
-    };
-};
 
 type PlayerData = {
     name: string;
@@ -22,7 +14,7 @@ type PlayerData = {
     hand: CardData[];
     grave: CardData[];
     gems: number;
-    board: Record<UnitRow, Row>;
+    board: Board;
 };
 
 type GameStore = {

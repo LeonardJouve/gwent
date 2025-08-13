@@ -1,11 +1,7 @@
 import Cards from "./cards";
 import type {GameOptions} from "./types/game";
 import type {CardData} from "../shared/types/card";
-
-type RowSpecial = {
-    hasHorn: boolean;
-    hasMardroeme: boolean;
-};
+import {RowSpecial} from "../shared/types/game";
 
 export default class Row {
     public units: CardData[];

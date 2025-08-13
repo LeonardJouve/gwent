@@ -66,6 +66,8 @@ export default class Cards {
             this.hand.push(newCard);
         }
 
+        // TODO put cards into deck back
+
         this.deck.splice(Math.floor(Math.random() * this.deck.length), 0, card);
     }
 

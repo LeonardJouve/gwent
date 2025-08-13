@@ -1,5 +1,6 @@
-import type {CardData} from "./card";
-import type {FactionName} from "./faction";
+import {z} from "zod/v4";
+import {CardDataSchema, type CardData} from "./card";
+import {FactionNameSchema, type FactionName} from "./faction";
 
 export type Deck = {
     name: string;
@@ -7,3 +8,10 @@ export type Deck = {
     leader: CardData;
     deck: CardData[];
 };
+
+export const DeckSchema = z.object({
+    name: z.string(),
+    faction: FactionNameSchema,
+    leader: CardDataSchema,
+    deck: z.array(CardDataSchema),
+});

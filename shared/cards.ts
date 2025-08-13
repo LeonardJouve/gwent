@@ -1,4 +1,4 @@
-import type {CardData} from "$lib/types/card";
+import type {CardData} from "./types/card";
 
 const cards: CardData[] = [
     {

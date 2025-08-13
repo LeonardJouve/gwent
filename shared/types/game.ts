@@ -1,0 +1,54 @@
+import type {CardData, UnitRow} from "./card";
+import type { FactionName } from "./faction";
+import type {PlayerIndicator} from "./player";
+
+export type Play = {
+    type: "pass"|"leader";
+    card: undefined;
+} | {
+    type: "card";
+    card: CardData;
+};
+
+export type RowSpecial = {
+    hasHorn: boolean;
+    hasMardroeme: boolean;
+};
+
+export type Row = {
+    units: CardData[];
+    hasWeather: boolean;
+    special: RowSpecial;
+};
+
+export type PlayerBoard = Record<UnitRow, Row>;
+
+export type Board = Record<PlayerIndicator, PlayerBoard>;
+
+type Player = {
+    name: string;
+    faction: FactionName;
+    gems: number;
+    leader: CardData;
+    isLeaderAvailable: boolean;
+    grave: CardData[];
+};
+
+type Opponent = Player & {
+    deckSize: number;
+    handSize: number;
+};
+
+type Me = Player & {
+    deck: CardData[];
+    hand: CardData[];
+};
+
+export type State = {
+    turn: PlayerIndicator;
+    players: {
+        me: Me;
+        opponent: Opponent;
+    };
+    board: Board;
+};

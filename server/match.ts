@@ -4,6 +4,7 @@ import type {PlayerIndex, RoundResult} from "./types/game";
 import type {CardData} from "../shared/types/card";
 import type {NotificationName} from "../shared/types/notification";
 import type {ServerSideSocket} from "../shared/types/socket";
+import type {Play, State} from "../shared/types/game";
 
 export const matches: Record<string, Match> = {};
 
@@ -33,7 +34,10 @@ export default class Match extends Listeners {
     }
 
     private tryStartMatch(): void {
-        // TODO new Game();
+        if (this.sockets.length !== 2) {
+            return;
+        }
+
         const game = new Game(this, this.sockets.map(({data}) => data));
         game.playGame();
     }
@@ -43,26 +47,32 @@ export default class Match extends Listeners {
     }
 
     askStart(playerIndex: PlayerIndex): Promise<PlayerIndex> {
-        // TODO
+        return new Promise<PlayerIndex>((resolve) => this.sockets[playerIndex].emit("ask_start", resolve));
     }
 
-    askSelect(playerIndex: PlayerIndex, cards: CardData[], amount: number): Promise<CardData[]> {
-        // TODO
+    selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number): Promise<CardData[]> {
+        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, resolve));
     }
 
     showCards(playerIndex: PlayerIndex, cards: CardData[]): Promise<void> {
-        // TODO
+        return new Promise<void>((resolve) => this.sockets[playerIndex].emit("show_cards", cards, resolve));
     }
 
     notify(playerIndex: PlayerIndex, name: NotificationName): void {
-        // TODO
+        this.sockets[playerIndex].emit("notify", name);
     }
 
     showResults(playerIndex: PlayerIndex, results: RoundResult[]): void {
-        // TODO
+        this.sockets[playerIndex].emit("show_results", results);
+
+        this.remove();
     }
 
-    askPlay(playerIndex: PlayerIndex): Promise<{ type: "pass" | "leader"; card: undefined; } | { type: "card"; card: CardData; }> {
-        // TODO
+    askPlay(playerIndex: PlayerIndex): Promise<Play> {
+        return new Promise<Play>((resolve) => this.sockets[playerIndex].emit("ask_play", resolve));
+    }
+
+    sendState(playerIndex: PlayerIndex, state: State): void {
+        this.sockets[playerIndex].emit("send_state", state);
     }
 }

@@ -6,6 +6,7 @@ import type {GameOptions, PlayerIndex, RoundResult} from "./types/game";
 import type {UnitRow} from "../shared/types/card";
 import type {Deck} from "../shared/types/deck";
 import type Listeners from "./listeners";
+import type {State} from "../shared/types/game";
 
 type Player = Omit<Deck, "deck"> & {
     isLeaderAvailable: boolean;
@@ -141,11 +142,20 @@ export default class Game {
         });
     }
 
+    private sendState(): void {
+        this.players.forEach((_, i) => {
+            const state: State;
+            this.listeners.sendState(i, state);
+        });
+    }
+
     async playGame(): Promise<void> {
         this.startGame();
 
         while (this.players.some(({gems}) => !gems)) {
             this.startRound();
+
+            this.sendState();
 
             while (!this.players.every(({hasPassed}) => hasPassed)) {
                 this.startTurn();
@@ -154,10 +164,14 @@ export default class Game {
                 // TODO execute
 
                 this.currentPlayerIndex = this.getOpponentIndex(this.currentPlayerIndex);
+
+                this.sendState();
             }
 
             this.endRound();
         }
+
+        this.players.forEach((_, i) => this.listeners.showResults(i, this.roundResults));
     }
 
     private async startGame(): Promise<void> {
@@ -181,7 +195,7 @@ export default class Game {
 
         await Promise.all(this.players.map(async (player) => {
             for (let i = 0; i < 2; ++i) {
-                const [card] = await this.listeners.askSelect(i, player.cards.hand, 1);
+                const [card] = await this.listeners.selectCards(i, player.cards.hand, 1);
                 player.cards.redraw(card);
             }
         }));
@@ -225,6 +239,8 @@ export default class Game {
             .forEach((player) => --player.gems);
 
         this.onRoundEnd = Game.runEffects(this.onRoundEnd);
+
+        // TODO: discard cards
 
         this.board.clear();
     }
