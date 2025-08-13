@@ -6,7 +6,7 @@ import {RowSpecial} from "../shared/types/game";
 export default class Row {
     public units: CardData[];
     public special: RowSpecial;
-    private hasWeather: boolean;
+    public hasWeather: boolean;
     private getOptions: () => GameOptions;
 
     constructor(getOptions: () => GameOptions) {

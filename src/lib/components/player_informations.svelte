@@ -1,13 +1,13 @@
 <script lang="ts">
     import {getPlayerScore} from "$lib/store/game.svelte";
-    import type {Player} from "$lib/types/player";
+    import type {PlayerIndicator} from "@shared/types/player";
     import Score from "$lib/components/score.svelte";
     import {iconURL} from "$lib/utils";
     import factions from "$lib/factions";
     import {store} from "$lib/store/game.svelte";
 
     type Props = {
-        player: Player;
+        player: PlayerIndicator;
     };
     const {player}: Props = $props();
 

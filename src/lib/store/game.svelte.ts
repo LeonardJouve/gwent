@@ -1,7 +1,7 @@
 import type {CardData, UnitRow} from "@shared/types/card";
 import type {FactionName} from "@shared/types/faction";
-import type {Player} from "@shared/types/player";
-import type {Board} from "@shared/types/game";
+import type {PlayerIndicator} from "@shared/types/player";
+import type {PlayerBoard} from "@shared/types/game";
 import type {Weather} from "@shared/types/weather";
 import cards from "@shared/cards";
 
@@ -14,16 +14,16 @@ type PlayerData = {
     hand: CardData[];
     grave: CardData[];
     gems: number;
-    board: Board;
+    board: PlayerBoard;
 };
 
 type GameStore = {
     selectedCard?: CardData;
-    turn: Player;
+    turn: PlayerIndicator;
     doubleSpyPower: boolean;
     halfWeather: boolean;
     randomRespawn: boolean;
-    playerDatas: Record<Player, PlayerData>;
+    playerDatas: Record<PlayerIndicator, PlayerData>;
 };
 
 export const store = $state<GameStore>({
@@ -36,11 +36,11 @@ export const store = $state<GameStore>({
             name: "you",
             gems: 1,
             faction: "realms",
-            cards: cards.filter(({deck, row}) => deck === "realms" && row !== "leader"),
-            leader: cards.find(({deck, row}) => deck === "realms" && row === "leader")!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+            cards: cards.filter(({deck, row}) => deck === "realms"),
+            leader: cards.find(({deck, abilities}) => deck === "realms" && abilities.includes("leader"))!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
             isLeaderAvailable: true,
-            hand: cards.filter(({deck, row}) => deck === "realms" && row !== "leader").slice(0, 10),
-            grave: cards.filter(({deck, row}) => deck === "realms" && row !== "leader").slice(0, 5),
+            hand: cards.filter(({deck, row}) => deck === "realms").slice(0, 10),
+            grave: cards.filter(({deck, row}) => deck === "realms").slice(0, 5),
             board: {
                 close: {
                     units: cards.slice(0, 4),
@@ -72,11 +72,11 @@ export const store = $state<GameStore>({
             name: "opponent",
             gems: 2,
             faction: "monsters",
-            cards: cards.filter(({deck, row}) => deck === "monsters" && row !== "leader"),
-            leader: cards.find(({deck, row}) => deck === "monsters" && row === "leader")!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+            cards: cards.filter(({deck, row}) => deck === "monsters"),
+            leader: cards.find(({deck, abilities}) => deck === "monsters" && abilities.includes("leader"))!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
             isLeaderAvailable: false,
-            hand: cards.filter(({deck, row}) => deck === "monsters" && row !== "leader").slice(0, 10),
-            grave: cards.filter(({deck, row}) => deck === "monsters" && row !== "leader").slice(0, 5),
+            hand: cards.filter(({deck, row}) => deck === "monsters").slice(0, 10),
+            grave: cards.filter(({deck, row}) => deck === "monsters").slice(0, 5),
             board: {
                 close: {
                     units: [],
@@ -106,61 +106,6 @@ export const store = $state<GameStore>({
         },
     },
 });
-
-export const getCardScore = (card: CardData, rowName: UnitRow, player: Player): number => {
-    let total = card.strength;
-
-    if (card.abilities.includes("hero")) {
-        return total;
-    }
-
-    if (hasWeather(rowName, player)) {
-        if (store.halfWeather) {
-            total = Math.ceil(total / 2);
-        } else {
-            total = Math.min(1, total);
-        }
-    }
-
-    if (store.doubleSpyPower && card.abilities.includes("spy")) {
-        total *= 2;
-    }
-
-    const bond = getBond(card.id, rowName, player);
-    if (bond > 1) {
-        total *= Number(bond);
-    }
-
-    total += getMoraleBoost(rowName, player) - (card.abilities.includes("morale") ? 1 : 0);
-
-    if (getHorn(rowName, player) - (card.abilities.includes("horn") ? 1 : 0)) {
-        total *= 2;
-    }
-
-    return total;
-};
-
-export const getRowScore = (rowName: UnitRow, player: Player): number => store.playerDatas[player].board[rowName].units.reduce((acc, card) => acc + getCardScore(card, rowName, player), 0);
-
-export const getPlayerScore = (player: Player): number => Object.keys(store.playerDatas[player].board).reduce((acc, rowName) => acc + getRowScore(rowName as UnitRow, player), 0);
-
-export const getBond = (cardId: CardData["id"], rowName: UnitRow, player: Player): number => store.playerDatas[player].board[rowName].units.filter((card) => card.id === cardId && card.abilities.includes("bond")).length;
-
-export const getMoraleBoost = (rowName: UnitRow, player: Player): number => store.playerDatas[player].board[rowName].units.filter((card) => card.abilities.includes("morale")).length;
-
-export const getHorn = (rowName: UnitRow, player: Player): number => {
-    const row = store.playerDatas[player].board[rowName];
-
-    return Number(row.special.hasHorn) + row.units.reduce((acc, {abilities}) => acc + Number(abilities.includes("horn")), 0);
-};
-
-export const hasMardroeme = (rowName: UnitRow, player: Player): boolean => {
-    const row = store.playerDatas[player].board[rowName];
-
-    return row.special.hasMardroeme || row.units.some(({abilities}) => abilities.includes("mardroeme"));
-};
-
-export const hasWeather = (rowName: UnitRow, player: Player): boolean => store.playerDatas[player].board[rowName].hasWeather;
 
 export const getRowWeather = (rowName: UnitRow, player: Player): Weather|null => {
     if (!store.playerDatas[player].board[rowName].hasWeather) {

@@ -6,7 +6,7 @@
     import Leader from "$lib/components/leader.svelte";
     import Weather from "$lib/components/weather.svelte";
     import Row from "$lib/components/row.svelte";
-    import type {Player} from "$lib/types/player";
+    import type {PlayerIndicator} from "@shared/types/player";
     import type {UnitRow} from "@shared/types/card";
     import SoundtrackToggle from "$lib/components/soundtrack_toggle.svelte";
     import SelectedCard from "$lib/components/selected_card.svelte";
@@ -47,7 +47,7 @@
         height: 0,
     });
 
-    const players: Player[] = ["opponent", "me"];
+    const players: PlayerIndicator[] = ["opponent", "me"];
     const rows: UnitRow[] = ["close", "ranged", "siege"];
 
     onMount(() => {

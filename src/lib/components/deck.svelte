@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type {Player} from "$lib/types/player";
+    import type {PlayerIndicator} from "@shared/types/player";
     import CardPile from "$lib/components/card_pile.svelte";
     import {store} from "$lib/store/game.svelte";
     import {iconURL} from "$lib/utils";
     import type {CardData} from "@shared/types/card";
 
     type Props = {
-        player: Player;
+        player: PlayerIndicator;
     };
     const {player}: Props = $props();
 

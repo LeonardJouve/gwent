@@ -1,14 +1,14 @@
 <script lang="ts">
     import CardContainer from "$lib/components/card_container.svelte";
     import type {CardData, UnitRow} from "@shared/types/card";
-    import type {Player} from "$lib/types/player";
+    import type {PlayerIndicator} from "@shared/types/player";
     import {getCardScore, getRowScore, getRowWeather, store} from "$lib/store/game.svelte";
     import Score from "$lib/components/score.svelte";
     import {iconURL} from "$lib/utils";
 
     type Props = {
         rowName: UnitRow;
-        player: Player;
+        player: PlayerIndicator;
     };
     const {rowName, player}: Props = $props();
 

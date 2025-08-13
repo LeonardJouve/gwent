@@ -143,8 +143,32 @@ export default class Game {
     }
 
     private sendState(): void {
+        const players = this.players.map(({cards, ...player}) => ({
+            ...player,
+            ...cards,
+        }));
+
+        const board = this.players.map((_, i) => this.board.getPlayerBoard(i));
+
         this.players.forEach((_, i) => {
-            const state: State;
+            const {deck, hand, ...rest} = players[this.getOpponentIndex(i)];
+
+            const state: State = {
+                turn: this.currentPlayerIndex === i ? "me" : "opponent",
+                players: {
+                    me: players[i],
+                    opponent: {
+                        ...rest,
+                        deckSize: deck.length,
+                        handSize: hand.length,
+                    },
+                },
+                board: {
+                    me: board[i],
+                    opponent: board[this.getOpponentIndex(i)],
+                },
+            };
+
             this.listeners.sendState(i, state);
         });
     }
@@ -243,7 +267,8 @@ export default class Game {
 
         this.onRoundEnd = Game.runEffects(this.onRoundEnd);
 
-        // TODO: discard cards
+        this.players.forEach((player, i) => Object.values(this.board.getPlayerBoard(i))
+            .forEach((row) => player.cards.discard(...row.getUnits())));
 
         this.board.clear();
     }
