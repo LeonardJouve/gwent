@@ -1,14 +1,71 @@
 <script lang="ts">
+    import {onDestroy} from "svelte";
     import {iconURL, largeURL} from "$lib/utils";
     import cards from "@shared/cards";
     import factions from "$lib/factions";
+    import type {Deck} from "@shared/types/deck";
+    import {PUBLIC_SOCKET_SERVER_URL} from "$env/static/public";
 
-    const faction = factions["realms"];
+    const factionName = "realms";
+    const faction = factions[factionName];
 
     const bank = cards.slice(10, 20);
     const deck = cards.slice(0, 10);
     const leader = cards[24];
+
+    let isInQueue = $state<boolean>(false);
+    const id = $state<string>(crypto.randomUUID());
+    let abortController = $state<AbortController>(new AbortController());
+    let username = $state<string>("");
+
+    onDestroy(() => {
+        if (!isInQueue) return;
+        abortController.abort()
+    });
+
+    const handleAbort = () => {
+        if (!isInQueue) return;
+        isInQueue = false;
+        fetch(`${PUBLIC_SOCKET_SERVER_URL}/matchmaking/${id}`, {method: "DELETE"});
+    };
+
+    const handleQueue = async (e: MouseEvent) => {
+        e.preventDefault();
+
+        if (isInQueue) {
+            abortController.abort();
+            return;
+        }
+
+        try {
+            isInQueue = true;
+            abortController = new AbortController();
+            abortController.signal.addEventListener("abort", handleAbort);
+
+            const res = await fetch(`${PUBLIC_SOCKET_SERVER_URL}/matchmaking/${id}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    name: username,
+                    faction: factionName,
+                    leader,
+                    deck,
+                } satisfies Deck),
+                signal: abortController.signal,
+            });
+
+            if (!res.ok) return;
+
+            const socketData = await res.json();
+            // TODO window.location.href = `/game?${new URLSearchParams(socketData).toString()}`;
+        } catch (err) {
+            return;
+        } finally {
+            isInQueue = false;
+        }
+    };
 </script>
+
+<svelte:window onbeforeunload={handleAbort}/>
 
 <section class="deck-maker">
     <div class="header">
@@ -96,8 +153,17 @@
             </div>
         </div>
         <p class="toggle-music">♫</p>
-        <input id="username" placeholder="Username"/>
-        <button id="start-game">Start game</button>
+        <input
+            id="username"
+            placeholder="Username"
+            bind:value={username}
+        />
+        <button
+            id="start-game"
+            onclick={handleQueue}
+        >
+            Find match
+        </button>
     </div>
     <div class="card-list">
         {#each deck as card}

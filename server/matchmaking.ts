@@ -82,7 +82,7 @@ export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => 
 
             tryStartGame();
         });
-    } catch (e) {
+    } catch (_) {
         return context.json({error: "invalid body"}, 400);
     }
 };
