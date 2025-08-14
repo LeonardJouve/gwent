@@ -1,7 +1,7 @@
 import Cards from "./cards";
 import type {GameOptions} from "./types/game";
 import type {CardData} from "../shared/types/card";
-import {RowSpecial} from "../shared/types/game";
+import type {RowSpecial} from "../shared/types/game";
 
 export default class Row {
     public units: CardData[];

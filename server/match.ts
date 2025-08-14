@@ -21,6 +21,7 @@ export default class Match extends Listeners {
         }
         this.id = crypto.randomUUID();
         this.playerIds = playerIds;
+        this.sockets = [];
     }
 
     join(socket: ServerSideSocket): void {

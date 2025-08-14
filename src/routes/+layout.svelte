@@ -6,7 +6,7 @@
 
 <style>
     .main {
-        cursor: url('assets/img/icons/cursor.png'), auto;
+        cursor: url("assets/img/icons/cursor.png"), auto;
     }
 
     :global(p, h1, h2, body) {

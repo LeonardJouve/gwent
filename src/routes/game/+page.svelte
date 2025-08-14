@@ -12,6 +12,10 @@
     import SelectedCard from "$lib/components/selected_card.svelte";
     import Notification from "$lib/components/notification.svelte";
     import PlayerInformations from "$lib/components/player_informations.svelte";
+    import {SocketHandler} from "$lib/socket_handler";
+
+    const {data} = $props();
+    const socketHandler = $state<SocketHandler>(new SocketHandler(data.socketData));
 
     type Rect = {
         top: number;

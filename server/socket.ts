@@ -5,15 +5,21 @@ import type {Http2SecureServer, Http2Server} from "node:http2";
 import {matches} from "./match";
 
 export const initSocketIO = (server: Server | Http2Server | Http2SecureServer): void => {
-    const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents, never, SocketData>(server);
+    const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents, never, SocketData>(server, {
+        cors: {
+            origin: "http://localhost:5173",
+            methods: ["GET", "POST"],
+        },
+    });
 
     io.on("connection", (socket) => {
         socket.emit("get_data", (data) => {
-            socket.data = {...data};
-
-            if (!(socket.data.matchId in matches)) {
+            if (!(data.matchId in matches)) {
+                socket.disconnect();
                 return;
             }
+
+            socket.data = {...data};
 
             matches[socket.data.matchId].join(socket);
         });
