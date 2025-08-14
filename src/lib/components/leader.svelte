@@ -9,7 +9,7 @@
     };
     const {player}: Props = $props();
 
-    const playerData = $derived(store.playerDatas[player]);
+    const playerData = $derived(store.players[player]);
 </script>
 
 <div class="leader">

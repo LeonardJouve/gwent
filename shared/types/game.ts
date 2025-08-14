@@ -4,8 +4,8 @@ import type {PlayerIndicator} from "./player";
 
 export type Play = {
     type: "pass"|"leader";
-    card: undefined;
-    row: undefined;
+    card?: undefined;
+    row?: undefined;
 } | {
     type: "card";
     card: CardData;
@@ -45,11 +45,15 @@ type Player = {
 type Opponent = Player & {
     deckSize: number;
     handSize: number;
+    deck?: undefined;
+    hand?: undefined;
 };
 
 type Me = Player & {
     deck: CardData[];
     hand: CardData[];
+    deckSize?: undefined;
+    handSize?: undefined;
 };
 
 export type State = {

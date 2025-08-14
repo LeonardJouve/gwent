@@ -3,26 +3,25 @@
     import CardPile from "$lib/components/card_pile.svelte";
     import {store} from "$lib/store/game.svelte";
     import {iconURL} from "$lib/utils";
-    import type {CardData} from "@shared/types/card";
 
     type Props = {
         player: PlayerIndicator;
     };
     const {player}: Props = $props();
 
-    const playerData = $derived(store.playerDatas[player]);
+    const playerData = $derived(store.players[player]);
 </script>
 
-{#snippet cardBack(card: CardData)}
+{#snippet cardBack()}
     <img
-        alt={card.name}
+        alt={`${playerData.faction} card back`}
         src={iconURL("deck_back_" + playerData.faction, "jpg")}
         style:height="100%"
     />
 {/snippet}
 
 <CardPile
-    cards={playerData.cards}
+    cardAmount={playerData.deck ? playerData.deck.length : playerData.deckSize}
     showCounter={true}
     render={cardBack}
 />

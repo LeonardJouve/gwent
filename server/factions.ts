@@ -1,8 +1,8 @@
 import Cards from "./cards";
 import type Game from "./game";
 import type {PlayerIndex} from "./types/game";
-import type {UnitRow} from "../shared/types/card";
 import type {FactionName} from "../shared/types/faction";
+import type {PlayerBoard} from "../shared/types/game";
 
 type FactionAbility = (game: Game, playerIndex: PlayerIndex) => void;
 
@@ -39,9 +39,9 @@ const factions: Record<FactionName, FactionAbility> = {
             once: false,
             run: () => {
                 const units = Object.entries(game.board.getPlayerBoard(playerIndex))
-                    .flatMap(([name, row]) => row
+                    .flatMap(([rowName, row]) => row
                         .getUnits()
-                        .map((card) => ({card, row: name as UnitRow})));
+                        .map((card) => ({card, row: rowName as keyof PlayerBoard})));
 
                 if (!units.length) {
                     return;

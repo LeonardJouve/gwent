@@ -1,6 +1,5 @@
 <script lang="ts">
     import {store} from "$lib/store/game.svelte";
-    import type {CardData} from "@shared/types/card";
     import type {PlayerIndicator} from "@shared/types/player";
     import Card from "$lib/components/card.svelte";
     import CardPile from "$lib/components/card_pile.svelte";
@@ -11,7 +10,7 @@
     };
     const {player}: Props = $props();
 
-    const grave = $derived(store.playerDatas[player].grave);
+    const grave = $derived(store.players[player].grave);
 
     let isCarouselOpen = $state(false);
 
@@ -24,8 +23,8 @@
     };
 </script>
 
-{#snippet card(card: CardData)}
-    <Card card={card}/>
+{#snippet card(i: number)}
+    <Card card={grave[i]}/>
 {/snippet}
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -41,7 +40,7 @@
         />
     {/if}
     <CardPile
-        cards={grave}
+        cardAmount={grave.length}
         render={card}
     />
 </div>

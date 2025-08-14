@@ -12,7 +12,7 @@
     };
     const {rowName, player}: Props = $props();
 
-    const row = $derived(store.playerDatas[player].board[rowName]);
+    const row = $derived(store.board[player][rowName]);
 
     const weather = $derived(getRowWeather(rowName, player));
 </script>

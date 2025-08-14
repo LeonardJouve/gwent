@@ -13,9 +13,9 @@
 
     const getScore = $derived(() => getPlayerScore(player));
     const otherScore = $derived(getPlayerScore(player === "me" ? "opponent" : "me"));
-    const playerData = $derived(store.playerDatas[player]);
+    const playerData = $derived(store.players[player]);
     const faction = $derived(factions[playerData.faction]);
-    const handSize = $derived(playerData.hand.length);
+    const handSize = $derived(playerData.hand ? playerData.hand.length : playerData.handSize);
     const isCurrentTurn = $derived(store.turn === player);
     const isMe = $derived(player === "me");
 </script>

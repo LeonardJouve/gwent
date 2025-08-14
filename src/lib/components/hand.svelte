@@ -4,7 +4,7 @@
     import type {CardData} from "@shared/types/card";
 
     const handleSelect = $derived((card: CardData) => store.selectedCard = card);
-    const hand = $derived(store.playerDatas["me"].hand);
+    const hand = $derived(store.players["me"].hand);
 </script>
 
 <div class="hoverable hand">

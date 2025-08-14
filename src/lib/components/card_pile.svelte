@@ -1,13 +1,12 @@
 <script lang="ts">
-    import type {CardData} from "@shared/types/card";
     import type {Snippet} from "svelte";
 
     type Props = {
-        cards: CardData[];
+        cardAmount: number;
         showCounter?: boolean;
-        render: Snippet<[CardData, number]>;
+        render: Snippet<[number]>;
     };
-    const {cards, showCounter, render}: Props = $props();
+    const {cardAmount, showCounter, render}: Props = $props();
 
     const offset = {
         x: -0.02,
@@ -17,20 +16,20 @@
 
 <div class="pile">
     <div class="cards">
-        {#each cards as card, i}
+        {#each {length: cardAmount}, i}
             <div
                 class="card"
                 style:transform={`translate(calc(-50% + ${offset.x * i}vw), ${offset.y * i}vh)`}
             >
-                {@render render(card, i)}
+                {@render render(i)}
             </div>
         {/each}
         {#if showCounter}
             <div
                 class="counter"
-                style:transform={`translate(calc(-50% + ${offset.x * cards.length}vw), ${offset.y * cards.length}vh)`}
+                style:transform={`translate(calc(-50% + ${offset.x * cardAmount}vw), ${offset.y * cardAmount}vh)`}
             >
-                <p>{cards.length}</p>
+                <p>{cardAmount}</p>
             </div>
         {/if}
     </div>

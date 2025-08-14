@@ -148,7 +148,47 @@ export default class Game {
             ...cards,
         }));
 
-        const board = this.players.map((_, i) => this.board.getPlayerBoard(i));
+        const board = this.players.map((_, i) => {
+            const playerBoard = this.board.getPlayerBoard(i);
+
+            return Object.entries(playerBoard).reduce((acc, [rowName, row]) => {
+                acc[rowName] = {
+                    special: row.special,
+                    hasWeather: row.hasWeather,
+                    units: row.units.map((card) => ({
+                        card,
+                        score: row.getCardScore(card),
+                    })),
+                };
+
+                return acc;
+            }, {
+                close: {
+                    special: {
+                        hasMardroeme: false,
+                        hasHorn: false,
+                    },
+                    hasWeather: false,
+                    units: [],
+                },
+                ranged: {
+                    special: {
+                        hasMardroeme: false,
+                        hasHorn: false,
+                    },
+                    hasWeather: false,
+                    units: [],
+                },
+                siege: {
+                    special: {
+                        hasMardroeme: false,
+                        hasHorn: false,
+                    },
+                    hasWeather: false,
+                    units: [],
+                },
+            });
+        });
 
         this.players.forEach((_, i) => {
             const {deck, hand, ...rest} = players[this.getOpponentIndex(i)];
@@ -278,7 +318,7 @@ export default class Game {
         case "pass":
             this.players[this.currentPlayerIndex].hasPassed = true;
             break;
-        case "leader":
+        case "leader": {
             const {leader} = this.players[this.currentPlayerIndex];
             leader.abilities.forEach((ability) => {
                 abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, leader);
@@ -286,7 +326,8 @@ export default class Game {
 
             this.players[this.currentPlayerIndex].isLeaderAvailable = false;
             break;
-        case "card":
+        }
+        case "card": {
             const {card, row} = play;
             this.board.play(card, this.currentPlayerIndex, row);
             this.players[this.currentPlayerIndex].cards.play(card);
@@ -294,6 +335,7 @@ export default class Game {
                 abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
             });
             break;
+        }
         }
     }
 }
