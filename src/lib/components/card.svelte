@@ -7,13 +7,13 @@
         card: CardData;
         isSelectible?: boolean;
         onSelect?: (card: CardData, event: MouseEvent) => void;
-        getScore?: (card: CardData) => number;
+        score?: number;
     };
     const {
         card,
         isSelectible,
         onSelect,
-        getScore = (card) => card.strength,
+        score = card.strength,
     }: Props = $props();
 
     const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");
@@ -58,7 +58,7 @@
             strength: true,
             hero: isHero,
         }}>
-            {getScore(card)}
+            {score}
         </p>
     {/if}
     <div class="abilities">

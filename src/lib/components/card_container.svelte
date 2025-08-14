@@ -5,10 +5,10 @@
 
     type Props = {
         cards: CardData[];
-        getScore?: (card: CardData) => number;
+        scores?: number[];
         onSelect?: (card: CardData) => void;
     };
-    const {cards, onSelect, getScore}: Props = $props();
+    const {cards, onSelect, scores}: Props = $props();
 
     let isCarouselOpen = $state(false);
     let selectedIndex = $state(0);
@@ -47,7 +47,7 @@
             card={card}
             isSelectible={true}
             onSelect={handleSelect(i)}
-            getScore={getScore}
+            score={scores?.[i]}
         />
     {/each}
 </div>

@@ -36,14 +36,14 @@ export const store = $state<GameStore>({
             name: "you",
             gems: 1,
             faction: "realms",
-            cards: cards.filter(({deck, row}) => deck === "realms"),
+            cards: cards.filter(({deck}) => deck === "realms"),
             leader: cards.find(({deck, abilities}) => deck === "realms" && abilities.includes("leader"))!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
             isLeaderAvailable: true,
-            hand: cards.filter(({deck, row}) => deck === "realms").slice(0, 10),
-            grave: cards.filter(({deck, row}) => deck === "realms").slice(0, 5),
+            hand: cards.filter(({deck}) => deck === "realms").slice(0, 10),
+            grave: cards.filter(({deck}) => deck === "realms").slice(0, 5),
             board: {
                 close: {
-                    units: cards.slice(0, 4),
+                    units: cards.slice(0, 4).map((card) => ({card, score: card.strength})),
                     hasWeather: true,
                     special: {
                         hasHorn: false,
@@ -51,7 +51,7 @@ export const store = $state<GameStore>({
                     },
                 },
                 ranged: {
-                    units: cards.slice(0, 2),
+                    units: cards.slice(0, 2).map((card) => ({card, score: card.strength})),
                     hasWeather: true,
                     special: {
                         hasHorn: false,
@@ -59,7 +59,7 @@ export const store = $state<GameStore>({
                     },
                 },
                 siege: {
-                    units: cards.slice(0, 1),
+                    units: cards.slice(0, 1).map((card) => ({card, score: card.strength})),
                     hasWeather: true,
                     special: {
                         hasHorn: false,
@@ -72,11 +72,11 @@ export const store = $state<GameStore>({
             name: "opponent",
             gems: 2,
             faction: "monsters",
-            cards: cards.filter(({deck, row}) => deck === "monsters"),
+            cards: cards.filter(({deck}) => deck === "monsters"),
             leader: cards.find(({deck, abilities}) => deck === "monsters" && abilities.includes("leader"))!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
             isLeaderAvailable: false,
-            hand: cards.filter(({deck, row}) => deck === "monsters").slice(0, 10),
-            grave: cards.filter(({deck, row}) => deck === "monsters").slice(0, 5),
+            hand: cards.filter(({deck}) => deck === "monsters").slice(0, 10),
+            grave: cards.filter(({deck}) => deck === "monsters").slice(0, 5),
             board: {
                 close: {
                     units: [],
@@ -107,7 +107,13 @@ export const store = $state<GameStore>({
     },
 });
 
-export const getRowWeather = (rowName: UnitRow, player: Player): Weather|null => {
+export const getPlayerScore = (player: PlayerIndicator): number => Object.keys(store.playerDatas[player].board)
+    .reduce((acc, rowName) => acc + getRowScore(rowName as keyof PlayerBoard, player), 0);
+
+export const getRowScore = (rowName: UnitRow, player: PlayerIndicator): number => store.playerDatas[player].board[rowName].units
+    .reduce((acc, {score}) => acc + score, 0);
+
+export const getRowWeather = (rowName: UnitRow, player: PlayerIndicator): Weather|null => {
     if (!store.playerDatas[player].board[rowName].hasWeather) {
         return null;
     }

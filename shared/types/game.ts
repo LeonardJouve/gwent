@@ -1,5 +1,5 @@
 import type {CardData, UnitRow} from "./card";
-import type { FactionName } from "./faction";
+import type {FactionName} from "./faction";
 import type {PlayerIndicator} from "./player";
 
 export type Play = {
@@ -17,8 +17,13 @@ export type RowSpecial = {
     hasMardroeme: boolean;
 };
 
+export type CardWithScore = {
+    card: CardData;
+    score: number;
+};
+
 export type Row = {
-    units: CardData[];
+    units: CardWithScore[];
     hasWeather: boolean;
     special: RowSpecial;
 };

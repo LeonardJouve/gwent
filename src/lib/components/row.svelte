@@ -1,8 +1,8 @@
 <script lang="ts">
     import CardContainer from "$lib/components/card_container.svelte";
-    import type {CardData, UnitRow} from "@shared/types/card";
+    import type {UnitRow} from "@shared/types/card";
     import type {PlayerIndicator} from "@shared/types/player";
-    import {getCardScore, getRowScore, getRowWeather, store} from "$lib/store/game.svelte";
+    import {getRowScore, getRowWeather, store} from "$lib/store/game.svelte";
     import Score from "$lib/components/score.svelte";
     import {iconURL} from "$lib/utils";
 
@@ -14,8 +14,6 @@
 
     const row = $derived(store.playerDatas[player].board[rowName]);
 
-    const getScore = $derived((card: CardData) => getCardScore(card, rowName, player));
-
     const weather = $derived(getRowWeather(rowName, player));
 </script>
 
@@ -25,8 +23,8 @@
     </div>
     <div class="hoverable unit-row">
         <CardContainer
-            cards={row.units}
-            getScore={getScore}
+            cards={row.units.map(({card}) => card)}
+            scores={row.units.map(({score}) => score)}
         />
     </div>
     <div class="score">
