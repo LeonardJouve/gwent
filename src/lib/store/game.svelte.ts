@@ -8,8 +8,10 @@ type GameStore = State & {
     selectedCard?: CardData;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const leader = cards.find(({deck, abilities}) => deck === "realms" && abilities.includes("leader"))!;
+const leader = cards.find(({deck, abilities}) => deck === "realms" && abilities.includes("leader"));
+if (!leader) {
+    throw new Error("leader not found");
+}
 
 export const store = $state<GameStore>({
     turn: "me",

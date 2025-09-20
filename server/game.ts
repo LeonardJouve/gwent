@@ -6,7 +6,7 @@ import type {GameOptions, PlayerIndex, RoundResult} from "./types/game";
 import type {UnitRow} from "../shared/types/card";
 import type {Deck} from "../shared/types/deck";
 import type Listeners from "./listeners";
-import type {Play, State} from "../shared/types/game";
+import type {PlayerBoard, Play, State} from "../shared/types/game";
 
 type Player = Omit<Deck, "deck"> & {
     isLeaderAvailable: boolean;
@@ -151,8 +151,8 @@ export default class Game {
         const board = this.players.map((_, i) => {
             const playerBoard = this.board.getPlayerBoard(i);
 
-            return Object.entries(playerBoard).reduce((acc, [rowName, row]) => {
-                acc[rowName] = {
+            return Object.entries(playerBoard).reduce<PlayerBoard>((acc, [rowName, row]) => {
+                acc[rowName as UnitRow] = {
                     special: row.special,
                     hasWeather: row.hasWeather,
                     units: row.units.map((card) => ({
