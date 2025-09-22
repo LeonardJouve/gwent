@@ -13,6 +13,7 @@
     import Notification from "$lib/components/notification.svelte";
     import PlayerInformations from "$lib/components/player_informations.svelte";
     import {SocketHandler} from "$lib/socket_handler";
+    import GameCarousel from "$lib/components/game_carousel.svelte";
 
     const {data} = $props();
     const socketHandler = $state<SocketHandler>(new SocketHandler(data.socketData));
@@ -214,6 +215,7 @@
         <SelectedCard/>
     </div>
     <Notification/>
+    <GameCarousel/>
 </div>
 
 <style>

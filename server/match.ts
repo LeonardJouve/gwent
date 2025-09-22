@@ -5,6 +5,7 @@ import type {CardData} from "../shared/types/card";
 import type {NotificationName} from "../shared/types/notification";
 import type {ServerSideSocket} from "../shared/types/socket";
 import type {Play, State} from "../shared/types/game";
+import type {PlayerIndicator} from "../shared/types/player";
 
 export const matches: Record<string, Match> = {};
 
@@ -12,6 +13,7 @@ export default class Match extends Listeners {
     public id: string;
     private playerIds: string[];
     private sockets: ServerSideSocket[];
+    private game?: Game;
 
     constructor(playerIds: string[]) {
         super();
@@ -39,16 +41,21 @@ export default class Match extends Listeners {
             return;
         }
 
-        const game = new Game(this, this.sockets.map(({data}) => data));
-        game.playGame();
+        this.game = new Game(this, this.sockets.map(({data}) => data));
+        this.game.playGame();
     }
 
     private remove(): void {
         Reflect.deleteProperty(matches, this.id);
     }
 
-    askStart(playerIndex: PlayerIndex): Promise<PlayerIndex> {
-        return new Promise<PlayerIndex>((resolve) => this.sockets[playerIndex].emit("ask_start", resolve));
+    async askStart(playerIndex: PlayerIndex): Promise<PlayerIndex> {
+        if (!this.game) {
+            throw new Error("game is not defined");
+        }
+
+        const player = await new Promise<PlayerIndicator>((resolve) => this.sockets[playerIndex].emit("ask_start", resolve));
+        return player === "me" ? playerIndex : this.game.getOpponentIndex(playerIndex);
     }
 
     selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number): Promise<CardData[]> {

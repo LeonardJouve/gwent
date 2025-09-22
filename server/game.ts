@@ -214,6 +214,8 @@ export default class Game {
     }
 
     async playGame(): Promise<void> {
+        this.sendState();
+
         this.startGame();
 
         while (this.players.some(({gems}) => !gems)) {
@@ -259,6 +261,8 @@ export default class Game {
         if (!this.currentPlayerIndex) {
             this.currentPlayerIndex = Game.tossCoin();
         }
+
+        this.sendState();
 
         await Promise.all(this.players.map(async (player) => {
             for (let i = 0; i < 2; ++i) {

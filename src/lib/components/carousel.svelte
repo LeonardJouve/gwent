@@ -5,19 +5,22 @@
     import CardDescription from "$lib/components/card_description.svelte";
 
     type Props = {
-        onClose: () => void;
+        onClose: (cards: CardData[]) => void;
         cards: CardData[];
+        isClosable?: boolean;
         startIndex?: number;
-        onSelect?: (card: CardData) => void;
+        amount?: number;
     };
     const {
         onClose,
         cards,
+        isClosable,
+        amount = 1,
         startIndex = 0,
-        onSelect,
     }: Props = $props();
 
     let index = $state(startIndex);
+    const selectedCards = $state<CardData[]>([]);
 
     let modal: HTMLDialogElement;
 
@@ -28,19 +31,25 @@
     const rightSlides = $derived(cards.slice(index + 1));
 
     const handleClose = $derived(() => {
-        onClose();
+        onClose(selectedCards);
         modal.close();
     });
 
     const handleSelect = $derived((card: CardData, event: MouseEvent) => {
         event.stopPropagation();
-        onSelect?.(card);
-        handleClose();
+        selectedCards.push(card);
+
+        if (selectedCards.length === amount) {
+            handleClose();
+        }
     });
 
     const handleBackdropClick = $derived((event: MouseEvent) => {
         event.stopPropagation();
-        handleClose();
+
+        if (isClosable) {
+            handleClose();
+        }
     });
 
     const handleClick = (card: CardData, event: MouseEvent) => {

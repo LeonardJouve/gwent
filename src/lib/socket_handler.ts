@@ -1,8 +1,13 @@
 import {io} from "socket.io-client";
 import type {SocketData, ClientSideSocket} from "@shared/types/socket";
 import {PUBLIC_SOCKET_SERVER_URL} from "$env/static/public";
-import type {State} from "@shared/types/game";
-import {store} from "./store/game.svelte";
+import type {Play, State} from "@shared/types/game";
+import {store as gameStore} from "./store/game.svelte";
+import {store as notificationStore} from "./store/notifications.svelte";
+import type {RoundResult} from "../../server/types/game";
+import type {CardData} from "@shared/types/card";
+import type {NotificationName} from "@shared/types/notification";
+import type {PlayerIndicator} from "@shared/types/player";
 
 export class SocketHandler {
     private socketData: SocketData;
@@ -18,6 +23,12 @@ export class SocketHandler {
     handle(): void {
         this.socket.on("get_data", this.handleGetData.bind(this));
         this.socket.on("send_state", SocketHandler.handleSendState);
+        this.socket.on("ask_start", SocketHandler.handleAskStart);
+        this.socket.on("ask_play", SocketHandler.handleAskPlay);
+        this.socket.on("select_cards", SocketHandler.handleSelectCards);
+        this.socket.on("notify", SocketHandler.handleNotify);
+        this.socket.on("show_cards", SocketHandler.handleShowCards);
+        this.socket.on("show_results", SocketHandler.handleShowResults);
     }
 
     handleGetData(callback: (data: SocketData) => void): void {
@@ -25,8 +36,35 @@ export class SocketHandler {
     }
 
     static handleSendState({turn, players, board}: State): void {
-        store.turn = turn;
-        store.players = {...players};
-        store.board = board;
+        gameStore.turn = turn;
+        gameStore.players = {...players};
+        gameStore.board = board;
+    }
+
+    static handleAskStart(callback: (player: PlayerIndicator) => void): void {
+        // TODO
+        callback("me");
+    }
+
+    static handleAskPlay(callback: (play: Play) => void): void {
+        // TODO
+    }
+
+    static handleSelectCards(cards: CardData[], amount: number, callback: (cards: CardData[]) => void): void {
+        // TODO
+
+    }
+
+    static handleNotify(name: NotificationName): void {
+        // TODO
+        notificationStore.notifications.push(name);
+    }
+
+    static handleShowCards(cards: CardData[], callback: () => void): void {
+        // TODO
+    }
+
+    static handleShowResults(results: RoundResult[]): void {
+        // TODO
     }
 }

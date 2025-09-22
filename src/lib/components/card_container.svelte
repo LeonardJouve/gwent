@@ -15,7 +15,16 @@
 
     const handleOpenCarousel = () => isCarouselOpen = true;
 
-    const handleCloseCarousel = () => isCarouselOpen = false;
+    const handleCloseCarousel = (cards: CardData[]) => {
+        isCarouselOpen = false;
+
+        if (!cards.length) {
+            return;
+        }
+
+        const [card] = cards;
+        onSelect?.(card);
+    };
 
     const handleSelect = $derived((index: number) => (card: CardData, event: MouseEvent) => {
         if (onSelect) {
@@ -38,8 +47,8 @@
         <Carousel
             cards={cards}
             startIndex={selectedIndex}
-            onSelect={onSelect}
             onClose={handleCloseCarousel}
+            isClosable={true}
         />
     {/if}
     {#each cards as card, i}

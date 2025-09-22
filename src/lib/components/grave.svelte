@@ -36,6 +36,7 @@
     {#if isCarouselOpen && grave.length}
         <Carousel
             cards={grave}
+            isClosable={true}
             onClose={handleCloseCarousel}
         />
     {/if}
