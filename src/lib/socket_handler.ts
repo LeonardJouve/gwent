@@ -52,7 +52,6 @@ export class SocketHandler {
     }
 
     static handleSelectCards(cards: CardData[], amount: number, callback: (cards: CardData[]) => void): void {
-        // TODO
         carouselStore.amount = amount;
         carouselStore.onClose = callback;
         carouselStore.isClosable = false;
@@ -61,12 +60,15 @@ export class SocketHandler {
     }
 
     static handleNotify(name: NotificationName): void {
-        // TODO
         notificationStore.notifications.push(name);
     }
 
     static handleShowCards(cards: CardData[], callback: () => void): void {
-        // TODO
+        carouselStore.amount = 1;
+        carouselStore.onClose = callback;
+        carouselStore.isClosable = true;
+        carouselStore.cards = cards;
+        carouselStore.isOpen = true;
     }
 
     static handleShowResults(results: RoundResult[]): void {
