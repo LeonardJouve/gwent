@@ -48,7 +48,12 @@ export class SocketHandler {
     }
 
     static handleAskPlay(callback: (play: Play) => void): void {
-        // TODO
+        console.log("askPlay", gameStore.turn);
+        gameStore.askPlay = (play: Play): void => {
+            callback(play);
+            gameStore.askPlay = undefined;
+            gameStore.selectedCard = undefined;
+        };
     }
 
     static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData[]) => void): void {

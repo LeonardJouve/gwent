@@ -11,9 +11,9 @@ export default class Board {
     private getOptions: () => GameOptions;
 
     constructor(getOptions: () => GameOptions) {
+        this.getOptions = getOptions;
         this.board = this.clearBoard();
         this.weather = this.clearWeather();
-        this.getOptions = getOptions;
     }
 
     clear(): void {
@@ -24,14 +24,14 @@ export default class Board {
     clearBoard(): PlayerBoard[] {
         return this.board = [
             {
-                close: new Row(this.getOptions),
-                ranged: new Row(this.getOptions),
-                siege: new Row(this.getOptions),
+                close: new Row(this.getOptions.bind(this)),
+                ranged: new Row(this.getOptions.bind(this)),
+                siege: new Row(this.getOptions.bind(this)),
             },
             {
-                close: new Row(this.getOptions),
-                ranged: new Row(this.getOptions),
-                siege: new Row(this.getOptions),
+                close: new Row(this.getOptions.bind(this)),
+                ranged: new Row(this.getOptions.bind(this)),
+                siege: new Row(this.getOptions.bind(this)),
             },
         ];
     }
