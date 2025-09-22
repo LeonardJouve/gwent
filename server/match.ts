@@ -8,9 +8,9 @@ import type {Play, State} from "../shared/types/game";
 import type {PlayerIndicator} from "../shared/types/player";
 import type {Deck} from "../shared/types/deck";
 
-export const matches: Record<string, Match> = {};
 
 export default class Match extends Listeners {
+    static matches = new Map<string, Match>();
     public id: string;
     private playerIds: string[];
     private sockets: ServerSideSocket[];
@@ -41,16 +41,16 @@ export default class Match extends Listeners {
         return true;
     }
 
-    private tryStartMatch(): void {
+    private async tryStartMatch(): Promise<void> {
         if (this.sockets.length !== 2) {
             return;
         }
 
-        this.game.playGame();
+        await this.game.playGame();
     }
 
     private remove(): void {
-        Reflect.deleteProperty(matches, this.id);
+        Match.matches.delete(this.id);
     }
 
     async askStart(playerIndex: PlayerIndex): Promise<PlayerIndex> {

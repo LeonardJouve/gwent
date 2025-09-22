@@ -1,6 +1,6 @@
 import {io} from "socket.io-client";
 import type {SocketData, ClientSideSocket} from "@shared/types/socket";
-import {PUBLIC_SOCKET_SERVER_URL} from "$env/static/public";
+import {PUBLIC_API_SERVER_URL} from "$env/static/public";
 import type {Play, State} from "@shared/types/game";
 import {store as gameStore} from "./store/game.svelte";
 import {store as notificationStore} from "./store/notifications.svelte";
@@ -15,7 +15,7 @@ export class SocketHandler {
 
     constructor(socketData: SocketData) {
         this.socketData = socketData;
-        this.socket = io(PUBLIC_SOCKET_SERVER_URL);
+        this.socket = io(PUBLIC_API_SERVER_URL);
 
         this.handle();
     }

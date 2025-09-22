@@ -1,7 +1,7 @@
 import {Server as SocketIOServer} from "socket.io";
 import type {ServerType} from "@hono/node-server";
 import type {ClientToServerEvents, ServerToClientEvents, SocketData} from "../shared/types/socket";
-import {matches} from "./match";
+import Match from "./match";
 
 export const initSocketIO = (server: ServerType): void => {
     const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents, never, SocketData>(server, {
@@ -13,14 +13,15 @@ export const initSocketIO = (server: ServerType): void => {
 
     io.on("connection", (socket) => {
         socket.emit("get_data", (data) => {
-            if (!(data.matchId in matches)) {
+            const match = Match.matches.get(data.matchId);
+            if (!match) {
                 socket.disconnect();
                 return;
             }
 
             socket.data = {...data};
 
-            const ok = matches[socket.data.matchId].join(socket);
+            const ok = match.join(socket);
             if (!ok) {
                 socket.disconnect();
             }

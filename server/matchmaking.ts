@@ -1,6 +1,6 @@
 import type {Context, Handler} from "hono";
 import type {BlankInput} from "hono/types";
-import Match, {matches} from "./match";
+import Match from "./match";
 import type {SocketData} from "../shared/types/socket";
 import {type Deck, DeckSchema} from "../shared/types/deck";
 
@@ -48,7 +48,7 @@ const tryStartGame = (): void => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const players = [queue.dequeue()!, queue.dequeue()!];
     const match = new Match(players);
-    matches[match.id] = match;
+    Match.matches.set(match.id, match);
 
     players.forEach(({resolve, context, ...data}) => {
         resolve(context.json({
