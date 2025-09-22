@@ -9,7 +9,7 @@ export type Play = {
 } | {
     type: "card";
     card: CardData;
-    row: UnitRow;
+    row?: UnitRow;
 };
 
 export type RowSpecial = {

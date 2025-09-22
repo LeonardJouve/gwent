@@ -15,16 +15,30 @@
     const row = $derived(store.board[player][rowName]);
 
     const weather = $derived(getRowWeather(rowName, player));
+
+    const canPlay = $derived(store.selectedCard && store.turn === "me" && store.askPlay);
+
+    const handleClick = () => {
+        if (canPlay && store.selectedCard && store.askPlay) {
+            store.askPlay({
+                type: "card",
+                card: store.selectedCard,
+                row: rowName,
+            });
+        }
+    };
 </script>
 
 <div class="row">
     <div class="hoverable special-row">
-        <!-- <CardContainer cards={row.specials}/> -->
+        <!-- TODO <CardContainer cards={row.specials}/> -->
     </div>
     <div class="hoverable unit-row">
         <CardContainer
             cards={row.units.map(({card}) => card)}
             scores={row.units.map(({score}) => score)}
+            onClick={handleClick}
+            canOpenCarousel={!canPlay}
         />
     </div>
     <div class="score">

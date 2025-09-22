@@ -7,11 +7,27 @@
         cards: CardData[];
         scores?: number[];
         onSelect?: (card: CardData) => void;
+        onClick?: () => void;
+        canOpenCarousel?: boolean;
     };
-    const {cards, onSelect, scores}: Props = $props();
+    const {
+        cards,
+        onSelect,
+        scores,
+        onClick,
+        canOpenCarousel = true,
+    }: Props = $props();
 
     let isCarouselOpen = $state(false);
     let selectedIndex = $state(0);
+
+    const handleClick = () => {
+        if (canOpenCarousel) {
+            handleOpenCarousel();
+        }
+
+        onClick?.();
+    };
 
     const handleOpenCarousel = () => isCarouselOpen = true;
 
@@ -41,7 +57,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
     class="container"
-    onclick={handleOpenCarousel}
+    onclick={handleClick}
 >
     {#if isCarouselOpen && cards.length}
         <Carousel
