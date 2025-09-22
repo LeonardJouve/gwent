@@ -4,6 +4,7 @@ import {PUBLIC_API_SERVER_URL} from "$env/static/public";
 import type {Play, State} from "@shared/types/game";
 import {store as gameStore} from "./store/game.svelte";
 import {store as notificationStore} from "./store/notifications.svelte";
+import {store as carouselStore} from "./store/carousel.svelte";
 import type {RoundResult} from "../../server/types/game";
 import type {CardData} from "@shared/types/card";
 import type {NotificationName} from "@shared/types/notification";
@@ -52,7 +53,11 @@ export class SocketHandler {
 
     static handleSelectCards(cards: CardData[], amount: number, callback: (cards: CardData[]) => void): void {
         // TODO
-
+        carouselStore.amount = amount;
+        carouselStore.onClose = callback;
+        carouselStore.isClosable = false;
+        carouselStore.cards = cards;
+        carouselStore.isOpen = true;
     }
 
     static handleNotify(name: NotificationName): void {

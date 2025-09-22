@@ -60,7 +60,7 @@ export default class Cards {
         this.hand.splice(cardIndex, 1);
 
         const [newCard] = Cards.getRandom(this.deck, 1);
-        const newCardIndex = this.hand.findIndex(({name}) => name === newCard.name);
+        const newCardIndex = this.deck.findIndex(({name}) => name === newCard.name);
         if (newCardIndex !== -1) {
             this.deck.splice(newCardIndex, 1);
             this.hand.push(newCard);

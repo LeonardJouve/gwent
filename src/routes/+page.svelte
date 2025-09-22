@@ -10,8 +10,8 @@
     const factionName = "realms";
     const faction = factions[factionName];
 
-    const bank = cards.slice(10, 20);
-    const deck = cards.slice(0, 10);
+    const bank = cards.slice(20, 30);
+    const deck = cards.slice(0, 20);
     const leader = cards[24];
 
     let isInQueue = $state<boolean>(false);

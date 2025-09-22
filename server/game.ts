@@ -239,10 +239,15 @@ export default class Game {
 
         this.sendState();
 
-        await Promise.all(this.players.map(async (player) => {
+        await Promise.all(this.players.map(async (player, playerIndex) => {
             for (let i = 0; i < 2; ++i) {
-                const [card] = await this.listeners.selectCards(i, player.cards.hand, 1);
+                if (!player.cards.deck.length) {
+                    break;
+                }
+
+                const [card] = await this.listeners.selectCards(playerIndex, player.cards.hand, 1);
                 player.cards.redraw(card);
+                this.sendState();
             }
         }));
     }
