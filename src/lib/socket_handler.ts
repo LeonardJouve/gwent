@@ -33,10 +33,12 @@ export class SocketHandler {
     }
 
     handleGetData(callback: (data: SocketData) => void): void {
+        console.log("getData");
         callback(this.socketData);
     }
 
     static handleSendState({turn, players, board}: State): void {
+        console.log("sendState");
         gameStore.turn = turn;
         gameStore.players = {...players};
         gameStore.board = board;
@@ -44,11 +46,11 @@ export class SocketHandler {
 
     static handleAskStart(callback: (player: PlayerIndicator) => void): void {
         // TODO
+        console.log("askStart");
         callback("me");
     }
 
     static handleAskPlay(callback: (play: Play) => void): void {
-        console.log("askPlay", gameStore.turn);
         gameStore.askPlay = (play: Play): void => {
             callback(play);
             gameStore.askPlay = undefined;
@@ -66,10 +68,12 @@ export class SocketHandler {
     }
 
     static handleNotify(name: NotificationName): void {
+        console.log("notify");
         notificationStore.notifications.push(name);
     }
 
     static handleShowCards(cards: CardData[], callback: () => void): void {
+        console.log("showCards");
         carouselStore.amount = 1;
         carouselStore.onClose = callback;
         carouselStore.isClosable = true;
@@ -79,5 +83,6 @@ export class SocketHandler {
 
     static handleShowResults(results: RoundResult[]): void {
         // TODO
+        console.log("showResults");
     }
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+    // TODO
     import {onDestroy} from "svelte";
     import {iconURL, largeURL} from "$lib/utils";
     import cards from "@shared/cards";

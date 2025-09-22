@@ -3,5 +3,5 @@ type SoundtrackStore = {
 };
 
 export const store = $state<SoundtrackStore>({
-    muted: false,
+    muted: true,
 });
