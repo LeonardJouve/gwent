@@ -47,7 +47,7 @@ const tryStartGame = (): void => {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const players = [queue.dequeue()!, queue.dequeue()!];
-    const match = new Match(players);
+    const match = new Match(players.map(({resolve: _resolve, context: _context, ...data}) => data));
     Match.matches.set(match.id, match);
 
     players.forEach(({resolve, context, ...data}) => {

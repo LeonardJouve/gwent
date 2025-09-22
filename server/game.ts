@@ -151,43 +151,18 @@ export default class Game {
         const board = this.players.map((_, i) => {
             const playerBoard = this.board.getPlayerBoard(i);
 
-            return Object.entries(playerBoard).reduce<PlayerBoard>((acc, [rowName, row]) => {
-                acc[rowName as UnitRow] = {
-                    special: row.special,
-                    hasWeather: row.hasWeather,
-                    units: row.units.map((card) => ({
-                        card,
-                        score: row.getCardScore(card),
-                    })),
-                };
-
-                return acc;
-            }, {
-                close: {
-                    special: {
-                        hasMardroeme: false,
-                        hasHorn: false,
+            return Object.fromEntries(
+                Object.entries(playerBoard).map(([rowName, row]) => [
+                    rowName, {
+                        special: row.special,
+                        hasWeather: row.hasWeather,
+                        units: row.units.map((card) => ({
+                            card,
+                            score: row.getCardScore(card),
+                        })),
                     },
-                    hasWeather: false,
-                    units: [],
-                },
-                ranged: {
-                    special: {
-                        hasMardroeme: false,
-                        hasHorn: false,
-                    },
-                    hasWeather: false,
-                    units: [],
-                },
-                siege: {
-                    special: {
-                        hasMardroeme: false,
-                        hasHorn: false,
-                    },
-                    hasWeather: false,
-                    units: [],
-                },
-            });
+                ]),
+            ) as PlayerBoard;
         });
 
         this.players.forEach((_, i) => {
