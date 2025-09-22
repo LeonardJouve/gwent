@@ -191,9 +191,9 @@ export default class Game {
     async playGame(): Promise<void> {
         this.sendState();
 
-        this.startGame();
+        await this.startGame();
 
-        while (this.players.some(({gems}) => !gems)) {
+        while (this.players.every(({gems}) => gems)) {
             this.startRound();
 
             this.sendState();
@@ -245,7 +245,11 @@ export default class Game {
                     break;
                 }
 
-                const [card] = await this.listeners.selectCards(playerIndex, player.cards.hand, 1);
+                const [card] = await this.listeners.selectCards(playerIndex, player.cards.hand, 1, true);
+                if (!card) {
+                    break;
+                }
+
                 player.cards.redraw(card);
                 this.sendState();
             }

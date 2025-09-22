@@ -58,8 +58,8 @@ export default class Match extends Listeners {
         return player === "me" ? playerIndex : this.game.getOpponentIndex(playerIndex);
     }
 
-    selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number): Promise<CardData[]> {
-        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, resolve));
+    selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number, isClosable: boolean): Promise<CardData[]> {
+        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, resolve));
     }
 
     showCards(playerIndex: PlayerIndex, cards: CardData[]): Promise<void> {

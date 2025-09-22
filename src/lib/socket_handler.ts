@@ -51,10 +51,11 @@ export class SocketHandler {
         // TODO
     }
 
-    static handleSelectCards(cards: CardData[], amount: number, callback: (cards: CardData[]) => void): void {
+    static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData[]) => void): void {
+        console.log("selectCards");
         carouselStore.amount = amount;
         carouselStore.onClose = callback;
-        carouselStore.isClosable = false;
+        carouselStore.isClosable = isClosable;
         carouselStore.cards = cards;
         carouselStore.isOpen = true;
     }
