@@ -53,13 +53,13 @@ const playAvenger = (game: Game, playerIndex: PlayerIndex, name: CardData["name"
 
 type Ability = {
     onGameStart?: (game: Game, playerIndex: PlayerIndex) => void;
-    onPlaced?: (game: Game, playerIndex: PlayerIndex, row: UnitRow|null, card: CardData) => void;
+    onPlaced?: (game: Game, playerIndex: PlayerIndex, row: UnitRow|null, card: CardData) => Promise<void>;
     onRemoved?: (game: Game, playerIndex: PlayerIndex, row: UnitRow|null, card: CardData) => void;
 };
 
 const abilities: Partial<Record<AbilityId, Ability>> = {
     mardroeme: {
-        onPlaced: (game, playerIndex, row, card) => {
+        onPlaced: async (game, playerIndex, row, card) => {
             if (!row) {
                 throw new Error("mardroeme must be placed on a unit row");
             }
@@ -83,20 +83,34 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             });
         },
     },
+    decoy: {
+        onPlaced: async (game, playerIndex, row) => {
+            if (!row) {
+                throw new Error("decoy must be placed on a unit row");
+            }
+
+            const playerRow = game.board.getRow(row, playerIndex);
+            const units = playerRow.getUnits();
+
+            const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
+            playerRow.remove(card);
+            game.getPlayerCards(playerIndex).hand.push(card);
+        },
+    },
     scorch: {
-        onPlaced: (game) => game.scorch(),
+        onPlaced: async (game) => game.scorch(),
     },
     scorch_c: {
-        onPlaced: (game, playerIndex) => game.scorch("close", game.getOpponentIndex(playerIndex)),
+        onPlaced: async (game, playerIndex) => game.scorch("close", game.getOpponentIndex(playerIndex)),
     },
     scorch_r: {
-        onPlaced: (game, playerIndex) => game.scorch("ranged", game.getOpponentIndex(playerIndex)),
+        onPlaced: async (game, playerIndex) => game.scorch("ranged", game.getOpponentIndex(playerIndex)),
     },
     scorch_s: {
-        onPlaced: (game, playerIndex) => game.scorch("siege", game.getOpponentIndex(playerIndex)),
+        onPlaced: async (game, playerIndex) => game.scorch("siege", game.getOpponentIndex(playerIndex)),
     },
     muster: {
-        onPlaced: (game, playerIndex, _, card) => {
+        onPlaced: async (game, playerIndex, _, card) => {
             // TODO: refacto
             const i = card.name.indexOf("-");
             const cardName = i === -1 ? card.name : card.name.substring(0, i);
@@ -115,7 +129,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     spy: {
-        onPlaced: (game, playerIndex) => game.getPlayerCards(playerIndex).draw(2),
+        onPlaced: async (game, playerIndex) => game.getPlayerCards(playerIndex).draw(2),
     },
     medic: {
         onPlaced: async (game, playerIndex) => {
@@ -138,28 +152,30 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     avenger: {
-        onRemoved: (game, playerIndex) => playAvenger(game, playerIndex, "Bovine Defense Force"),
+        onRemoved: async (game, playerIndex) => playAvenger(game, playerIndex, "Bovine Defense Force"),
     },
     avenger_kambi: {
-        onRemoved: (game, playerIndex) => playAvenger(game, playerIndex, "Hemdall"),
+        onRemoved: async (game, playerIndex) => playAvenger(game, playerIndex, "Hemdall"),
     },
     foltest_king: {
-        onPlaced: (game, playerIndex) => playLeaderWeather(game, playerIndex, "Impenetrable Fog"),
+        onPlaced: async (game, playerIndex) => playLeaderWeather(game, playerIndex, "Impenetrable Fog"),
     },
     foltest_lord: {
-        onPlaced: (game) => game.board.clearWeather(),
+        onPlaced: async (game) => {
+            game.board.clearWeather();
+        },
     },
     foltest_siegemaster: {
-        onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "siege"),
+        onPlaced: async (game, playerIndex) => playLeaderHorn(game, playerIndex, "siege"),
     },
     foltest_steelforged: {
-        onPlaced: (game, playerIndex) => game.scorch("siege", game.getOpponentIndex(playerIndex)),
+        onPlaced: async (game, playerIndex) => game.scorch("siege", game.getOpponentIndex(playerIndex)),
     },
     foltest_son: {
-        onPlaced: (game, playerIndex) => game.scorch("ranged", game.getOpponentIndex(playerIndex)),
+        onPlaced: async (game, playerIndex) => game.scorch("ranged", game.getOpponentIndex(playerIndex)),
     },
     emhyr_imperial: {
-        onPlaced: (game, playerIndex) => playLeaderWeather(game, playerIndex, "Torrential Rain"),
+        onPlaced: async (game, playerIndex) => playLeaderWeather(game, playerIndex, "Torrential Rain"),
     },
     emhyr_emperor: {
         onPlaced: async (game, playerIndex) => {
@@ -190,7 +206,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onGameStart: (game) => game.enableRandomRespawn(),
     },
     eredin_commander: {
-        onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "close"),
+        onPlaced: async (game, playerIndex) => playLeaderHorn(game, playerIndex, "close"),
     },
     eredin_bringer_of_death: {
         onPlaced: async (game, playerIndex) => {
@@ -226,16 +242,16 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onGameStart: (game) => game.enableDoubleSpyPower(),
     },
     francesca_queen: {
-        onPlaced: (game, playerIndex) => game.scorch("close", game.getOpponentIndex(playerIndex)),
+        onPlaced: async (game, playerIndex) => game.scorch("close", game.getOpponentIndex(playerIndex)),
     },
     francesca_beautiful: {
-        onPlaced: (game, playerIndex) => playLeaderHorn(game, playerIndex, "ranged"),
+        onPlaced: async (game, playerIndex) => playLeaderHorn(game, playerIndex, "ranged"),
     },
     francesca_daisy: {
         onGameStart: (game, playerIndex) => game.getPlayerCards(playerIndex).draw(),
     },
     francesca_pureblood: {
-        onPlaced: (game, playerIndex) => {
+        onPlaced: async (game, playerIndex) => {
             const card = game.getPlayerCards(playerIndex).deck.find(({name}) => name === "Biting Frost");
             if (!card) {
                 return;
@@ -245,7 +261,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     francesca_hope: {
-        onPlaced: (game, playerIndex) => {
+        onPlaced: async (game, playerIndex) => {
             const close = game.board.getRow("close", playerIndex);
             const ranged = game.board.getRow("ranged", playerIndex);
 
@@ -262,7 +278,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     crach_an_craite: {
-        onPlaced: (game) => game.players.forEach((player) => {
+        onPlaced: async (game) => game.players.forEach((player) => {
             player.cards.deck = Cards.shuffle([...player.cards.deck, ...player.cards.grave]);
             player.cards.grave = [];
         }),

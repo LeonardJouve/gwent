@@ -30,7 +30,7 @@ export default ts.config(
             "no-lone-blocks": "error",
             "no-lonely-if": "error",
             "spaced-comment": "error",
-            "require-await": "error",
+            "require-await": "off",
             "prefer-object-spread": "error",
             "prefer-destructuring": "error",
             "prefer-const": "error",

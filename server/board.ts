@@ -83,10 +83,12 @@ export default class Board {
     }
 
     play(card: CardData, playerIndex: PlayerIndex, row?: UnitRow): void {
-        const r = row ?? card.row === "agile" ? "close" : card.row;
+        const r = row ?? (card.row === "agile" ? "close" : card.row);
         if (!r) {
             return;
         }
+
+        // TODO check if card can be played on this row
 
         this.getRow(r, playerIndex).add(card);
     }

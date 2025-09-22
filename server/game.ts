@@ -121,12 +121,13 @@ export default class Game {
 
         const maxScore = Math.max(...rows.flatMap(({row}) => row
             .getUnits()
+            .filter((card) => !card.abilities.includes("hero"))
             .map((card) => row.getCardScore(card))));
 
         rows.forEach(({row, i}) => row.remove(...row
             .getUnits()
             .filter((card) => {
-                if (row.getCardScore(card) !== maxScore) {
+                if (row.getCardScore(card) !== maxScore || card.abilities.includes("hero")) {
                     return false;
                 }
 
@@ -301,16 +302,16 @@ export default class Game {
         this.board.clear();
     }
 
-    private executePlay(play: Play): void {
+    private async executePlay(play: Play): Promise<void> {
         switch (play.type) {
         case "pass":
             this.players[this.currentPlayerIndex].hasPassed = true;
             break;
         case "leader": {
             const {leader} = this.players[this.currentPlayerIndex];
-            leader.abilities.forEach((ability) => {
-                abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, leader);
-            });
+            await Promise.all(leader.abilities.map(async (ability) => {
+                await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, leader);
+            }));
 
             this.players[this.currentPlayerIndex].isLeaderAvailable = false;
             break;
@@ -319,9 +320,9 @@ export default class Game {
             const {card, row} = play;
             this.board.play(card, this.currentPlayerIndex, row);
             this.players[this.currentPlayerIndex].cards.play(card);
-            card.abilities.forEach((ability) => {
-                abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
-            });
+            await Promise.all(card.abilities.map(async (ability) => {
+                await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
+            }));
             break;
         }
         }
