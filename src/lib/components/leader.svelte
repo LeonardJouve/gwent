@@ -13,7 +13,7 @@
 
     const playerData = $derived(store.players[player]);
 
-    const handleSelect = $derived((card: CardData) => {
+    const handleSelect = (card: CardData) => {
         if (!playerData.isLeaderAvailable || store.turn !== "me" || !store.askPlay) {
             return;
         }
@@ -29,7 +29,7 @@
         carouselStore.isClosable = true;
         carouselStore.cards = [card];
         carouselStore.isOpen = true;
-    });
+    };
 </script>
 
 <div class="leader">

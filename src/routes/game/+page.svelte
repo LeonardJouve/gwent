@@ -14,6 +14,8 @@
     import PlayerInformations from "$lib/components/player_informations.svelte";
     import {SocketHandler} from "$lib/socket_handler";
     import GameCarousel from "$lib/components/game_carousel.svelte";
+    import PassButton from "$lib/components/pass_button.svelte";
+    import PassIndicator from "$lib/components/pass_indicator.svelte";
 
     const {data} = $props();
     const socketHandler = $state<SocketHandler>(new SocketHandler(data.socketData));
@@ -130,6 +132,18 @@
         return getPosition(leftPercent, widthPercent, topPercents[index], heightPercent);
     });
 
+    const getPassIndicatorPosition = $derived((index: number) => {
+        const leftPercent = 20.5;
+        const widthPercent = 0;
+        const heightPercent = 0;
+        const topPercents = [
+            30.5,
+            68,
+        ];
+
+        return getPosition(leftPercent, widthPercent, topPercents[index], heightPercent);
+    });
+
     const handPosition = $derived.by(() => {
         const widthPercent = 49.4;
         const heightPercent = 12;
@@ -161,6 +175,15 @@
         const widthPercent = 17;
         const heightPercent = 56.3;
         const topPercent = 20;
+
+        return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
+    });
+
+    const passButtonPosition = $derived.by(() => {
+        const leftPercent = 17;
+        const widthPercent = 0;
+        const heightPercent = 0;
+        const topPercent = 80.5;
 
         return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
     });
@@ -200,8 +223,15 @@
         <div style={getPlayerInformationsPosition(i)}>
             <PlayerInformations player={player}/>
         </div>
+
+        <div style={getPassIndicatorPosition(i)}>
+            <PassIndicator player={player}/>
+        </div>
     {/each}
 
+    <div style={passButtonPosition}>
+        <PassButton/>
+    </div>
     <div style={handPosition}>
         <Hand/>
     </div>
