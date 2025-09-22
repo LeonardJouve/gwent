@@ -5,8 +5,6 @@
     import factions from "$lib/factions";
     import type {Deck} from "@shared/types/deck";
     import {PUBLIC_SOCKET_SERVER_URL} from "$env/static/public";
-    import {store} from "$lib/store/socket.svelte";
-    import {SocketDataSchema} from "@shared/types/socket";
     import {goto} from "$app/navigation";
 
     const factionName = "realms";
@@ -23,7 +21,7 @@
 
     onDestroy(() => {
         if (!isInQueue) return;
-        abortController.abort()
+        abortController.abort();
     });
 
     const handleAbort = () => {
@@ -59,10 +57,8 @@
             if (!res.ok) return;
 
             const data = await res.json();
-            const socketData = SocketDataSchema.parse(data);
-            store.data = socketData;
             isInQueue = false;
-            goto("/game");
+            goto(`/game?${new URLSearchParams(data).toString()}`);
         } catch (err) {
             isInQueue = false;
         }

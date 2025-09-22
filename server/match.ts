@@ -6,6 +6,7 @@ import type {NotificationName} from "../shared/types/notification";
 import type {ServerSideSocket} from "../shared/types/socket";
 import type {Play, State} from "../shared/types/game";
 import type {PlayerIndicator} from "../shared/types/player";
+import type {Deck} from "../shared/types/deck";
 
 export const matches: Record<string, Match> = {};
 
@@ -13,27 +14,31 @@ export default class Match extends Listeners {
     public id: string;
     private playerIds: string[];
     private sockets: ServerSideSocket[];
-    private game?: Game;
+    private game: Game;
 
-    constructor(playerIds: string[]) {
+    constructor(playerDatas: (Deck & {id: string})[]) {
         super();
 
-        if (playerIds.length !== 2) {
-            throw new Error("invalid playerIds amount");
+        if (playerDatas.length !== 2) {
+            throw new Error("invalid player data amount");
         }
+
+        this.game = new Game(this, playerDatas);
+        this.playerIds = playerDatas.map(({id}) => id);
         this.id = crypto.randomUUID();
-        this.playerIds = playerIds;
         this.sockets = [];
     }
 
-    join(socket: ServerSideSocket): void {
-        if (!this.playerIds.includes(socket.data.id) || this.sockets.find(({data}) => data.id === socket.data.id)) {
-            return;
+    join(socket: ServerSideSocket): boolean {
+        if (!this.playerIds.includes(socket.data.id) || this.sockets.some(({data}) => data.id === socket.data.id)) {
+            return false;
         }
 
         this.sockets.push(socket);
 
         this.tryStartMatch();
+
+        return true;
     }
 
     private tryStartMatch(): void {
@@ -41,7 +46,6 @@ export default class Match extends Listeners {
             return;
         }
 
-        this.game = new Game(this, this.sockets.map(({data}) => data));
         this.game.playGame();
     }
 
@@ -50,10 +54,6 @@ export default class Match extends Listeners {
     }
 
     async askStart(playerIndex: PlayerIndex): Promise<PlayerIndex> {
-        if (!this.game) {
-            throw new Error("game is not defined");
-        }
-
         const player = await new Promise<PlayerIndicator>((resolve) => this.sockets[playerIndex].emit("ask_start", resolve));
         return player === "me" ? playerIndex : this.game.getOpponentIndex(playerIndex);
     }

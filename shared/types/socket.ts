@@ -1,6 +1,5 @@
 import type {Socket as ServerSocket} from "socket.io";
 import type {Socket as ClientSocket} from "socket.io-client";
-import {DeckSchema} from "./deck";
 import type {RoundResult} from "../../server/types/game";
 import type {CardData} from "./card";
 import type {NotificationName} from "./notification";
@@ -21,7 +20,7 @@ export type ServerToClientEvents = {
     send_state: (state: State) => void;
 };
 
-export const SocketDataSchema = DeckSchema.extend({
+export const SocketDataSchema = z.object({
     id: z.string(),
     matchId: z.string(),
 });

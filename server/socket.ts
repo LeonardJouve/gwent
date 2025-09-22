@@ -1,10 +1,9 @@
 import {Server as SocketIOServer} from "socket.io";
+import type {ServerType} from "@hono/node-server";
 import type {ClientToServerEvents, ServerToClientEvents, SocketData} from "../shared/types/socket";
-import type {Server} from "node:http";
-import type {Http2SecureServer, Http2Server} from "node:http2";
 import {matches} from "./match";
 
-export const initSocketIO = (server: Server | Http2Server | Http2SecureServer): void => {
+export const initSocketIO = (server: ServerType): void => {
     const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents, never, SocketData>(server, {
         cors: {
             origin: "http://localhost:5173",
@@ -21,7 +20,10 @@ export const initSocketIO = (server: Server | Http2Server | Http2SecureServer): 
 
             socket.data = {...data};
 
-            matches[socket.data.matchId].join(socket);
+            const ok = matches[socket.data.matchId].join(socket);
+            if (!ok) {
+                socket.disconnect();
+            }
         });
     });
 };

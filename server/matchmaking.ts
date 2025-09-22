@@ -8,7 +8,7 @@ type QueueItem = Deck & {
     id: string;
     resolve: (data: Response) => void;
     context: Context<never, "/matchmaking/:id", BlankInput>;
-}
+};
 
 class Queue {
     private items: QueueItem[];
@@ -45,14 +45,15 @@ const tryStartGame = (): void => {
         return;
     }
 
-    const players = [queue.dequeue()!, queue.dequeue()!]; // eslint-disable-line @typescript-eslint/no-non-null-assertion
-    const match = new Match(players.map(({id}) => id));
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const players = [queue.dequeue()!, queue.dequeue()!];
+    const match = new Match(players);
     matches[match.id] = match;
 
     players.forEach(({resolve, context, ...data}) => {
         resolve(context.json({
             matchId: match.id,
-            ...data,
+            id: data.id,
         } satisfies SocketData, {status: 200}));
     });
 };

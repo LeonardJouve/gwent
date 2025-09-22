@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {store} from "$lib/store/carousel";
+    import {store} from "$lib/store/carousel.svelte";
     import Carousel from "./carousel.svelte";
     import type {CardData} from "@shared/types/card";
 
