@@ -14,7 +14,7 @@
     const playerData = $derived(store.players[player]);
 
     const handleSelect = (card: CardData) => {
-        if (!playerData.isLeaderAvailable || store.turn !== "me" || !store.askPlay) {
+        if (!playerData.isLeaderAvailable || player !== "me" || store.turn !== "me" || !store.askPlay) {
             return;
         }
 
