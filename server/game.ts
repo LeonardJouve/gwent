@@ -17,7 +17,7 @@ type Player = Omit<Deck, "deck"> & {
 
 type Effect = {
     once: boolean;
-    run: () => void;
+    run: () => Promise<void>;
 };
 
 export default class Game {
@@ -137,11 +137,10 @@ export default class Game {
             })));
     }
 
-    private static runEffects(effects: Effect[]): Effect[] {
-        return effects.filter(({run, once}) => {
-            run();
-            return !once;
-        });
+    private static async runEffects(effects: Effect[]): Promise<Effect[]> {
+        await Promise.all(effects.map(async ({run}) => await run()));
+
+        return effects.filter(({once}) => !once);
     }
 
     private sendState(): void {
@@ -196,7 +195,7 @@ export default class Game {
         await this.startGame();
 
         while (this.players.every(({gems}) => gems)) {
-            this.startRound();
+            await this.startRound();
 
             this.sendState();
 
@@ -214,7 +213,7 @@ export default class Game {
                 this.sendState();
             }
 
-            this.endRound();
+            await this.endRound();
         }
 
         this.players.forEach((_, i) => this.listeners.showResults(i, this.roundResults));
@@ -233,7 +232,7 @@ export default class Game {
             player.cards.draw(10);
         });
 
-        this.onGameStart = Game.runEffects(this.onGameStart);
+        this.onGameStart = await Game.runEffects(this.onGameStart);
 
         if (!this.currentPlayerIndex) {
             this.tossCoin();
@@ -258,7 +257,7 @@ export default class Game {
         }));
     }
 
-    private startRound(): void {
+    private async startRound(): Promise<void> {
         this.players.forEach((player, i) => {
             player.hasPassed = false;
             this.listeners.notify(i, "start_round");
@@ -275,7 +274,7 @@ export default class Game {
 
         this.players.forEach((_, i) => this.listeners.notify(i, `first_${this.currentPlayerIndex === i ? "me" : "op"}`));
 
-        this.onRoundStart = Game.runEffects(this.onRoundStart);
+        this.onRoundStart = await Game.runEffects(this.onRoundStart);
     }
 
     private startTurn(): void {
@@ -289,7 +288,7 @@ export default class Game {
         }
     }
 
-    private endRound(): void {
+    private async endRound(): Promise<void> {
         const scores = this.players.map((_, i) => this.board.getPlayerScore(i));
         const [firstScore, secondScore] = scores;
 
@@ -306,7 +305,7 @@ export default class Game {
         this.players.filter((_, i) => i !== winner)
             .forEach((player) => --player.gems);
 
-        this.onRoundEnd = Game.runEffects(this.onRoundEnd);
+        this.onRoundEnd = await Game.runEffects(this.onRoundEnd);
 
         this.players.forEach((player, i) => {
             Object.values(this.board.getPlayerBoard(i))

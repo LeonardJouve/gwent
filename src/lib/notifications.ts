@@ -58,8 +58,12 @@ const notifications: Record<NotificationName, Notification> = {
         message: "Monsters faction ability triggered - one randomly-chosen Monster Unit Card stays on the board",
         imageSource: notifURL("monstarts"),
     },
-    scoiatael: {
-        message: "Opponent used the Scoia'tael faction perk to go first.",
+    scoiatael_me: {
+        message: "Scoia'tael faction perk used, you go first.",
+        imageSource: notifURL("scoiatael"),
+    },
+    scoiatael_op: {
+        message: "Scoia'tael faction perk used, opponent goes first.",
         imageSource: notifURL("scoiatael"),
     },
     skellige_me: {

@@ -10,19 +10,21 @@ const factions: Record<FactionName, FactionAbility> = {
     realms: (game, playerIndex) => {
         game.onRoundStart.push({
             once: false,
-            run: () => {
+            run: async () => {
                 if (game.getLastRoundResult()?.winner !== playerIndex) {
                     return;
                 }
 
                 game.getPlayerCards(playerIndex).draw();
+
+                game.players.forEach((_, i) => game.listeners.notify(i, "north"));
             },
         });
     },
     nilfgaard: (game, playerIndex) => {
         game.onRoundEnd.push({
             once: false,
-            run: () => {
+            run: async () => {
                 const lastRoundResult = game.getLastRoundResult();
                 const isLastRoundDraw = lastRoundResult !== null && lastRoundResult.winner === null;
 
@@ -37,7 +39,7 @@ const factions: Record<FactionName, FactionAbility> = {
     monsters: (game, playerIndex) => {
         game.onRoundEnd.push({
             once: false,
-            run: () => {
+            run: async () => {
                 const units = Object.entries(game.board.getPlayerBoard(playerIndex))
                     .flatMap(([rowName, row]) => row
                         .getUnits()
@@ -51,9 +53,11 @@ const factions: Record<FactionName, FactionAbility> = {
 
                 game.onRoundStart.push({
                     once: true,
-                    run: () => {
+                    run: async () => {
                         game.getPlayerCards(playerIndex).restore(card);
                         game.board.getRow(row, playerIndex).add(card);
+
+                        game.players.forEach((_, i) => game.listeners.notify(i, "monsters"));
                     },
                 });
             },
@@ -68,13 +72,15 @@ const factions: Record<FactionName, FactionAbility> = {
                 }
 
                 game.currentPlayerIndex = await game.listeners.askStart(playerIndex);
+
+                game.players.forEach((_, i) => game.listeners.notify(i, `scoiatael_${game.currentPlayerIndex === i ? "me" : "op"}`));
             },
         });
     },
     skellige: (game, playerIndex) => {
         game.onRoundStart.push({
             once: false,
-            run: () => {
+            run: async () => {
                 if (game.getRoundCount() !== 3) {
                     return;
                 }
@@ -85,6 +91,8 @@ const factions: Record<FactionName, FactionAbility> = {
 
                 game.getPlayerCards(playerIndex).restore(...cards);
                 cards.forEach((card) => game.board.play(card, playerIndex));
+
+                game.players.forEach((_, i) => game.listeners.notify(i, `skellige_${game.currentPlayerIndex === i ? "me" : "op"}`));
             },
         });
     },

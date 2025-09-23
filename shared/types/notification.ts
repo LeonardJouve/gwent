@@ -13,7 +13,8 @@ export type NotificationName =
     "turn_op" |
     "north" |
     "monsters" |
-    "scoiatael" |
+    "scoiatael_me" |
+    "scoiatael_op" |
     "skellige_me" |
     "skellige_op";
 
