@@ -205,7 +205,7 @@ export default class Game {
                 if (!this.players[this.currentPlayerIndex].hasPassed) {
                     const play = await this.listeners.askPlay(this.currentPlayerIndex);
 
-                    this.executePlay(play);
+                    await this.executePlay(play);
                 }
 
                 this.currentPlayerIndex = this.getOpponentIndex(this.currentPlayerIndex);
