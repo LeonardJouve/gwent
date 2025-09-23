@@ -68,12 +68,14 @@
         />
     {/if}
     {#each cards as card, i}
-        <Card
-            card={card}
-            isSelectible={true}
-            onSelect={handleSelect(i)}
-            score={scores?.[i]}
-        />
+        {#key card.name + ":" + i}
+            <Card
+                card={card}
+                isSelectible={true}
+                onSelect={handleSelect(i)}
+                score={scores?.[i]}
+            />
+        {/key}
     {/each}
 </div>
 
