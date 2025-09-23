@@ -3,13 +3,19 @@
     import {store} from "$lib/store/notifications.svelte";
 
     const notificationTime = 1200;
+    let timer: number|null = null;
 
     const notification = $derived.by(() => {
         if (!store.notifications.length) {
             return null;
         }
 
-        setTimeout(() => store.notifications.splice(0, 1), notificationTime);
+        if (timer === null) {
+            timer = window.setTimeout(() => {
+                timer = null;
+                store.notifications.splice(0, 1);
+            }, notificationTime);
+        }
 
         return notifications[store.notifications[0]];
     });

@@ -267,12 +267,12 @@ export default class Game {
         if (lastRoundResult) {
             if (lastRoundResult.winner) {
                 this.currentPlayerIndex = lastRoundResult.winner;
+
+                this.players.forEach((_, i) => this.listeners.notify(i, `first_${this.currentPlayerIndex === i ? "me" : "op"}`));
             } else {
                 this.tossCoin();
             }
         }
-
-        this.players.forEach((_, i) => this.listeners.notify(i, `first_${this.currentPlayerIndex === i ? "me" : "op"}`));
 
         this.onRoundStart = await Game.runEffects(this.onRoundStart);
     }
