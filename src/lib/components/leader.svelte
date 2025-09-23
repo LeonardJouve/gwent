@@ -15,17 +15,17 @@
 
     const handleSelect = (card: CardData) => {
         if (!playerData.isLeaderAvailable || player !== "me" || store.turn !== "me" || !store.askPlay) {
-            return;
+            carouselStore.onClose = () => {};
+        } else {
+            carouselStore.onClose = (cards) => {
+                if (!cards.length || !store.askPlay) {
+                    return;
+                }
+
+                store.askPlay({type: "leader"});
+            };
         }
-
         carouselStore.amount = 1;
-        carouselStore.onClose = (cards) => {
-            if (!cards.length || !store.askPlay) {
-                return;
-            }
-
-            store.askPlay({type: "leader"});
-        };
         carouselStore.isClosable = true;
         carouselStore.cards = [card];
         carouselStore.isOpen = true;
