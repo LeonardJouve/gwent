@@ -53,8 +53,9 @@ export default class Game {
         }));
     }
 
-    private static tossCoin(): PlayerIndex {
-        return Math.round(Math.random());
+    private tossCoin(): void {
+        this.currentPlayerIndex = Math.round(Math.random());
+        this.players.forEach((_, i) => this.listeners.notify(i, `coin_${this.currentPlayerIndex === i ? "me" : "op"}`));
     }
 
     enableDoubleSpyPower(): void {
@@ -235,7 +236,7 @@ export default class Game {
         this.onGameStart = Game.runEffects(this.onGameStart);
 
         if (!this.currentPlayerIndex) {
-            this.currentPlayerIndex = Game.tossCoin();
+            this.tossCoin();
         }
 
         this.sendState();
@@ -258,17 +259,28 @@ export default class Game {
     }
 
     private startRound(): void {
-        this.players.forEach((player) => player.hasPassed = false);
+        this.players.forEach((player, i) => {
+            player.hasPassed = false;
+            this.listeners.notify(i, "start_round");
+        });
 
         const lastRoundResult = this.getLastRoundResult();
         if (lastRoundResult) {
-            this.currentPlayerIndex = lastRoundResult.winner ?? Game.tossCoin();
+            if (lastRoundResult.winner) {
+                this.currentPlayerIndex = lastRoundResult.winner;
+            } else {
+                this.tossCoin();
+            }
         }
+
+        this.players.forEach((_, i) => this.listeners.notify(i, `first_${this.currentPlayerIndex === i ? "me" : "op"}`));
 
         this.onRoundStart = Game.runEffects(this.onRoundStart);
     }
 
     private startTurn(): void {
+        this.players.forEach((_, i) => this.listeners.notify(i, `turn_${this.currentPlayerIndex === i ? "me" : "op"}`));
+
         const player = this.players[this.currentPlayerIndex];
 
         const canPlay = (player.cards.hand.length > 0 || player.isLeaderAvailable) && !player.hasPassed;
@@ -296,8 +308,17 @@ export default class Game {
 
         this.onRoundEnd = Game.runEffects(this.onRoundEnd);
 
-        this.players.forEach((player, i) => Object.values(this.board.getPlayerBoard(i))
-            .forEach((row) => player.cards.discard(...row.getUnits())));
+        this.players.forEach((player, i) => {
+            Object.values(this.board.getPlayerBoard(i))
+                .forEach((row) => player.cards.discard(...row.getUnits()));
+
+            const result = winner === null ?
+                "draw" :
+                winner === i ?
+                    "win" :
+                    "lose";
+            this.listeners.notify(i, `${result}_round`);
+        });
 
         this.board.clear();
     }
@@ -306,6 +327,7 @@ export default class Game {
         switch (play.type) {
         case "pass":
             this.players[this.currentPlayerIndex].hasPassed = true;
+            this.players.forEach((_, i) => this.listeners.notify(i, `pass_${this.currentPlayerIndex === i ? "me" : "op"}`));
             break;
         case "leader": {
             const {leader} = this.players[this.currentPlayerIndex];
