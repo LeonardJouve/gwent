@@ -110,7 +110,7 @@ export default class Game {
 
     scorch(rowName?: UnitRow, playerIndex?: PlayerIndex): void {
         const rows = this.players
-            .filter((_, i) => !playerIndex || i === playerIndex)
+            .filter((_, i) => playerIndex === undefined || i === playerIndex)
             .map((_, i) => this.board.getPlayerBoard(i))
             .flatMap((playerBoard, i) => Object.entries(playerBoard)
                 .filter(([name]) => !rowName || rowName === name)
