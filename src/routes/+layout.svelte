@@ -20,6 +20,21 @@
         outline: none;
         cursor: unset;
     }
+
+    @font-face {
+        font-family: "GWENT";
+        src: url("/fonts/gwent.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    :global(html, body) {
+        font-family: "GWENT", Regular;
+    }
+
+    :global(*) {
+        font-family: inherit;
+    }
 </style>
 
 <section class="main">
