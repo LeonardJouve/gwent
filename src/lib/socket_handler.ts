@@ -1,11 +1,10 @@
 import {io} from "socket.io-client";
 import type {SocketData, ClientSideSocket} from "@shared/types/socket";
 import {PUBLIC_API_SERVER_URL} from "$env/static/public";
-import type {Play, State} from "@shared/types/game";
+import type {Play, RoundResult, State} from "@shared/types/game";
 import {store as gameStore} from "./store/game.svelte";
 import {store as notificationStore} from "./store/notifications.svelte";
 import {store as carouselStore} from "./store/carousel.svelte";
-import type {RoundResult} from "../../server/types/game";
 import type {CardData} from "@shared/types/card";
 import type {NotificationName} from "@shared/types/notification";
 import type {PlayerIndicator} from "@shared/types/player";
@@ -81,7 +80,7 @@ export class SocketHandler {
         carouselStore.isOpen = true;
     }
 
-    static handleShowResults(results: RoundResult[]): void {
+    static handleShowResults(results: RoundResult[], winner: PlayerIndicator|null): void {
         // TODO
         console.log("showResults");
     }

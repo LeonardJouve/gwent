@@ -216,7 +216,11 @@ export default class Game {
             await this.endRound();
         }
 
-        this.players.forEach((_, i) => this.listeners.showResults(i, this.roundResults));
+        let winner: PlayerIndex|null = this.players.findIndex((player) => player.gems);
+        if (winner === -1) {
+            winner = null;
+        }
+        this.players.forEach((_, i) => this.listeners.showResults(i, this.roundResults, winner));
     }
 
     private async startGame(): Promise<void> {

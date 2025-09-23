@@ -1,4 +1,6 @@
 TODOS:
+- Results
+- Scoiatael modal
 - Special row
 - Play all cards
 - Restrict playable cards

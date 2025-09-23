@@ -64,3 +64,8 @@ export type State = {
     };
     board: Board;
 };
+
+export type RoundResult = {
+    winner: PlayerIndicator|null;
+    scores: Record<PlayerIndicator, number>;
+};

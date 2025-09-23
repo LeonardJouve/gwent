@@ -1,6 +1,6 @@
 import type {Socket as ServerSocket} from "socket.io";
 import type {Socket as ClientSocket} from "socket.io-client";
-import type {RoundResult} from "../../server/types/game";
+import type {RoundResult} from "./game";
 import type {CardData} from "./card";
 import type {NotificationName} from "./notification";
 import type {Play, State} from "./game";
@@ -16,7 +16,7 @@ export type ServerToClientEvents = {
     select_cards: (cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData[]) => void) => void;
     notify: (name: NotificationName) => void;
     show_cards: (cards: CardData[], callback: () => void) => void;
-    show_results: (results: RoundResult[]) => void;
+    show_results: (results: RoundResult[], winner: PlayerIndicator|null) => void;
     send_state: (state: State) => void;
 };
 

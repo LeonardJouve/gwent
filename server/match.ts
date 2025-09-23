@@ -7,7 +7,7 @@ import type {ServerSideSocket} from "../shared/types/socket";
 import type {Play, State} from "../shared/types/game";
 import type {PlayerIndicator} from "../shared/types/player";
 import type {Deck} from "../shared/types/deck";
-
+import type {RoundResult as SocketRoundResult} from "../shared/types/game";
 
 export default class Match extends Listeners {
     static matches = new Map<string, Match>();
@@ -70,8 +70,28 @@ export default class Match extends Listeners {
         this.sockets[playerIndex].emit("notify", name);
     }
 
-    showResults(playerIndex: PlayerIndex, results: RoundResult[]): void {
-        this.sockets[playerIndex].emit("show_results", results);
+    showResults(playerIndex: PlayerIndex, results: RoundResult[], winner: PlayerIndex|null): void {
+        const winnerIndicator = winner === null ?
+            null :
+            winner === playerIndex ?
+                "me" :
+                "opponent";
+        const socketResults = results.map<SocketRoundResult>((result) => ({
+            winner: result.winner === playerIndex ? "me" : "opponent",
+            scores: result.scores.reduce((acc, score, i) => {
+                if (playerIndex === i) {
+                    acc["me"] = score;
+                } else {
+                    acc["opponent"] = score;
+                }
+
+                return acc;
+            }, {
+                me: 0,
+                opponent: 0,
+            }),
+        }));
+        this.sockets[playerIndex].emit("show_results", socketResults, winnerIndicator);
 
         this.remove();
     }
