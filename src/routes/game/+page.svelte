@@ -46,6 +46,7 @@
 
     const laneLeftPercent = 29.7;
 
+    let gameContainer: HTMLDivElement;
     let boardImage: HTMLImageElement;
     let boardBoundingRect = $state<Rect>({
         top: 0,
@@ -58,7 +59,7 @@
     const rows: UnitRow[] = ["close", "ranged", "siege"];
 
     onMount(() => {
-        function resizeImage(): void {
+        const observer = new ResizeObserver(() => {
             const imageRatio = boardImage.naturalWidth / boardImage.naturalHeight;
             const viewportRatio = window.innerWidth / window.innerHeight;
 
@@ -71,11 +72,11 @@
             }
 
             boardBoundingRect = boardImage.getBoundingClientRect();
-        }
+        });
+        observer.observe(boardImage);
+        observer.observe(gameContainer);
 
-        resizeImage();
-        window.addEventListener("resize", resizeImage);
-        return (): void => window.removeEventListener("resize", resizeImage);
+        return () => observer.disconnect();
     });
 
     const getPosition = $derived((leftPercent: number, widthPercent: number, topPercent: number, heightPercent: number) => {
@@ -189,7 +190,10 @@
     });
 </script>
 
-<div class="game">
+<div
+    class="game"
+    bind:this={gameContainer}
+>
     <img
         class="board"
         alt="board"
