@@ -12,6 +12,7 @@ type GameResult = {
 type GameStore = State & {
     selectedCard?: CardData;
     askPlay?: (play: Play) => void;
+    askStart?: (player: PlayerIndicator) => void;
     result?: GameResult;
 };
 

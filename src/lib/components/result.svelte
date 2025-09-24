@@ -42,7 +42,10 @@
 </script>
 
 <dialog
-    class="modal"
+    class={{
+        modal: true,
+        hidden: !results,
+    }}
     bind:this={modal}
 >
     {#if results}
@@ -80,10 +83,12 @@
             <Button
                 onclick={handleMenu}
                 content="Menu"
+                variant="large"
             />
             <Button
                 onclick={handleReplay}
                 content="Replay"
+                variant="large"
             />
         </div>
     {/if}
@@ -100,6 +105,10 @@
             background-color: black;
             opacity: 0.9;
         }
+    }
+
+    .hidden {
+        display: none;
     }
 
     .image {

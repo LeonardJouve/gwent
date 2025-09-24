@@ -17,6 +17,7 @@
     import PassButton from "$lib/components/pass_button.svelte";
     import PassIndicator from "$lib/components/pass_indicator.svelte";
     import Result from "$lib/components/result.svelte";
+    import ScoiataelModal from "$lib/components/scoiatael_modal.svelte";
 
     const {data} = $props();
     const socketHandler = $state<SocketHandler>(new SocketHandler(data.socketData));
@@ -252,6 +253,7 @@
     <Notification/>
     <GameCarousel/>
     <Result/>
+    <ScoiataelModal/>
 </div>
 
 <style>

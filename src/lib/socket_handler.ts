@@ -32,21 +32,20 @@ export class SocketHandler {
     }
 
     handleGetData(callback: (data: SocketData) => void): void {
-        console.log("getData");
         callback(this.socketData);
     }
 
     static handleSendState({turn, players, board}: State): void {
-        console.log("sendState");
         gameStore.turn = turn;
         gameStore.players = {...players};
         gameStore.board = board;
     }
 
     static handleAskStart(callback: (player: PlayerIndicator) => void): void {
-        // TODO
-        console.log("askStart");
-        callback("me");
+        gameStore.askStart = (player: PlayerIndicator): void => {
+            callback(player);
+            gameStore.askStart = undefined;
+        };
     }
 
     static handleAskPlay(callback: (play: Play) => void): void {
@@ -58,7 +57,6 @@ export class SocketHandler {
     }
 
     static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData[]) => void): void {
-        console.log("selectCards");
         carouselStore.amount = amount;
         carouselStore.onClose = callback;
         carouselStore.isClosable = isClosable;
@@ -67,12 +65,10 @@ export class SocketHandler {
     }
 
     static handleNotify(name: NotificationName): void {
-        console.log("notify");
         notificationStore.notifications.push(name);
     }
 
     static handleShowCards(cards: CardData[], callback: () => void): void {
-        console.log("showCards");
         carouselStore.amount = 1;
         carouselStore.onClose = callback;
         carouselStore.isClosable = true;
@@ -81,7 +77,6 @@ export class SocketHandler {
     }
 
     static handleShowResults(results: RoundResult[], winner: PlayerIndicator|null): void {
-        console.log("showResults");
         gameStore.result = {
             results,
             winner,
