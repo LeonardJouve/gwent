@@ -2,6 +2,7 @@
     import {goto} from "$app/navigation";
     import {iconURL} from "$lib/utils";
     import {store} from "$lib/store/game.svelte";
+    import Button from "./button.svelte";
 
     let modal: HTMLDialogElement;
 
@@ -76,12 +77,14 @@
             </tbody>
         </table>
         <div class="actions">
-            <button onclick={handleMenu}>
-                Menu
-            </button>
-            <button onclick={handleReplay}>
-                Replay
-            </button>
+            <Button
+                onclick={handleMenu}
+                content="Menu"
+            />
+            <Button
+                onclick={handleReplay}
+                content="Replay"
+            />
         </div>
     {/if}
 </dialog>
@@ -128,15 +131,5 @@
     th, td {
         padding: 25px;
         text-align: center;
-    }
-
-    button {
-        padding: 1px 3px 1px 3px;
-        font-size: 2vw;
-        font-weight: bold;
-        color: goldenrod;
-
-        border: .1vw solid goldenrod;
-        border-radius: .5vw;
     }
 </style>

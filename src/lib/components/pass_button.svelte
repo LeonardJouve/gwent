@@ -1,5 +1,6 @@
 <script lang="ts">
     import {store} from "$lib/store/game.svelte";
+    import Button from "./button.svelte";
 
     const hasPassed = $derived(store.players["me"].hasPassed);
 
@@ -13,23 +14,8 @@
 </script>
 
 {#if !hasPassed}
-    <button
-        class="pass"
+    <Button
         onclick={handleClick}
-    >
-        Pass
-    </button>
+        content="Pass"
+    />
 {/if}
-
-<style>
-    .pass {
-        padding: 1px 3px 1px 3px;
-        font-size: 2vw;
-        font-weight: bold;
-        color: goldenrod;
-
-        border: .1vw solid goldenrod;
-        border-radius: .5vw;
-        background-color: rgba(20,20,20,.9);
-    }
-</style>
