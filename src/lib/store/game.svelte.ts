@@ -1,12 +1,18 @@
 import type {CardData, UnitRow} from "@shared/types/card";
 import type {PlayerIndicator} from "@shared/types/player";
-import type {Play, PlayerBoard, State} from "@shared/types/game";
+import type {Play, PlayerBoard, RoundResult, State} from "@shared/types/game";
 import type {Weather} from "@shared/types/weather";
 import cards from "@shared/cards";
+
+type GameResult = {
+    results: RoundResult[];
+    winner: PlayerIndicator|null;
+};
 
 type GameStore = State & {
     selectedCard?: CardData;
     askPlay?: (play: Play) => void;
+    result?: GameResult;
 };
 
 const leader = cards.find(({deck, abilities}) => deck === "realms" && abilities.includes("leader"));

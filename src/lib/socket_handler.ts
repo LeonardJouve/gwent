@@ -81,7 +81,10 @@ export class SocketHandler {
     }
 
     static handleShowResults(results: RoundResult[], winner: PlayerIndicator|null): void {
-        // TODO
         console.log("showResults");
+        gameStore.result = {
+            results,
+            winner,
+        };
     }
 }

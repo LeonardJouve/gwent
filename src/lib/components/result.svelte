@@ -1,76 +1,85 @@
 <script lang="ts">
-    import {onMount} from "svelte";
+    import {goto} from "$app/navigation";
     import {iconURL} from "$lib/utils";
     import {store} from "$lib/store/game.svelte";
-    import type {RoundResult} from "@shared/types/game";
-    import type {PlayerIndicator} from "@shared/types/player";
-    import { goto } from "$app/navigation";
-
-    type Props = {
-        results: RoundResult[];
-        winner: PlayerIndicator|null;
-    };
-    const {results, winner}: Props = $props();
 
     let modal: HTMLDialogElement;
 
-    onMount(() => modal.showModal());
+    const results = $derived.by(() => {
+        if (!store.result) {
+            modal.close();
+            return null;
+        }
 
-    const result = $derived(winner === null ?
-        "draw" :
-        winner === "me" ?
-            "win" :
-            "lose");
+        const {winner, results} = store.result;
 
-    const handleMenu = () => goto("/");
+        modal.showModal();
+
+        return {
+            roundResults: results,
+            gameResult: winner === null ?
+                "draw" :
+                winner === "me" ?
+                    "win" :
+                    "lose",
+        };
+    });
+
+    const handleMenu = () => {
+        store.result = undefined;
+        goto("/");
+    };
 
     const handleReplay = () => {
         // TODO
     };
 </script>
 
-<dialog
-    class="modal"
-    bind:this={modal}
->
-    <img
-        class="image"
-        alt={result}
-        src={iconURL(`end_${result}`)}
-    />
-    <table>
-        <tbody>
-            <tr>
-                <th></th>
-                {#each results as _, i}
-                    <th class="header">{`Round ${i + 1}`}</th>
-                {/each}
-            </tr>
-            {#each Object.entries(store.players) as [key, player]}
-                {@const playerIndicator = key as keyof typeof store.players}
+{#if results}
+    {@const {gameResult, roundResults} = results}
+    <dialog
+        class="modal"
+        bind:this={modal}
+    >
+        <img
+            class="image"
+            alt={gameResult}
+            src={iconURL(`end_${gameResult}`)}
+        />
+        <table>
+            <tbody>
                 <tr>
-                    <th class="name">{player.name}</th>
-                    {#each results as result}
-                        <td class={{
-                            result: true,
-                            winner: result.winner === playerIndicator,
-                        }}>
-                            {result.scores[playerIndicator]}
-                        </td>
+                    <th></th>
+                    {#each roundResults as _, i}
+                        <th class="header">{`Round ${i + 1}`}</th>
                     {/each}
                 </tr>
-            {/each}
-        </tbody>
-    </table>
-    <div class="actions">
-        <button onclick={handleMenu}>
-            Menu
-        </button>
-        <button onclick={handleReplay}>
-            Replay
-        </button>
-    </div>
-</dialog>
+                {#each Object.entries(store.players) as [key, player]}
+                    {@const playerIndicator = key as keyof typeof store.players}
+                    <tr>
+                        <th class="name">{player.name}</th>
+                        {#each roundResults as result}
+                            <td class={{
+                                result: true,
+                                winner: result.winner === playerIndicator,
+                            }}>
+                                {result.scores[playerIndicator]}
+                            </td>
+                        {/each}
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+        <div class="actions">
+            <button onclick={handleMenu}>
+                Menu
+            </button>
+            <button onclick={handleReplay}>
+                Replay
+            </button>
+        </div>
+    </dialog>
+{/if}
 
 <style>
     .modal {
