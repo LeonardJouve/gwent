@@ -5,15 +5,20 @@
 
     let modal: HTMLDialogElement;
 
+    $effect(() => {
+        if (store.result) {
+            modal.showModal();
+        } else {
+            modal.close();
+        }
+    });
+
     const results = $derived.by(() => {
         if (!store.result) {
-            modal.close();
             return null;
         }
 
         const {winner, results} = store.result;
-
-        modal.showModal();
 
         return {
             roundResults: results,
@@ -35,12 +40,12 @@
     };
 </script>
 
-{#if results}
-    {@const {gameResult, roundResults} = results}
-    <dialog
-        class="modal"
-        bind:this={modal}
-    >
+<dialog
+    class="modal"
+    bind:this={modal}
+>
+    {#if results}
+        {@const {gameResult, roundResults} = results}
         <img
             class="image"
             alt={gameResult}
@@ -78,8 +83,8 @@
                 Replay
             </button>
         </div>
-    </dialog>
-{/if}
+    {/if}
+</dialog>
 
 <style>
     .modal {
