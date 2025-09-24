@@ -1,6 +1,6 @@
 <script lang="ts">
     import {store} from "$lib/store/game.svelte";
-    import Button from "./button.svelte";
+    import Button from "$lib/components/button.svelte";
 
     const hasPassed = $derived(store.players["me"].hasPassed);
 

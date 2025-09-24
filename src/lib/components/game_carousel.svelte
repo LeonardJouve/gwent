@@ -1,6 +1,6 @@
 <script lang="ts">
     import {store} from "$lib/store/carousel.svelte";
-    import Carousel from "./carousel.svelte";
+    import Carousel from "$lib/components/carousel.svelte";
     import type {CardData} from "@shared/types/card";
 
     const handleClose = (cards: CardData[]): void => {

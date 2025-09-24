@@ -2,7 +2,7 @@
     import {goto} from "$app/navigation";
     import {iconURL} from "$lib/utils";
     import {store} from "$lib/store/game.svelte";
-    import Button from "./button.svelte";
+    import Button from "$lib/components/button.svelte";
 
     let modal: HTMLDialogElement;
 
