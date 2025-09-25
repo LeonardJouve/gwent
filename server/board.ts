@@ -85,6 +85,7 @@ export default class Board {
     play(card: CardData, playerIndex: PlayerIndex, row?: UnitRow): void {
         const r = row ?? (card.row === "agile" ? "close" : card.row);
         if (!r) {
+            // TODO special / weather / decoy
             return;
         }
 

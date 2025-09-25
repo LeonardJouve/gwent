@@ -2,7 +2,7 @@
 </script>
 
 <div class="hoverable weather">
-    <!-- <CardContainer cards={store.cards}/> -->
+    <!-- TODO <CardContainer cards={store.cards}/> -->
 </div>
 
 <style>

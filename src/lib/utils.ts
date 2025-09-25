@@ -1,9 +1,9 @@
 import type {CardData} from "@shared/types/card";
 
-const imgURL = (prefix: string, file: string, ext: string): string => "assets/img/" + prefix + "/" + file + "." + ext;
+export const imgURL = (file: string, ext: string, prefix?: string): string => `assets/img/${prefix ? `${prefix}/` : ""}${file}.${ext}`;
 
-export const iconURL = (file: string, ext = "png"): string => imgURL("icons", file, ext);
+export const iconURL = (file: string, ext = "png"): string => imgURL(file, ext, "icons");
 
-export const largeURL = (card: CardData, ext = "jpg"): string => imgURL("lg", card.deck + "_" + card.filename, ext);
+export const largeURL = (card: CardData, ext = "jpg"): string => imgURL(`${card.deck}_${card.filename}`, ext, "lg");
 
-export const smallURL = (card: CardData, ext = "jpg"): string => imgURL("sm", card.deck + "_" + card.filename, ext);
+export const smallURL = (card: CardData, ext = "jpg"): string => imgURL(`${card.deck}_${card.filename}`, ext, "sm");

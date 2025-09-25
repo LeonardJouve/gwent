@@ -1,6 +1,4 @@
 <script lang="ts">
-    import Soundtrack from "$lib/components/soundtrack.svelte";
-
     const {children} = $props();
 </script>
 
@@ -38,6 +36,5 @@
 </style>
 
 <section class="main">
-    <Soundtrack/>
     {@render children()}
 </section>
