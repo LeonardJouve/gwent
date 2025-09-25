@@ -1,4 +1,6 @@
 TODOS:
+- Only send card ID
+- Array of rows
 - Special row
 - Play all cards
 - Restrict playable cards
