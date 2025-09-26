@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {imgURL} from "$lib/utils";
+    import {iconURL} from "$lib/utils";
 
     let muted = $state<boolean>(true);
 
@@ -25,7 +25,7 @@
 >
     <img
         class="image"
-        src={imgURL(`music${muted ? "_mute" : ""}`, "png")}
+        src={iconURL(`music${muted ? "_mute" : ""}`, "png")}
         alt="music"
     />
 </button>

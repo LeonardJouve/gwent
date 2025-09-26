@@ -2,7 +2,7 @@
     import type {PlayerIndicator} from "@shared/types/player";
     import CardPile from "$lib/components/card_pile.svelte";
     import {store} from "$lib/store/game.svelte";
-    import {iconURL} from "$lib/utils";
+    // import {iconURL} from "$lib/utils";
 
     type Props = {
         player: PlayerIndicator;
@@ -13,11 +13,12 @@
 </script>
 
 {#snippet cardBack()}
-    <img
+    <!-- <img
         alt={`${playerData.faction} card back`}
         src={iconURL("deck_back_" + playerData.faction, "jpg")}
         style:height="100%"
-    />
+    /> -->
+    <div class="back-realms height"/>
 {/snippet}
 
 <CardPile
