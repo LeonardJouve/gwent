@@ -5,7 +5,7 @@
     import cards from "@shared/cards";
     import factions from "$lib/factions";
     import type {Deck} from "@shared/types/deck";
-    import {PUBLIC_API_SERVER_URL} from "$env/static/public";
+    import {PUBLIC_API_URL} from "$env/static/public";
     import {goto} from "$app/navigation";
 
     const factionName = "realms";
@@ -28,7 +28,7 @@
     const handleAbort = () => {
         if (!isInQueue) return;
         isInQueue = false;
-        fetch(`${PUBLIC_API_SERVER_URL}/matchmaking/${id}`, {method: "DELETE"});
+        fetch(`${PUBLIC_API_URL}/matchmaking/${id}`, {method: "DELETE"});
     };
 
     const handleQueue = async (e: MouseEvent) => {
@@ -44,7 +44,7 @@
             abortController = new AbortController();
             abortController.signal.addEventListener("abort", handleAbort);
 
-            const res = await fetch(`${PUBLIC_API_SERVER_URL}/matchmaking/${id}`, {
+            const res = await fetch(`${PUBLIC_API_URL}/matchmaking/${id}`, {
                 method: "POST",
                 body: JSON.stringify({
                     name: username,

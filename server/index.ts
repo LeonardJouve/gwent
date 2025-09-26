@@ -4,6 +4,11 @@ import {cors} from "hono/cors";
 import {initSocketIO} from "./socket";
 import {abort, matchmake} from "./matchmaking";
 
+const clientURL = process.env.PUBLIC_CLIENT_URL;
+if (!clientURL) {
+    throw new Error("invalid client url");
+}
+
 const app = new Hono();
 
 const server = serve({
@@ -11,10 +16,10 @@ const server = serve({
     port: Number(process.env.PORT) || 3000,
 }, ({port}) => console.log(`Server listening on port ${port}...`));
 
-initSocketIO(server);
+initSocketIO(server, clientURL);
 
 app.use("*", cors({
-    origin: "http://localhost:5173",
+    origin: clientURL,
 }));
 
 app.post("/matchmaking/:id", matchmake);
