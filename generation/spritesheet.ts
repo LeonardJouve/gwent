@@ -6,8 +6,10 @@ import {createCanvas, loadImage} from "canvas";
 const generateSpritesheet = async (assetsFolder: string): Promise<void> => {
     const assets = await fs.promises.readdir(assetsFolder, {withFileTypes: true});
     const folders = assets.filter((asset) => asset.isDirectory());
+
     for (const folder of folders) {
         console.log(`reading folder ${folder.name}`);
+
         const parentPath = path.join(assetsFolder, folder.name);
         const entries = await fs.promises.readdir(parentPath, {withFileTypes: true});
         const files = entries.filter((entry) => entry.isFile());
@@ -18,59 +20,38 @@ const generateSpritesheet = async (assetsFolder: string): Promise<void> => {
 
         const buffer = await fs.promises.readFile(path.join(parentPath, files[0].name));
         const dimensions = imageSize(buffer);
+
         const canvas = createCanvas(dimensions.width * files.length, dimensions.height);
         const ctx = canvas.getContext("2d");
 
         for (let i = 0; i < files.length; ++i) {
             const file = files[i];
+
             console.log(`reading image ${file.name}`);
+
             const image = await loadImage(path.join(parentPath, file.name));
             ctx.drawImage(image, dimensions.width * i, 0, dimensions.width, dimensions.height);
         }
 
-        await fs.promises.writeFile("./output/card.png", canvas.toBuffer("image/png"));
+        await fs.promises.writeFile(path.join(assetsFolder, `${folder.name}.png`), canvas.toBuffer("image/png"));
+
         console.log(`created spritesheet for ${folder.name}`);
     }
 };
 
 generateSpritesheet("./static/assets/img/lg");
 
+const getDefaultCSS = (spritesheetWidth: number, spritesheetHeight: number, cardWidth: number, cardHeight: number): string => `
+[class^="icon-"] {
+    background-image: url("/spritesheet.png");
+    background-size: calc(100% * ${spritesheetWidth} / ${cardWidth}) calc(100% * ${spritesheetHeight} / ${cardHeight});
+    aspect-ratio: calc(${cardWidth} / ${cardHeight});
+}`;
 
-// Spritesmith.run(
-//     {
-//         src: [
-//             "./public/1.jpg",
-//             "./public/2.jpg",
-//             "./public/3.jpg",
-//             "./public/4.jpg",
-//         ],
-//     },
-//     (err, result): void => {
-//         // If there was an error, throw it
-//         if (err) {
-//             throw err;
-//         }
-
-//         // Output the image
-//         fs.writeFileSync("./public/spritesheet.png", result.image);
-//         generateCSS(result.coordinates); // Coordinates and properties
-//     },
-// );
-
-// type Coordinate = {
-//     x: number;
-//     y: number;
-//     width: number;
-//     height: number;
-// };
-
-// const getCSS = (name: string, coordinate: Coordinate): string => `
-// .icon-${path.parse(name).name} {
-//     background-image: url("/spritesheet.png");
-//     background-position: ${coordinate.x}px ${coordinate.y}px;
-//     width: ${coordinate.width}px;
-//     height: ${coordinate.height}px;
-// }`;
+const getCardCSS = (name: string, i: number): string => `
+.icon-${path.parse(name).name} {
+    background-position: calc(${i + 1} * 100%) 0px;
+}`;
 
 // const generateCSS = (coordinates: Record<string, Coordinate>): void => {
 //     fs.writeFileSync(
