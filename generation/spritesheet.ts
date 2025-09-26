@@ -3,34 +3,34 @@ import path from "node:path";
 import imageSize from "image-size";
 import {createCanvas, loadImage} from "canvas";
 
-const generateSpritesheet = async (folder: string): Promise<void> => {
-    const folders = await fs.promises.readdir(folder, {withFileTypes: true});
+const generateSpritesheet = async (assetsFolder: string): Promise<void> => {
+    const assets = await fs.promises.readdir(assetsFolder, {withFileTypes: true});
+    const folders = assets.filter((asset) => asset.isDirectory());
+    for (const folder of folders) {
+        console.log(`reading folder ${folder.name}`);
+        const parentPath = path.join(assetsFolder, folder.name);
+        const entries = await fs.promises.readdir(parentPath, {withFileTypes: true});
+        const files = entries.filter((entry) => entry.isFile());
 
-    console.log(folders.filter((f) => f.isDirectory()));
+        if (!files.length) {
+            continue;
+        }
 
-    folders
-        .filter((f) => f.isDirectory())
-        .map(async (directory) => {
-            const parentPath = path.join(folder, directory.name);
-            const entries = await fs.promises.readdir(parentPath, {withFileTypes: true});
-            const files = entries.filter(({isFile}) => isFile());
+        const buffer = await fs.promises.readFile(path.join(parentPath, files[0].name));
+        const dimensions = imageSize(buffer);
+        const canvas = createCanvas(dimensions.width * files.length, dimensions.height);
+        const ctx = canvas.getContext("2d");
 
-            if (!files.length) {
-                return;
-            }
+        for (let i = 0; i < files.length; ++i) {
+            const file = files[i];
+            console.log(`reading image ${file.name}`);
+            const image = await loadImage(path.join(parentPath, file.name));
+            ctx.drawImage(image, dimensions.width * i, 0, dimensions.width, dimensions.height);
+        }
 
-            const buffer = await fs.promises.readFile(path.join(parentPath, files[0].name));
-            const dimensions = imageSize(buffer);
-            const canvas = createCanvas(dimensions.width * files.length, dimensions.height);
-            const ctx = canvas.getContext("2d");
-
-            await Promise.all(files.map(async (file, i) => {
-                const image = await loadImage(path.join(parentPath, file.name));
-                ctx.drawImage(image, dimensions.width * i, 0, dimensions.width, dimensions.height);
-            }));
-
-            await fs.promises.writeFile("./output/card.png", canvas.toBuffer("image/png"), {encoding: "utf-8"});
-        });
+        await fs.promises.writeFile("./output/card.png", canvas.toBuffer("image/png"));
+        console.log(`created spritesheet for ${folder.name}`);
+    }
 };
 
 generateSpritesheet("./static/assets/img/lg");
