@@ -26,10 +26,7 @@
 
 {#if ability}
     <img
-        class={{
-            width: size === "width",
-            height: size === "height",
-        }}
+        class={size}
         alt={ability}
         src={iconURL(ability)}
     />

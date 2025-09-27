@@ -1,24 +1,110 @@
+import {createCanvas, loadImage, type Canvas} from "canvas";
+import type {ISize} from "image-size/types/interface";
+import type {CardData} from "../shared/types/card";
+import path from "node:path";
 import fs from "node:fs";
-import {createCanvas, loadImage} from "canvas";
+import imageSize from "image-size";
 
-const generateCard = async (): Promise<void> => {
-    const width = 600;
-    const height = 400;
-    const canvas = createCanvas(width, height);
+type GenerateCardOptions = {
+    imagePath: string;
+    iconsFolder: string;
+    dimensions: ISize;
+    card: CardData;
+};
+export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: GenerateCardOptions): Promise<Canvas> => {
+    const canvas = createCanvas(dimensions.width, dimensions.height);
     const ctx = canvas.getContext("2d");
 
-    const background = await loadImage("./assets/background.jpg");
-    const avatar = await loadImage("./assets/avatar.png");
+    const image = await loadImage(imagePath);
+    ctx.drawImage(image, 0, 0, dimensions.width, dimensions.height);
 
-    ctx.drawImage(background, 0, 0, width, height);
-    ctx.drawImage(avatar, 50, 100, 150, 150);
+    const padding = 5;
 
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText("Player Name", 250, 150);
+    const power = getPower(card);
+    if (power) {
+        const powerPath = path.join(iconsFolder, `${power}.png`);
 
-    const buffer = canvas.toBuffer("image/png");
-    fs.writeFileSync("./output/card.png", buffer);
+        const buffer = await fs.promises.readFile(powerPath);
+        const powerDimensions = imageSize(buffer);
+
+        const scale = 0.7;
+        const width = dimensions.width * scale;
+        const height = powerDimensions.height / powerDimensions.width * width;
+        const x = dimensions.width * -0.04;
+        const y = dimensions.height * -0.022;
+
+        const powerImage = await loadImage(powerPath);
+        ctx.drawImage(powerImage, x, y, width, height);
+    }
+
+    const isUnit = card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile";
+    if (isUnit) {
+        const rowPath = path.join(iconsFolder, `card_row_${card.row}.png`);
+
+        const buffer = await fs.promises.readFile(rowPath);
+        const rowDimensions = imageSize(buffer);
+
+        const scale = 0.33;
+        const width = dimensions.width * scale;
+        const height = rowDimensions.height / rowDimensions.width * width;
+        const x = dimensions.width - width - padding;
+        const y = dimensions.height - height - padding;
+
+        const rowImage = await loadImage(rowPath);
+        ctx.drawImage(rowImage, x, y, width, height);
+    }
+
+    const ability = getAbility(card);
+    if (ability) {
+        const abilityPath = path.join(iconsFolder, `${ability}.png`);
+
+        const buffer = await fs.promises.readFile(abilityPath);
+        const abilityDimensions = imageSize(buffer);
+
+        const scale = 0.33;
+        const width = dimensions.width * scale;
+        const height = abilityDimensions.height / abilityDimensions.width * width;
+        let x = dimensions.width - width - padding;
+        if (isUnit) {
+            x -= width + padding;
+        }
+        const y = dimensions.height - height - padding;
+
+        console.log(abilityPath);
+        const abilityImage = await loadImage(abilityPath);
+        ctx.drawImage(abilityImage, x, y, width, height);
+    }
+
+    return canvas;
 };
 
-generateCard();
+const getPower = (card: CardData): string|null => {
+    if (card.abilities.includes("leader")) {
+        return null;
+    }
+
+    if (card.abilities.includes("hero")) {
+        return "power_hero";
+    }
+
+    if (card.deck === "weather" || card.deck === "special") {
+        return "power_" + card.abilities[0];
+    }
+
+    return "power_normal";
+};
+
+const getAbility = (card: CardData): string|null => {
+    if (card.deck === "special" || card.deck === "weather" || card.abilities.includes("leader") || !card.abilities.filter((ability) => ability !== "hero").length) {
+        return null;
+    }
+
+    let abilityName = card.abilities[card.abilities.length - 1];
+    if (abilityName.startsWith("avenger")) {
+        abilityName = "avenger";
+    } else if (abilityName.startsWith("scorch")) {
+        abilityName = "scorch";
+    }
+
+    return "card_ability_" + abilityName;
+};

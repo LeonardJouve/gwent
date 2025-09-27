@@ -1,16 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
-import {createCanvas, loadImage} from "canvas";
+import {createCanvas, loadImage, type Canvas, type Image} from "canvas";
 import imageSize from "image-size";
+import {generateCSS} from "./css";
 import type {ISize} from "image-size/types/interface";
+
+type ImageGenerator = (file: fs.Dirent<string>, imagePath: string, dimensions: ISize) => Promise<Image|Canvas>;
 
 type GenerateSpritesheetsOptions = {
     assetsFolder: string;
     outputImageFolder: string;
     outputCSSFolder: string;
     spritesheetURL: string;
+    generateImage?: ImageGenerator;
 };
-export const generateSpritesheets = async ({assetsFolder, outputImageFolder, outputCSSFolder, spritesheetURL}: GenerateSpritesheetsOptions): Promise<void> => {
+export const generateSpritesheets = async ({assetsFolder, outputImageFolder, outputCSSFolder, spritesheetURL, generateImage}: GenerateSpritesheetsOptions): Promise<void> => {
     const assets = await fs.promises.readdir(assetsFolder, {withFileTypes: true});
     const folders = assets.filter((asset) => asset.isDirectory());
 
@@ -20,6 +24,7 @@ export const generateSpritesheets = async ({assetsFolder, outputImageFolder, out
             outputImage: path.join(outputImageFolder, `${folder.name}.png`),
             outputCSS: path.join(outputCSSFolder, `${folder.name}.css`),
             spritesheetURL: `${spritesheetURL}/${folder.name}.png`,
+            generateImage,
         });
     }
 };
@@ -29,8 +34,9 @@ type GenerateSpritesheetOptions = {
     outputImage: string;
     outputCSS: string;
     spritesheetURL: string;
+    generateImage?: ImageGenerator;
 };
-const generateSpritesheet = async ({folder, outputImage, outputCSS, spritesheetURL}: GenerateSpritesheetOptions): Promise<void> => {
+const generateSpritesheet = async ({folder, outputImage, outputCSS, spritesheetURL, generateImage = generateDefaultImage}: GenerateSpritesheetOptions): Promise<void> => {
     const parentPath = path.join(folder.parentPath, folder.name);
 
     console.log(`reading folder ${folder.name}`);
@@ -48,7 +54,10 @@ const generateSpritesheet = async ({folder, outputImage, outputCSS, spritesheetU
     const ctx = canvas.getContext("2d");
 
     for (let i = 0; i < files.length; ++i) {
-        const image = await loadImage(path.join(parentPath, files[i].name));
+        const file = files[i];
+        const imagePath = path.join(parentPath, file.name);
+
+        const image = await generateImage(file, imagePath, dimensions);
         ctx.drawImage(image, dimensions.width * i, 0, dimensions.width, dimensions.height);
     }
 
@@ -76,57 +85,4 @@ const generateSpritesheet = async ({folder, outputImage, outputCSS, spritesheetU
     });
 };
 
-type GenerateCSSOptions = {
-    spritesheetDimensions: ISize;
-    cardDimensions: ISize;
-    names: string[];
-    output: string;
-    spritesheetURL: string;
-    prefix: string;
-};
-const generateCSS = async ({spritesheetDimensions, cardDimensions, names, output, spritesheetURL, prefix}: GenerateCSSOptions): Promise<void> => {
-    await fs.promises.mkdir(path.dirname(output), {recursive: true});
-    return fs.promises.writeFile(
-        output,
-        getDefaultCSS(prefix, spritesheetDimensions, cardDimensions, spritesheetURL)
-            .concat(names
-                .map((name, i) => getCardCSS(prefix, name, i))
-                .join("\n")),
-    );
-};
-
-const getDefaultCSS = (prefix: string, spritesheetDimensions: ISize, cardDimensions: ISize, spritesheetURL: string): string => `
-[class^="${prefix}-"] {
-    background-image: url(${spritesheetURL});
-    background-size:
-        calc(100% * ${spritesheetDimensions.width} / ${cardDimensions.width})
-        calc(100% * ${spritesheetDimensions.height} / ${cardDimensions.height});
-    aspect-ratio: calc(${cardDimensions.width} / ${cardDimensions.height});
-
-    &.width {
-        width: 100%;
-    }
-
-    &.height {
-        height: 100%;
-    }
-}
-`;
-
-const getCardCSS = (prefix: string, name: string, i: number): string => `
-.${prefix}-${path.parse(name).name.replaceAll("_", "-")} {
-    background-position: calc(${-i} * 100%) 0px;
-}`;
-
-generateSpritesheets({
-    assetsFolder: "./static/assets/img/lg",
-    outputImageFolder: "./static/assets/img/lg",
-    outputCSSFolder: "./static/assets/css/lg",
-    spritesheetURL: "/assets/img/lg",
-});
-generateSpritesheets({
-    assetsFolder: "./static/assets/img/sm",
-    outputImageFolder: "./static/assets/img/sm",
-    outputCSSFolder: "./static/assets/css/sm",
-    spritesheetURL: "/assets/img/lg",
-});
+const generateDefaultImage = (_file: fs.Dirent<string>, imagePath: string): Promise<Image|Canvas> => loadImage(imagePath);
