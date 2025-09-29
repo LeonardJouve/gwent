@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {CardData} from "@shared/types/card";
-    import {largeURL} from "$lib/utils";
+    import {largeClass} from "$lib/utils";
 
     type Props = {
         card: CardData;
@@ -13,20 +13,11 @@
 </script>
 
 <button
-    class={{
-        height: size === "height",
-        width: size === "width",
-    }}
+    class={size}
     onclick={handleClick}
+    aria-label={card.name}
 >
-    <img
-        class={{
-            height: size === "height",
-            width: size === "width",
-        }}
-        alt={card.name}
-        src={largeURL(card)}
-    />
+    <div class={[largeClass(card), size]}></div>
 </button>
 
 <style>
