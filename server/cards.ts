@@ -41,7 +41,7 @@ export default class Cards {
 
     static filterCards(from: CardData[], cards: CardData[]): CardData[] {
         return from.filter((card) => {
-            const playingCardIndex = cards.findIndex(({name}) => name === card.name);
+            const playingCardIndex = cards.findIndex(({filename}) => filename === card.filename);
             if (playingCardIndex !== -1) {
                 cards.splice(playingCardIndex, 1);
                 return false;
@@ -52,7 +52,7 @@ export default class Cards {
     }
 
     redraw(card: CardData): void {
-        const cardIndex = this.hand.findIndex(({name}) => name === card.name);
+        const cardIndex = this.hand.findIndex(({filename}) => filename === card.filename);
         if (cardIndex === -1) {
             return;
         }
@@ -60,7 +60,7 @@ export default class Cards {
         this.hand.splice(cardIndex, 1);
 
         const [newCard] = Cards.getRandom(this.deck, 1);
-        const newCardIndex = this.deck.findIndex(({name}) => name === newCard.name);
+        const newCardIndex = this.deck.findIndex(({filename}) => filename === newCard.filename);
         if (newCardIndex !== -1) {
             this.deck.splice(newCardIndex, 1);
             this.hand.push(newCard);

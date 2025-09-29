@@ -3,7 +3,6 @@ import type {CardData} from "./types/card";
 const cards: CardData[] = [
     {
         name: "Mysterious Elf",
-        id: "142",
         row: "close",
         strength: 0,
         filename: "mysterious_elf",
@@ -17,7 +16,6 @@ const cards: CardData[] = [
     },
     {
         name: "Decoy",
-        id: "1",
         strength: 0,
         filename: "decoy",
         maxPerDeck: 3,
@@ -29,7 +27,6 @@ const cards: CardData[] = [
     },
     {
         name: "Biting Frost",
-        id: "4",
         strength: 0,
         filename: "frost",
         maxPerDeck: 3,
@@ -41,7 +38,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cirilla Fiona Elen Riannon",
-        id: "139",
         row: "close",
         strength: 15,
         filename: "ciri",
@@ -54,7 +50,6 @@ const cards: CardData[] = [
     },
     {
         name: "Clear Weather",
-        id: "7",
         strength: 0,
         filename: "clear",
         maxPerDeck: 2,
@@ -66,7 +61,6 @@ const cards: CardData[] = [
     },
     {
         name: "Commander's Horn",
-        id: "2",
         strength: 0,
         filename: "horn",
         maxPerDeck: 3,
@@ -78,7 +72,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dandelion",
-        id: "11",
         row: "close",
         strength: 2,
         filename: "dandelion",
@@ -91,7 +84,6 @@ const cards: CardData[] = [
     },
     {
         name: "Emiel Regis Rohellec Terzieff",
-        id: "",
         row: "close",
         strength: 5,
         filename: "emiel",
@@ -102,7 +94,6 @@ const cards: CardData[] = [
     },
     {
         name: "Geralt of Rivia",
-        id: "138",
         row: "close",
         strength: 15,
         filename: "geralt",
@@ -115,7 +106,6 @@ const cards: CardData[] = [
     },
     {
         name: "Impenetrable Fog",
-        id: "5",
         strength: 0,
         filename: "fog",
         maxPerDeck: 3,
@@ -127,7 +117,6 @@ const cards: CardData[] = [
     },
     {
         name: "Scorch",
-        id: "3",
         strength: 0,
         filename: "scorch",
         maxPerDeck: 3,
@@ -139,7 +128,6 @@ const cards: CardData[] = [
     },
     {
         name: "Torrential Rain",
-        id: "6",
         strength: 0,
         filename: "rain",
         maxPerDeck: 2,
@@ -151,7 +139,6 @@ const cards: CardData[] = [
     },
     {
         name: "Triss Merigold",
-        id: "141",
         row: "close",
         strength: 7,
         filename: "triss",
@@ -164,7 +151,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vesemir",
-        id: "9",
         row: "close",
         strength: 6,
         filename: "vesemir",
@@ -175,7 +161,6 @@ const cards: CardData[] = [
     },
     {
         name: "Villentretenmerth",
-        id: "8",
         row: "close",
         strength: 7,
         filename: "villen",
@@ -188,7 +173,6 @@ const cards: CardData[] = [
     },
     {
         name: "Yennefer of Vengerberg",
-        id: "140",
         row: "ranged",
         strength: 7,
         filename: "yennefer",
@@ -202,7 +186,6 @@ const cards: CardData[] = [
     },
     {
         name: "Zoltan Chivay",
-        id: "10",
         row: "close",
         strength: 5,
         filename: "zoltan",
@@ -213,7 +196,6 @@ const cards: CardData[] = [
     },
     {
         name: "Olgierd von Everec",
-        id: "",
         row: "agile",
         strength: 6,
         filename: "olgierd",
@@ -227,7 +209,6 @@ const cards: CardData[] = [
     },
     {
         name: "Gaunter O'Dimm",
-        id: "",
         row: "siege",
         strength: 2,
         filename: "gaunter_odimm",
@@ -240,7 +221,6 @@ const cards: CardData[] = [
     },
     {
         name: "Gaunter O'Dimm - Darkness",
-        id: "",
         row: "ranged",
         strength: 4,
         filename: "gaunter_odimm_darkness",
@@ -253,7 +233,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cow",
-        id: "",
         row: "ranged",
         strength: 0,
         filename: "cow",
@@ -266,7 +245,6 @@ const cards: CardData[] = [
     },
     {
         name: "Bovine Defense Force",
-        id: "",
         row: "close",
         strength: 8,
         filename: "chort",
@@ -277,7 +255,6 @@ const cards: CardData[] = [
     },
     {
         name: "Foltest - King of Temeria",
-        id: "5",
         strength: 0,
         filename: "foltest_silver",
         maxPerDeck: 1,
@@ -289,7 +266,6 @@ const cards: CardData[] = [
     },
     {
         name: "Foltest - Lord Commander of the North",
-        id: "8",
         strength: 0,
         filename: "foltest_gold",
         maxPerDeck: 1,
@@ -301,7 +277,6 @@ const cards: CardData[] = [
     },
     {
         name: "Foltest - The Siegemaster",
-        id: "6",
         strength: 0,
         filename: "foltest_copper",
         maxPerDeck: 1,
@@ -313,7 +288,6 @@ const cards: CardData[] = [
     },
     {
         name: "Foltest - The Steel-Forged",
-        id: "7",
         strength: 0,
         filename: "foltest_bronze",
         maxPerDeck: 1,
@@ -325,7 +299,6 @@ const cards: CardData[] = [
     },
     {
         name: "Foltest - Son of Medell",
-        id: "",
         strength: 0,
         filename: "foltest_son_of_medell",
         maxPerDeck: 1,
@@ -337,7 +310,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ballista",
-        id: "79",
         row: "siege",
         strength: 6,
         filename: "ballista",
@@ -348,7 +320,6 @@ const cards: CardData[] = [
     },
     {
         name: "Blue Stripes Commando",
-        id: "92",
         row: "close",
         strength: 4,
         filename: "blue_stripes",
@@ -361,7 +332,6 @@ const cards: CardData[] = [
     },
     {
         name: "Catapult",
-        id: "75",
         row: "siege",
         strength: 8,
         filename: "catapult_1",
@@ -374,7 +344,6 @@ const cards: CardData[] = [
     },
     {
         name: "Crinfrid Reavers Dragon Hunter",
-        id: "87",
         row: "ranged",
         strength: 5,
         filename: "crinfrid",
@@ -387,7 +356,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dethmold",
-        id: "76",
         row: "ranged",
         strength: 6,
         filename: "dethmold",
@@ -398,7 +366,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dun Banner Medic",
-        id: "88",
         row: "siege",
         strength: 5,
         filename: "banner_nurse",
@@ -411,7 +378,6 @@ const cards: CardData[] = [
     },
     {
         name: "Esterad Thyssen",
-        id: "11",
         row: "close",
         strength: 10,
         filename: "esterad",
@@ -424,7 +390,6 @@ const cards: CardData[] = [
     },
     {
         name: "John Natalis",
-        id: "10",
         row: "close",
         strength: 10,
         filename: "natalis",
@@ -437,7 +402,6 @@ const cards: CardData[] = [
     },
     {
         name: "Kaedweni Siege Expert",
-        id: "98",
         row: "siege",
         strength: 1,
         filename: "kaedwen_siege",
@@ -450,7 +414,6 @@ const cards: CardData[] = [
     },
     {
         name: "Kaedweni Siege Expert",
-        id: "99",
         row: "siege",
         strength: 1,
         filename: "kaedwen_siege_1",
@@ -463,7 +426,6 @@ const cards: CardData[] = [
     },
     {
         name: "Kaedweni Siege Expert",
-        id: "100",
         row: "siege",
         strength: 1,
         filename: "kaedwen_siege_2",
@@ -476,7 +438,6 @@ const cards: CardData[] = [
     },
     {
         name: "Keira Metz",
-        id: "84",
         row: "ranged",
         strength: 5,
         filename: "keira",
@@ -487,7 +448,6 @@ const cards: CardData[] = [
     },
     {
         name: "Philippa Eilhart",
-        id: "12",
         row: "ranged",
         strength: 10,
         filename: "philippa",
@@ -500,7 +460,6 @@ const cards: CardData[] = [
     },
     {
         name: "Poor Fucking Infantry",
-        id: "95",
         row: "close",
         strength: 1,
         filename: "poor_infantry",
@@ -513,7 +472,6 @@ const cards: CardData[] = [
     },
     {
         name: "Prince Stennis",
-        id: "86",
         row: "close",
         strength: 5,
         filename: "stennis",
@@ -526,7 +484,6 @@ const cards: CardData[] = [
     },
     {
         name: "Redanian Foot Soldier",
-        id: "96",
         row: "close",
         strength: 1,
         filename: "redania",
@@ -537,7 +494,6 @@ const cards: CardData[] = [
     },
     {
         name: "Redanian Foot Soldier",
-        id: "97",
         row: "close",
         strength: 1,
         filename: "redania_1",
@@ -548,7 +504,6 @@ const cards: CardData[] = [
     },
     {
         name: "Sheldon Skaggs",
-        id: "91",
         row: "ranged",
         strength: 4,
         filename: "sheldon",
@@ -559,7 +514,6 @@ const cards: CardData[] = [
     },
     {
         name: "Siege Tower",
-        id: "81",
         row: "siege",
         strength: 6,
         filename: "siege_tower",
@@ -570,7 +524,6 @@ const cards: CardData[] = [
     },
     {
         name: "Siegfried of Denesle",
-        id: "83",
         row: "close",
         strength: 5,
         filename: "siegfried",
@@ -581,7 +534,6 @@ const cards: CardData[] = [
     },
     {
         name: "Sigismund Dijkstra",
-        id: "89",
         row: "close",
         strength: 4,
         filename: "dijkstra",
@@ -594,7 +546,6 @@ const cards: CardData[] = [
     },
     {
         name: "Síle de Tansarville",
-        id: "85",
         row: "ranged",
         strength: 5,
         filename: "sheala",
@@ -605,7 +556,6 @@ const cards: CardData[] = [
     },
     {
         name: "Thaler",
-        id: "94",
         row: "siege",
         strength: 1,
         filename: "thaler",
@@ -618,7 +568,6 @@ const cards: CardData[] = [
     },
     {
         name: "Sabrina Glevissig",
-        id: "90",
         row: "ranged",
         strength: 4,
         filename: "sabrina",
@@ -629,7 +578,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vernon Roche",
-        id: "9",
         row: "close",
         strength: 10,
         filename: "vernon",
@@ -642,7 +590,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ves",
-        id: "82",
         row: "close",
         strength: 5,
         filename: "ves",
@@ -653,7 +600,6 @@ const cards: CardData[] = [
     },
     {
         name: "Yarpen Zigrin",
-        id: "93",
         row: "close",
         strength: 2,
         filename: "yarpen",
@@ -664,7 +610,6 @@ const cards: CardData[] = [
     },
     {
         name: "Trebuchet",
-        id: "77",
         row: "siege",
         strength: 6,
         filename: "trebuchet",
@@ -675,7 +620,6 @@ const cards: CardData[] = [
     },
     {
         name: "Trebuchet",
-        id: "78",
         row: "siege",
         strength: 6,
         filename: "trebuchet_1",
@@ -686,7 +630,6 @@ const cards: CardData[] = [
     },
     {
         name: "Emhyr var Emreis - His Imperial Majesty",
-        id: "1",
         strength: 0,
         filename: "emhyr_silver",
         maxPerDeck: 1,
@@ -698,7 +641,6 @@ const cards: CardData[] = [
     },
     {
         name: "Emhyr var Emreis - Emperor of Nilfgaard",
-        id: "2",
         strength: 0,
         filename: "emhyr_copper",
         maxPerDeck: 1,
@@ -710,7 +652,6 @@ const cards: CardData[] = [
     },
     {
         name: "Emhyr var Emreis - the White Flame",
-        id: "3",
         strength: 0,
         filename: "emhyr_bronze",
         maxPerDeck: 1,
@@ -722,7 +663,6 @@ const cards: CardData[] = [
     },
     {
         name: "Emhyr var Emreis - The Relentless",
-        id: "4",
         strength: 0,
         filename: "emhyr_gold",
         maxPerDeck: 1,
@@ -734,7 +674,6 @@ const cards: CardData[] = [
     },
     {
         name: "Emhyr var Emreis - Invader of the North",
-        id: "",
         strength: 0,
         filename: "emhyr_invader_of_the_north",
         maxPerDeck: 1,
@@ -746,7 +685,6 @@ const cards: CardData[] = [
     },
     {
         name: "Albrich",
-        id: "68",
         row: "ranged",
         strength: 2,
         filename: "albrich",
@@ -757,7 +695,6 @@ const cards: CardData[] = [
     },
     {
         name: "Assire var Anahid",
-        id: "52",
         row: "ranged",
         strength: 6,
         filename: "assire",
@@ -768,7 +705,6 @@ const cards: CardData[] = [
     },
     {
         name: "Black Infantry Archer",
-        id: "47",
         row: "ranged",
         strength: 10,
         filename: "black_archer",
@@ -779,7 +715,6 @@ const cards: CardData[] = [
     },
     {
         name: "Black Infantry Archer",
-        id: "48",
         row: "ranged",
         strength: 10,
         filename: "black_archer_1",
@@ -790,7 +725,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cahir Mawr Dyffryn aep Ceallach",
-        id: "54",
         row: "close",
         strength: 6,
         filename: "cahir",
@@ -801,7 +735,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cynthia",
-        id: "60",
         row: "ranged",
         strength: 4,
         filename: "cynthia",
@@ -812,7 +745,6 @@ const cards: CardData[] = [
     },
     {
         name: "Etolian Auxiliary Archers",
-        id: "72",
         row: "ranged",
         strength: 1,
         filename: "archer_support",
@@ -825,7 +757,6 @@ const cards: CardData[] = [
     },
     {
         name: "Etolian Auxiliary Archers",
-        id: "73",
         row: "ranged",
         strength: 1,
         filename: "archer_support_1",
@@ -838,7 +769,6 @@ const cards: CardData[] = [
     },
     {
         name: "Fringilla Vigo",
-        id: "53",
         row: "ranged",
         strength: 6,
         filename: "fringilla",
@@ -849,7 +779,6 @@ const cards: CardData[] = [
     },
     {
         name: "Heavy Zerrikanian Fire Scorpion",
-        id: "49",
         row: "siege",
         strength: 10,
         filename: "heavy_zerri",
@@ -860,7 +789,6 @@ const cards: CardData[] = [
     },
     {
         name: "Impera Brigade Guard",
-        id: "67",
         row: "close",
         strength: 3,
         filename: "imperal_brigade",
@@ -873,7 +801,6 @@ const cards: CardData[] = [
     },
     {
         name: "Letho of Gulet",
-        id: "147",
         row: "close",
         strength: 10,
         filename: "letho",
@@ -886,7 +813,6 @@ const cards: CardData[] = [
     },
     {
         name: "Menno Coehoorn",
-        id: "148",
         row: "close",
         strength: 10,
         filename: "menno",
@@ -900,7 +826,6 @@ const cards: CardData[] = [
     },
     {
         name: "Morteisen",
-        id: "64",
         row: "close",
         strength: 3,
         filename: "morteisen",
@@ -911,7 +836,6 @@ const cards: CardData[] = [
     },
     {
         name: "Morvran Voorhis",
-        id: "149",
         row: "siege",
         strength: 10,
         filename: "moorvran",
@@ -924,7 +848,6 @@ const cards: CardData[] = [
     },
     {
         name: "Nausicaa Cavalry Rider",
-        id: "71",
         row: "close",
         strength: 2,
         filename: "nauzicaa_2",
@@ -937,7 +860,6 @@ const cards: CardData[] = [
     },
     {
         name: "Puttkammer",
-        id: "66",
         row: "ranged",
         strength: 3,
         filename: "puttkammer",
@@ -948,7 +870,6 @@ const cards: CardData[] = [
     },
     {
         name: "Rainfarn",
-        id: "61",
         row: "close",
         strength: 4,
         filename: "rainfarn",
@@ -959,7 +880,6 @@ const cards: CardData[] = [
     },
     {
         name: "Renuald aep Matsen",
-        id: "56",
         row: "ranged",
         strength: 5,
         filename: "renuald",
@@ -970,7 +890,6 @@ const cards: CardData[] = [
     },
     {
         name: "Rotten Mangonel",
-        id: "65",
         row: "siege",
         strength: 3,
         filename: "rotten",
@@ -981,7 +900,6 @@ const cards: CardData[] = [
     },
     {
         name: "Shilard Fitz-Oesterlen",
-        id: "51",
         row: "close",
         strength: 7,
         filename: "shilard",
@@ -994,7 +912,6 @@ const cards: CardData[] = [
     },
     {
         name: "Siege Engineer",
-        id: "55",
         row: "siege",
         strength: 6,
         filename: "siege_engineer",
@@ -1005,7 +922,6 @@ const cards: CardData[] = [
     },
     {
         name: "Siege Technician",
-        id: "74",
         row: "siege",
         strength: 0,
         filename: "siege_support",
@@ -1018,7 +934,6 @@ const cards: CardData[] = [
     },
     {
         name: "Stefan Skellen",
-        id: "50",
         row: "close",
         strength: 9,
         filename: "stefan",
@@ -1031,7 +946,6 @@ const cards: CardData[] = [
     },
     {
         name: "Sweers",
-        id: "69",
         row: "ranged",
         strength: 2,
         filename: "sweers",
@@ -1042,7 +956,6 @@ const cards: CardData[] = [
     },
     {
         name: "Tibor Eggebracht",
-        id: "150",
         row: "ranged",
         strength: 10,
         filename: "tibor",
@@ -1055,7 +968,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vanhemar",
-        id: "62",
         row: "ranged",
         strength: 4,
         filename: "vanhemar",
@@ -1066,7 +978,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vattier de Rideaux",
-        id: "63",
         row: "close",
         strength: 4,
         filename: "vattier",
@@ -1079,7 +990,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vreemde",
-        id: "70",
         row: "close",
         strength: 2,
         filename: "vreemde",
@@ -1090,7 +1000,6 @@ const cards: CardData[] = [
     },
     {
         name: "Young Emissary",
-        id: "58",
         row: "close",
         strength: 5,
         filename: "young_emissary",
@@ -1103,7 +1012,6 @@ const cards: CardData[] = [
     },
     {
         name: "Young Emissary",
-        id: "59",
         row: "close",
         strength: 5,
         filename: "young_emissary_1",
@@ -1116,7 +1024,6 @@ const cards: CardData[] = [
     },
     {
         name: "Zerrikanian Fire Scorpion",
-        id: "57",
         row: "siege",
         strength: 5,
         filename: "zerri",
@@ -1127,7 +1034,6 @@ const cards: CardData[] = [
     },
     {
         name: "Eredin - Commander of the Red Riders",
-        id: "134",
         strength: 0,
         filename: "eredin_silver",
         maxPerDeck: 1,
@@ -1139,7 +1045,6 @@ const cards: CardData[] = [
     },
     {
         name: "Eredin - Bringer of Death",
-        id: "136",
         strength: 0,
         filename: "eredin_bronze",
         maxPerDeck: 1,
@@ -1151,7 +1056,6 @@ const cards: CardData[] = [
     },
     {
         name: "Eredin - Destroyer of Worlds",
-        id: "137",
         strength: 0,
         filename: "eredin_gold",
         maxPerDeck: 1,
@@ -1163,7 +1067,6 @@ const cards: CardData[] = [
     },
     {
         name: "Eredin - King of the Wild Hunt",
-        id: "135",
         strength: 0,
         filename: "eredin_copper",
         maxPerDeck: 1,
@@ -1175,7 +1078,6 @@ const cards: CardData[] = [
     },
     {
         name: "Eredin Bréacc Glas - The Treacherous",
-        id: "",
         strength: 0,
         filename: "eredin_the_treacherous",
         maxPerDeck: 1,
@@ -1187,7 +1089,6 @@ const cards: CardData[] = [
     },
     {
         name: "Arachas ",
-        id: "27",
         row: "close",
         strength: 4,
         filename: "arachas",
@@ -1200,7 +1101,6 @@ const cards: CardData[] = [
     },
     {
         name: "Arachas ",
-        id: "28",
         row: "close",
         strength: 4,
         filename: "arachas_1",
@@ -1213,7 +1113,6 @@ const cards: CardData[] = [
     },
     {
         name: "Arachas ",
-        id: "29",
         row: "close",
         strength: 4,
         filename: "arachas_2",
@@ -1226,7 +1125,6 @@ const cards: CardData[] = [
     },
     {
         name: "Arachas- Behemoth",
-        id: "15",
         row: "siege",
         strength: 6,
         filename: "arachas_behemoth",
@@ -1239,7 +1137,6 @@ const cards: CardData[] = [
     },
     {
         name: "Botchling",
-        id: "26",
         row: "close",
         strength: 4,
         filename: "poroniec",
@@ -1250,7 +1147,6 @@ const cards: CardData[] = [
     },
     {
         name: "Celaeno Harpy",
-        id: "38",
         row: "agile",
         strength: 2,
         filename: "celaeno_harpy",
@@ -1263,7 +1159,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cockatrice",
-        id: "36",
         row: "ranged",
         strength: 2,
         filename: "cockatrice",
@@ -1274,7 +1169,6 @@ const cards: CardData[] = [
     },
     {
         name: "Crone - Brewess",
-        id: "16",
         row: "close",
         strength: 6,
         filename: "witch_velen",
@@ -1287,7 +1181,6 @@ const cards: CardData[] = [
     },
     {
         name: "Crone - Weavess",
-        id: "17",
         row: "close",
         strength: 6,
         filename: "witch_velen_1",
@@ -1300,7 +1193,6 @@ const cards: CardData[] = [
     },
     {
         name: "Crone - Whispess",
-        id: "18",
         row: "close",
         strength: 6,
         filename: "witch_velen_2",
@@ -1313,7 +1205,6 @@ const cards: CardData[] = [
     },
     {
         name: "Draug",
-        id: "143",
         row: "close",
         strength: 10,
         filename: "draug",
@@ -1326,7 +1217,6 @@ const cards: CardData[] = [
     },
     {
         name: "Earth Elemental",
-        id: "12",
         row: "siege",
         strength: 6,
         filename: "earth_elemental",
@@ -1337,7 +1227,6 @@ const cards: CardData[] = [
     },
     {
         name: "Endrega",
-        id: "34",
         row: "ranged",
         strength: 2,
         filename: "endrega",
@@ -1348,7 +1237,6 @@ const cards: CardData[] = [
     },
     {
         name: "Fiend",
-        id: "13",
         row: "close",
         strength: 6,
         filename: "fiend",
@@ -1359,7 +1247,6 @@ const cards: CardData[] = [
     },
     {
         name: "Fire Elemental",
-        id: "14",
         row: "siege",
         strength: 6,
         filename: "fire_elemental",
@@ -1370,7 +1257,6 @@ const cards: CardData[] = [
     },
     {
         name: "Foglet",
-        id: "39",
         row: "close",
         strength: 2,
         filename: "fogling",
@@ -1381,7 +1267,6 @@ const cards: CardData[] = [
     },
     {
         name: "Forktail",
-        id: "19",
         row: "close",
         strength: 5,
         filename: "forktail",
@@ -1392,7 +1277,6 @@ const cards: CardData[] = [
     },
     {
         name: "Frightener",
-        id: "23",
         row: "close",
         strength: 5,
         filename: "frightener",
@@ -1403,7 +1287,6 @@ const cards: CardData[] = [
     },
     {
         name: "Gargoyle",
-        id: "37",
         row: "ranged",
         strength: 2,
         filename: "gargoyle",
@@ -1414,7 +1297,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ghoul",
-        id: "44",
         row: "close",
         strength: 1,
         filename: "ghoul",
@@ -1427,7 +1309,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ghoul",
-        id: "45",
         row: "close",
         strength: 1,
         filename: "ghoul_1",
@@ -1440,7 +1321,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ghoul",
-        id: "46",
         row: "close",
         strength: 1,
         filename: "ghoul_2",
@@ -1453,7 +1333,6 @@ const cards: CardData[] = [
     },
     {
         name: "Grave Hag",
-        id: "25",
         row: "ranged",
         strength: 5,
         filename: "gravehag",
@@ -1464,7 +1343,6 @@ const cards: CardData[] = [
     },
     {
         name: "Griffin",
-        id: "21",
         row: "close",
         strength: 5,
         filename: "gryffin",
@@ -1475,7 +1353,6 @@ const cards: CardData[] = [
     },
     {
         name: "Harpy",
-        id: "35",
         row: "agile",
         strength: 2,
         filename: "harpy",
@@ -1488,7 +1365,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ice Giant",
-        id: "24",
         row: "siege",
         strength: 5,
         filename: "frost_giant",
@@ -1499,7 +1375,6 @@ const cards: CardData[] = [
     },
     {
         name: "Imlerith",
-        id: "144",
         row: "close",
         strength: 10,
         filename: "imlerith",
@@ -1512,7 +1387,6 @@ const cards: CardData[] = [
     },
     {
         name: "Kayran",
-        id: "146",
         row: "agile",
         strength: 8,
         filename: "kayran",
@@ -1527,7 +1401,6 @@ const cards: CardData[] = [
     },
     {
         name: "Leshen",
-        id: "145",
         row: "ranged",
         strength: 10,
         filename: "leshen",
@@ -1540,7 +1413,6 @@ const cards: CardData[] = [
     },
     {
         name: "Nekker",
-        id: "41",
         row: "close",
         strength: 2,
         filename: "nekker",
@@ -1553,7 +1425,6 @@ const cards: CardData[] = [
     },
     {
         name: "Nekker",
-        id: "42",
         row: "close",
         strength: 2,
         filename: "nekker_1",
@@ -1566,7 +1437,6 @@ const cards: CardData[] = [
     },
     {
         name: "Nekker",
-        id: "43",
         row: "close",
         strength: 2,
         filename: "nekker_2",
@@ -1579,7 +1449,6 @@ const cards: CardData[] = [
     },
     {
         name: "Plague Maiden",
-        id: "20",
         row: "close",
         strength: 5,
         filename: "mighty_maiden",
@@ -1590,7 +1459,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vampire - Bruxa",
-        id: "33",
         row: "close",
         strength: 4,
         filename: "bruxa",
@@ -1603,7 +1471,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vampire - Ekimmara",
-        id: "30",
         row: "close",
         strength: 4,
         filename: "ekkima",
@@ -1616,7 +1483,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vampire - Fleder",
-        id: "31",
         row: "close",
         strength: 4,
         filename: "fleder",
@@ -1629,7 +1495,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vampire - Garkain",
-        id: "32",
         row: "close",
         strength: 4,
         filename: "garkain",
@@ -1642,7 +1507,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vampire - Katakan",
-        id: "",
         row: "close",
         strength: 5,
         filename: "katakan",
@@ -1655,7 +1519,6 @@ const cards: CardData[] = [
     },
     {
         name: "Werewolf",
-        id: "22",
         row: "close",
         strength: 5,
         filename: "werewolf",
@@ -1666,7 +1529,6 @@ const cards: CardData[] = [
     },
     {
         name: "Wyvern",
-        id: "40",
         row: "ranged",
         strength: 2,
         filename: "wyvern",
@@ -1677,7 +1539,6 @@ const cards: CardData[] = [
     },
     {
         name: "Toad",
-        id: "",
         row: "ranged",
         strength: 7,
         filename: "toad",
@@ -1690,7 +1551,6 @@ const cards: CardData[] = [
     },
     {
         name: "Francesca Findabair - Queen of Dol Blathanna",
-        id: "13",
         strength: 0,
         filename: "francesca_silver",
         maxPerDeck: 1,
@@ -1702,7 +1562,6 @@ const cards: CardData[] = [
     },
     {
         name: "Francesca Findabair - the Beautiful",
-        id: "14",
         strength: 0,
         filename: "francesca_gold",
         maxPerDeck: 1,
@@ -1714,7 +1573,6 @@ const cards: CardData[] = [
     },
     {
         name: "Francesca Findabair - Daisy of the Valley",
-        id: "15",
         strength: 0,
         filename: "francesca_copper",
         maxPerDeck: 1,
@@ -1726,7 +1584,6 @@ const cards: CardData[] = [
     },
     {
         name: "Francesca Findabair - Pureblood Elf",
-        id: "16",
         strength: 0,
         filename: "francesca_bronze",
         maxPerDeck: 1,
@@ -1738,7 +1595,6 @@ const cards: CardData[] = [
     },
     {
         name: "Francesca Findabair - Hope of the Aen Seidhe",
-        id: "",
         strength: 0,
         filename: "francesca_hope_of_the_aen_seidhe",
         maxPerDeck: 1,
@@ -1750,7 +1606,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ciaran aep Easnillien",
-        id: "122",
         row: "agile",
         strength: 3,
         filename: "ciaran",
@@ -1763,7 +1618,6 @@ const cards: CardData[] = [
     },
     {
         name: "Barclay Els",
-        id: "106",
         row: "agile",
         strength: 6,
         filename: "barclay",
@@ -1776,7 +1630,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dennis Cranmer",
-        id: "102",
         row: "close",
         strength: 6,
         filename: "dennis",
@@ -1787,7 +1640,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dol Blathanna Archer",
-        id: "121",
         row: "ranged",
         strength: 4,
         filename: "dol_archer",
@@ -1798,7 +1650,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dol Blathanna Scout",
-        id: "107",
         row: "agile",
         strength: 6,
         filename: "dol_infantry",
@@ -1811,7 +1662,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dol Blathanna Scout",
-        id: "108",
         row: "agile",
         strength: 6,
         filename: "dol_infantry_1",
@@ -1824,7 +1674,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dol Blathanna Scout",
-        id: "109",
         row: "agile",
         strength: 6,
         filename: "dol_infantry_2",
@@ -1837,7 +1686,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dwarven Skirmisher",
-        id: "123",
         row: "close",
         strength: 3,
         filename: "dwarf",
@@ -1850,7 +1698,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dwarven Skirmisher",
-        id: "124",
         row: "close",
         strength: 3,
         filename: "dwarf_1",
@@ -1863,7 +1710,6 @@ const cards: CardData[] = [
     },
     {
         name: "Dwarven Skirmisher",
-        id: "125",
         row: "close",
         strength: 3,
         filename: "dwarf_2",
@@ -1876,7 +1722,6 @@ const cards: CardData[] = [
     },
     {
         name: "Eithné",
-        id: "17",
         row: "ranged",
         strength: 10,
         filename: "eithne",
@@ -1889,7 +1734,6 @@ const cards: CardData[] = [
     },
     {
         name: "Elven Skirmisher",
-        id: "127",
         row: "ranged",
         strength: 2,
         filename: "elf_skirmisher",
@@ -1902,7 +1746,6 @@ const cards: CardData[] = [
     },
     {
         name: "Elven Skirmisher",
-        id: "128",
         row: "ranged",
         strength: 2,
         filename: "elf_skirmisher_1",
@@ -1915,7 +1758,6 @@ const cards: CardData[] = [
     },
     {
         name: "Elven Skirmisher",
-        id: "129",
         row: "ranged",
         strength: 2,
         filename: "elf_skirmisher_2",
@@ -1928,7 +1770,6 @@ const cards: CardData[] = [
     },
     {
         name: "Filavandrel aen Fidhail",
-        id: "104",
         row: "agile",
         strength: 6,
         filename: "filavandrel",
@@ -1941,7 +1782,6 @@ const cards: CardData[] = [
     },
     {
         name: "Havekar Healer",
-        id: "131",
         row: "ranged",
         strength: 0,
         filename: "havekar_nurse",
@@ -1954,7 +1794,6 @@ const cards: CardData[] = [
     },
     {
         name: "Havekar Healer",
-        id: "132",
         row: "ranged",
         strength: 0,
         filename: "havekar_nurse_1",
@@ -1967,7 +1806,6 @@ const cards: CardData[] = [
     },
     {
         name: "Havekar Healer",
-        id: "133",
         row: "ranged",
         strength: 0,
         filename: "havekar_nurse_2",
@@ -1980,7 +1818,6 @@ const cards: CardData[] = [
     },
     {
         name: "Havekar Smuggler",
-        id: "110",
         row: "close",
         strength: 5,
         filename: "havekar_support",
@@ -1993,7 +1830,6 @@ const cards: CardData[] = [
     },
     {
         name: "Havekar Smuggler",
-        id: "111",
         row: "close",
         strength: 5,
         filename: "havekar_support_1",
@@ -2006,7 +1842,6 @@ const cards: CardData[] = [
     },
     {
         name: "Havekar Smuggler",
-        id: "112",
         row: "close",
         strength: 5,
         filename: "havekar_support_2",
@@ -2019,7 +1854,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ida Emean aep Sivney",
-        id: "103",
         row: "ranged",
         strength: 6,
         filename: "ida",
@@ -2030,7 +1864,6 @@ const cards: CardData[] = [
     },
     {
         name: "Iorveth",
-        id: "20",
         row: "ranged",
         strength: 10,
         filename: "iorveth",
@@ -2043,7 +1876,6 @@ const cards: CardData[] = [
     },
     {
         name: "Isengrim Faoiltiarna",
-        id: "19",
         row: "close",
         strength: 10,
         filename: "isengrim",
@@ -2057,7 +1889,6 @@ const cards: CardData[] = [
     },
     {
         name: "Mahakaman Defender",
-        id: "115",
         row: "close",
         strength: 5,
         filename: "mahakam",
@@ -2068,7 +1899,6 @@ const cards: CardData[] = [
     },
     {
         name: "Mahakaman Defender",
-        id: "116",
         row: "close",
         strength: 5,
         filename: "mahakam_1",
@@ -2079,7 +1909,6 @@ const cards: CardData[] = [
     },
     {
         name: "Mahakaman Defender",
-        id: "117",
         row: "close",
         strength: 5,
         filename: "mahakam_2",
@@ -2090,7 +1919,6 @@ const cards: CardData[] = [
     },
     {
         name: "Mahakaman Defender",
-        id: "118",
         row: "close",
         strength: 5,
         filename: "mahakam_3",
@@ -2101,7 +1929,6 @@ const cards: CardData[] = [
     },
     {
         name: "Mahakaman Defender",
-        id: "119",
         row: "close",
         strength: 5,
         filename: "mahakam_4",
@@ -2112,7 +1939,6 @@ const cards: CardData[] = [
     },
     {
         name: "Milva",
-        id: "101",
         row: "ranged",
         strength: 10,
         filename: "milva",
@@ -2125,7 +1951,6 @@ const cards: CardData[] = [
     },
     {
         name: "Riordain",
-        id: "130",
         row: "ranged",
         strength: 1,
         filename: "riordain",
@@ -2136,7 +1961,6 @@ const cards: CardData[] = [
     },
     {
         name: "Saesenthessis",
-        id: "18",
         row: "ranged",
         strength: 10,
         filename: "saskia",
@@ -2149,7 +1973,6 @@ const cards: CardData[] = [
     },
     {
         name: "Toruviel",
-        id: "126",
         row: "ranged",
         strength: 2,
         filename: "toruviel",
@@ -2160,7 +1983,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vrihedd Brigade Recruit",
-        id: "120",
         row: "ranged",
         strength: 4,
         filename: "vrihedd_cadet",
@@ -2171,7 +1993,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vrihedd Brigade Veteran",
-        id: "113",
         row: "agile",
         strength: 5,
         filename: "vrihedd_brigade",
@@ -2184,7 +2005,6 @@ const cards: CardData[] = [
     },
     {
         name: "Vrihedd Brigade Veteran",
-        id: "114",
         row: "agile",
         strength: 5,
         filename: "vrihedd_brigade_1",
@@ -2197,7 +2017,6 @@ const cards: CardData[] = [
     },
     {
         name: "Yaevinn",
-        id: "105",
         row: "agile",
         strength: 6,
         filename: "yaevinn",
@@ -2210,7 +2029,6 @@ const cards: CardData[] = [
     },
     {
         name: "Berserker",
-        id: "",
         row: "close",
         strength: 4,
         filename: "berserker",
@@ -2223,7 +2041,6 @@ const cards: CardData[] = [
     },
     {
         name: "Birna Bran",
-        id: "",
         row: "close",
         strength: 2,
         filename: "birna",
@@ -2236,7 +2053,6 @@ const cards: CardData[] = [
     },
     {
         name: "Blueboy Lugos",
-        id: "",
         row: "close",
         strength: 6,
         filename: "blueboy",
@@ -2247,7 +2063,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cerys",
-        id: "",
         row: "close",
         strength: 10,
         filename: "cerys",
@@ -2261,7 +2076,6 @@ const cards: CardData[] = [
     },
     {
         name: "Clan Brokva Archer",
-        id: "",
         row: "ranged",
         strength: 6,
         filename: "brokva_archer",
@@ -2272,7 +2086,6 @@ const cards: CardData[] = [
     },
     {
         name: "Clan Dimun Pirate",
-        id: "",
         row: "ranged",
         strength: 6,
         filename: "dimun_pirate",
@@ -2285,7 +2098,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cerys - Clan Drummond Shield Maiden",
-        id: "",
         row: "close",
         strength: 4,
         filename: "shield_maiden",
@@ -2298,7 +2110,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cerys - Clan Drummond Shield Maiden",
-        id: "",
         row: "close",
         strength: 4,
         filename: "shield_maiden_1",
@@ -2311,7 +2122,6 @@ const cards: CardData[] = [
     },
     {
         name: "Cerys - Clan Drummond Shield Maiden",
-        id: "",
         row: "close",
         strength: 4,
         filename: "shield_maiden_2",
@@ -2324,7 +2134,6 @@ const cards: CardData[] = [
     },
     {
         name: "Clan Heymaey Skald",
-        id: "",
         row: "close",
         strength: 4,
         filename: "heymaey",
@@ -2335,7 +2144,6 @@ const cards: CardData[] = [
     },
     {
         name: "Clan Tordarroch Armorsmith",
-        id: "",
         row: "close",
         strength: 4,
         filename: "tordarroch",
@@ -2346,7 +2154,6 @@ const cards: CardData[] = [
     },
     {
         name: "Clan an Craite Warrior",
-        id: "",
         row: "close",
         strength: 6,
         filename: "craite_warrior",
@@ -2359,7 +2166,6 @@ const cards: CardData[] = [
     },
     {
         name: "Donar an Hindar",
-        id: "",
         row: "close",
         strength: 4,
         filename: "donar",
@@ -2370,7 +2176,6 @@ const cards: CardData[] = [
     },
     {
         name: "Draig Bon-Dhu",
-        id: "",
         row: "siege",
         strength: 2,
         filename: "draig",
@@ -2383,7 +2188,6 @@ const cards: CardData[] = [
     },
     {
         name: "Ermion",
-        id: "",
         row: "ranged",
         strength: 8,
         filename: "ermion",
@@ -2397,7 +2201,6 @@ const cards: CardData[] = [
     },
     {
         name: "Hemdall",
-        id: "",
         row: "close",
         strength: 11,
         filename: "hemdall",
@@ -2410,7 +2213,6 @@ const cards: CardData[] = [
     },
     {
         name: "Hjalmar",
-        id: "",
         row: "ranged",
         strength: 10,
         filename: "hjalmar",
@@ -2423,7 +2225,6 @@ const cards: CardData[] = [
     },
     {
         name: "Holger Blackhand",
-        id: "",
         row: "siege",
         strength: 4,
         filename: "holger",
@@ -2434,7 +2235,6 @@ const cards: CardData[] = [
     },
     {
         name: "Kambi",
-        id: "",
         row: "close",
         strength: 0,
         filename: "kambi",
@@ -2447,7 +2247,6 @@ const cards: CardData[] = [
     },
     {
         name: "Light Longship",
-        id: "",
         row: "ranged",
         strength: 4,
         filename: "light_longship",
@@ -2460,7 +2259,6 @@ const cards: CardData[] = [
     },
     {
         name: "Madman Lugos",
-        id: "",
         row: "close",
         strength: 6,
         filename: "madmad_lugos",
@@ -2471,7 +2269,6 @@ const cards: CardData[] = [
     },
     {
         name: "Mardroeme",
-        id: "",
         strength: 0,
         filename: "mardroeme",
         maxPerDeck: 3,
@@ -2483,7 +2280,6 @@ const cards: CardData[] = [
     },
     {
         name: "Olaf",
-        id: "",
         row: "agile",
         strength: 12,
         filename: "olaf",
@@ -2497,7 +2293,6 @@ const cards: CardData[] = [
     },
     {
         name: "Skellige Storm",
-        id: "",
         strength: 0,
         filename: "storm",
         maxPerDeck: 3,
@@ -2510,7 +2305,6 @@ const cards: CardData[] = [
     },
     {
         name: "Svanrige",
-        id: "",
         row: "close",
         strength: 4,
         filename: "svanrige",
@@ -2521,7 +2315,6 @@ const cards: CardData[] = [
     },
     {
         name: "Transformed Vildkaarl",
-        id: "",
         row: "close",
         strength: 14,
         filename: "vildkaarl",
@@ -2534,7 +2327,6 @@ const cards: CardData[] = [
     },
     {
         name: "Transformed Young Vildkaarl",
-        id: "",
         row: "ranged",
         strength: 8,
         filename: "young_vildkaarl",
@@ -2547,7 +2339,6 @@ const cards: CardData[] = [
     },
     {
         name: "Udalryk",
-        id: "",
         row: "close",
         strength: 4,
         filename: "udalryk",
@@ -2558,7 +2349,6 @@ const cards: CardData[] = [
     },
     {
         name: "War Longship",
-        id: "",
         row: "siege",
         strength: 6,
         filename: "war_longship",
@@ -2571,7 +2361,6 @@ const cards: CardData[] = [
     },
     {
         name: "Young Berserker",
-        id: "",
         row: "ranged",
         strength: 2,
         filename: "young_berserker",
@@ -2584,7 +2373,6 @@ const cards: CardData[] = [
     },
     {
         name: "Crach an Craite",
-        id: "",
         strength: 0,
         filename: "crach_an_craite",
         maxPerDeck: 0,
@@ -2596,7 +2384,6 @@ const cards: CardData[] = [
     },
     {
         name: "King Bran",
-        id: "",
         strength: 0,
         filename: "king_bran",
         maxPerDeck: 0,
@@ -2608,7 +2395,6 @@ const cards: CardData[] = [
     },
     {
         name: "Schirru",
-        id: "",
         row: "siege",
         strength: 8,
         filename: "schirru",

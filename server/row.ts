@@ -44,7 +44,7 @@ export default class Row {
             total *= 2;
         }
 
-        const bond = this.getBond(card.id);
+        const bond = this.getBond(card);
         if (bond > 1) {
             total *= Number(bond);
         }
@@ -62,9 +62,8 @@ export default class Row {
         return this.units.reduce((acc, card) => acc + this.getCardScore(card), 0);
     }
 
-    getBond(cardId: CardData["id"]): number {
-        // TODO: card ids
-        return this.units.filter((card) => card.id === cardId && card.abilities.includes("bond")).length;
+    getBond(card: CardData): number {
+        return this.units.filter(({name, abilities}) => name === card.name && abilities.includes("bond")).length;
     }
 
     getMoraleBoost(): number {

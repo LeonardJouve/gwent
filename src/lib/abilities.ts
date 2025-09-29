@@ -6,10 +6,6 @@ type Ability = {
 };
 
 const abilities: Record<AbilityId, Ability> = {
-    leader: {
-        name: "",
-        description: "",
-    },
     clear: {
         name: "Clear Weather",
         description: "Removes all Weather Cards (Biting Frost, Impenetrable Fog and Torrential Rain) effects. ",

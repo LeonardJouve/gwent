@@ -68,7 +68,7 @@
         />
     {/if}
     {#each cards as card, i}
-        {#key card.name + ":" + i}
+        {#key card.filename + ":" + i}
             <Card
                 card={card}
                 isSelectible={true}

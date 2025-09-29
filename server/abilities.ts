@@ -195,7 +195,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             }
 
             const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
-            const index = opponentGrave.findIndex(({name}) => name === card.name);
+            const index = opponentGrave.findIndex(({filename}) => filename === card.filename);
             if (index !== -1) {
                 opponentGrave.splice(index, 1);
             }

@@ -5,7 +5,6 @@ import {FactionNameSchema} from "./faction";
 export const UnitRowSchema = z.enum(["close", "ranged", "siege"]);
 
 export const CardDataSchema = z.object({
-    id: z.string(),
     name: z.string(),
     faction: FactionNameSchema.or(z.literal("neutral")),
     type: z.enum(["weather", "special", "unit", "leader"]),
