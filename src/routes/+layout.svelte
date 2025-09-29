@@ -1,4 +1,6 @@
 <script lang="ts">
+    import.meta.glob(["$lib/css/**/*.css"], {eager: true});
+
     const {children} = $props();
 </script>
 

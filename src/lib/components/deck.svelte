@@ -13,12 +13,7 @@
 </script>
 
 {#snippet cardBack()}
-    <!-- <img
-        alt={`${playerData.faction} card back`}
-        src={iconURL("deck_back_" + playerData.faction, "jpg")}
-        style:height="100%"
-    /> -->
-    <div class="back-realms height"/>
+    <div class={`lg-back-${playerData.faction} height`}></div>
 {/snippet}
 
 <CardPile
