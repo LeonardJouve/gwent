@@ -54,7 +54,7 @@
 
     const handleClick = (card: CardData, event: MouseEvent) => {
         event.stopPropagation();
-        index = cards.findIndex(({id}) => card.id === id);
+        index = cards.findIndex(({name}) => card.name === name);
     };
 </script>
 
