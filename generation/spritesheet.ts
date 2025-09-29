@@ -74,6 +74,8 @@ const generateSpritesheet = async ({folder, outputImage, outputCSS, spritesheetU
     };
     const imageNames = files.map((file) => path.parse(file.name).name);
 
+    const parent = path.parse(folder.parentPath).name;
+
     console.log("generating css");
     generateCSS({
         spritesheetDimensions,
@@ -81,7 +83,7 @@ const generateSpritesheet = async ({folder, outputImage, outputCSS, spritesheetU
         names: imageNames,
         output: outputCSS,
         spritesheetURL,
-        prefix: folder.name,
+        prefix: `${parent}-${folder.name}`,
     });
 };
 

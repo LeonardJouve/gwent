@@ -21,7 +21,7 @@
 
     @font-face {
         font-family: "GWENT";
-        src: url("/fonts/gwent.ttf") format("truetype");
+        src: url("/assets/fonts/gwent.ttf") format("truetype");
         font-weight: normal;
         font-style: normal;
     }

@@ -70,7 +70,6 @@ export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: G
         }
         const y = dimensions.height - height - padding;
 
-        console.log(abilityPath);
         const abilityImage = await loadImage(abilityPath);
         ctx.drawImage(abilityImage, x, y, width, height);
     }
