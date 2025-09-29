@@ -23,14 +23,14 @@ const generateSMCard = (file: fs.Dirent<string>, imagePath: string, dimensions: 
 
 generateSpritesheets({
     assetsFolder: "./static/assets/img/lg",
-    outputImageFolder: "./static/assets/img/lg",
-    outputCSSFolder: "./src/lib/css/lg",
-    spritesheetURL: "/assets/img/lg",
+    outputImageFolder: "./static/assets/img/generated/lg",
+    outputCSSFolder: "./src/lib/css/generated/lg",
+    spritesheetURL: "/assets/img/generated/lg",
 });
 generateSpritesheets({
     assetsFolder: "./static/assets/img/sm",
-    outputImageFolder: "./static/assets/img/sm",
-    outputCSSFolder: "./src/lib/css/sm",
-    spritesheetURL: "/assets/img/sm",
+    outputImageFolder: "./static/assets/img/generated/sm",
+    outputCSSFolder: "./src/lib/css/generated/sm",
+    spritesheetURL: "/assets/img/generated/sm",
     generateImage: generateSMCard,
 });

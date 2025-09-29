@@ -5,4 +5,3 @@ TODOS:
 - Card animations
 - use assets spritesheets
 - pregenerate cards + generate woff2 / woff fonts
-- remove icons deck back
