@@ -134,7 +134,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     medic: {
         onPlaced: async (game, playerIndex) => {
             const playerCards = game.getPlayerCards(playerIndex);
-            const units = playerCards.grave.filter(Cards.isUnit);
+            const units = playerCards.grave.filter(Cards.isNormalUnit);
 
             if (!units.length) {
                 return;
@@ -189,7 +189,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     emhyr_relentless: {
         onPlaced: async (game, playerIndex) => {
             const opponentGrave = game.getPlayerCards(game.getOpponentIndex(playerIndex)).grave;
-            const units = opponentGrave.filter(Cards.isUnit);
+            const units = opponentGrave.filter(Cards.isNormalUnit);
             if (!units.length) {
                 return;
             }
@@ -233,7 +233,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     },
     eredin_king: {
         onPlaced: async (game, playerIndex) => {
-            const weather = game.getPlayerCards(playerIndex).deck.filter(({deck}) => deck === "weather");
+            const weather = game.getPlayerCards(playerIndex).deck.filter(({type}) => type === "weather");
             const [card] = await game.listeners.selectCards(playerIndex, weather, 1, false);
             game.board.play(card, playerIndex);
         },

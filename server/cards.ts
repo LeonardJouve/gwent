@@ -21,8 +21,8 @@ export default class Cards {
             .map(({card}) => card);
     }
 
-    static isUnit({abilities, row}: CardData): boolean {
-        return !abilities.includes("hero") && (row === "close" || row === "ranged" || row === "siege" || row === "agile");
+    static isNormalUnit({abilities, type}: CardData): boolean {
+        return !abilities.includes("hero") && type === "unit";
     }
 
     static getRandom(cards: CardData[], amount: number): CardData[] {

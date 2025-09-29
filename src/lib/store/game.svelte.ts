@@ -16,7 +16,7 @@ type GameStore = State & {
     result?: GameResult;
 };
 
-const leader = cards.find(({deck, abilities}) => deck === "realms" && abilities.includes("leader"));
+const leader = cards.find(({faction, type}) => faction === "realms" && type === "leader");
 if (!leader) {
     throw new Error("leader not found");
 }

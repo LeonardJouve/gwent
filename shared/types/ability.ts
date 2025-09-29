@@ -16,7 +16,6 @@ export const AbilityIdSchema = z.enum([
     "scorch_r",
     "scorch_s",
     "agile",
-    "leader",
     "muster",
     "spy",
     "medic",

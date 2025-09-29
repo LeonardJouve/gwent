@@ -1,9 +1,10 @@
 TODOS:
-- Only send card ID
 - Array of rows
+- card id attribute
+- Only send card ID
 - Special row
 - Play all cards
 - Restrict playable cards
 - Card animations
-- refacto cards deck attribute to match img folder
 - #each with keys
+- Deck builder

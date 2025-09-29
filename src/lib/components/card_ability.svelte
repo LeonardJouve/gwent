@@ -9,7 +9,7 @@
     const {card, size = "height"}: Props = $props();
 
     const ability = $derived.by(() => {
-        if (card.deck === "special" || card.deck === "weather" || card.abilities.includes("leader") || !card.abilities.filter((ability) => ability !== "hero").length) {
+        if (card.type !== "unit" || !card.abilities.filter((ability) => ability !== "hero").length) {
             return null;
         }
 

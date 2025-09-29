@@ -87,7 +87,7 @@ const factions: Record<FactionName, FactionAbility> = {
 
                 const cards = Cards.getRandom(game.getPlayerCards(playerIndex)
                     .grave
-                    .filter(Cards.isUnit), 2);
+                    .filter(Cards.isNormalUnit), 2);
 
                 game.getPlayerCards(playerIndex).restore(...cards);
                 cards.forEach((card) => game.board.play(card, playerIndex));

@@ -37,8 +37,7 @@ export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: G
         ctx.drawImage(powerImage, x, y, width, height);
     }
 
-    const isUnit = card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile";
-    if (isUnit) {
+    if (card.type === "unit") {
         const rowPath = path.join(iconsFolder, `card_row_${card.row}.png`);
 
         const buffer = await fs.promises.readFile(rowPath);
@@ -65,7 +64,7 @@ export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: G
         const width = dimensions.width * scale;
         const height = abilityDimensions.height / abilityDimensions.width * width;
         let x = dimensions.width - width - padding;
-        if (isUnit) {
+        if (card.type === "unit") {
             x -= width + padding;
         }
         const y = dimensions.height - height - padding;
@@ -78,7 +77,7 @@ export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: G
 };
 
 const getPower = (card: CardData): string|null => {
-    if (card.abilities.includes("leader")) {
+    if (card.type === "leader") {
         return null;
     }
 
@@ -86,7 +85,7 @@ const getPower = (card: CardData): string|null => {
         return "power_hero";
     }
 
-    if (card.deck === "weather" || card.deck === "special") {
+    if (card.type !== "unit") {
         return "power_" + card.abilities[0];
     }
 
@@ -94,7 +93,7 @@ const getPower = (card: CardData): string|null => {
 };
 
 const getAbility = (card: CardData): string|null => {
-    if (card.deck === "special" || card.deck === "weather" || card.abilities.includes("leader") || !card.abilities.filter((ability) => ability !== "hero").length) {
+    if (card.type !== "unit" || !card.abilities.filter((ability) => ability !== "hero").length) {
         return null;
     }
 
