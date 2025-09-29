@@ -1,7 +1,7 @@
 <script lang="ts">
     // TODO
     import {onDestroy} from "svelte";
-    import {iconURL, largeURL} from "$lib/utils";
+    import {iconURL, largeClass} from "$lib/utils";
     import cards from "@shared/cards";
     import factions from "$lib/factions";
     import type {Deck} from "@shared/types/deck";
@@ -97,20 +97,13 @@
                 class="card"
                 style={`--count: "${card.maxPerDeck}"`}
             >
-                <img
-                    alt={card.name}
-                    src={largeURL(card)}
-                />
+                <div class={largeClass(card)}></div>
             </div>
         {/each}
     </div>
     <div class="deck-info">
         <p>Leader</p>
-        <img
-            class="leader"
-            alt={leader.name + " leader"}
-            src={largeURL(leader)}
-        >
+        <div class={[largeClass(leader), "leader"]}></div>
         <div class="deck-stats">
             <p>Total cards in deck</p>
             <div>
@@ -172,10 +165,7 @@
                 class="card"
                 style={`--count: "${card.maxPerDeck}"`}
             >
-                <img
-                    alt={card.name}
-                    src={largeURL(card)}
-                />
+                <div class={largeClass(card)}></div>
             </div>
         {/each}
     </div>
@@ -255,7 +245,7 @@
         position: relative;
         --count: "0";
 
-        img {
+        * {
             border-radius: 1vw;
             width: 100%;
             height: 100%;

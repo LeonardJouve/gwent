@@ -7,8 +7,6 @@ export const imgURL = (file: string, ext: string, prefix?: string): string => `a
 
 export const iconURL = (file: string, ext = "png"): string => imgURL(file, ext, "icons");
 
-export const largeURL = (card: CardData, ext = "jpg"): string => imgURL(`${getFaction(card)}/${card.filename}`, ext, "lg");
-
 export const getClass = (prefix: string, card: CardData): string => `${prefix}-${getFaction(card)}-${card.filename.replaceAll("_", "-")}`;
 
 export const largeClass = (card: CardData): string => getClass("lg", card);
