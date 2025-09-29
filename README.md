@@ -1,10 +1,9 @@
 TODOS:
 - Array of rows
-- card id attribute
-- Only send card ID
 - Special row
-- Play all cards
 - Restrict playable cards
-- Card animations
-- #each with keys
+- Play all cards
+- Only send card ID
 - Deck builder
+- #each with keys
+- Card animations
