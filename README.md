@@ -1,5 +1,4 @@
 TODOS:
-- fix server build
 - Restrict playable cards
 - Play all cards
 - Only send card ID
