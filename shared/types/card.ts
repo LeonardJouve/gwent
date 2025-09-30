@@ -4,16 +4,39 @@ import {FactionNameSchema} from "./faction";
 
 export const UnitRowSchema = z.enum(["close", "ranged", "siege"]);
 
-export const CardDataSchema = z.object({
+const WeatherCardSchema = z.object({
+    type: z.literal("weather"),
+    rows: z.tuple([z.literal("weather")]),
+});
+
+const SpecialCardSchema = z.object({
+    type: z.literal("special"),
+    rows: z.tuple([z.literal("special")]),
+});
+
+const LeaderCardSchema = z.object({
+    type: z.literal("leader"),
+    rows: z.tuple([z.literal("leader")]),
+});
+
+const UnitCardSchema = z.object({
+    type: z.literal("unit"),
+    rows: z.array(UnitRowSchema),
+    strength: z.number(),
+});
+
+const BaseCardDataSchema = z.object({
     name: z.string(),
     faction: FactionNameSchema.or(z.literal("neutral")),
-    type: z.enum(["weather", "special", "unit", "leader"]),
-    row: z.union([UnitRowSchema, z.literal("agile")]).optional(),
-    strength: z.number(),
     abilities: z.array(AbilityIdSchema),
     filename: z.string(),
     maxPerDeck: z.number(),
 });
+
+export const CardDataSchema = BaseCardDataSchema.and(WeatherCardSchema
+    .or(SpecialCardSchema)
+    .or(UnitCardSchema)
+    .or(LeaderCardSchema));
 
 export type CardData = z.infer<typeof CardDataSchema>;
 

@@ -267,7 +267,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
 
             const moveCards = (from: Row, to: Row): void => from
                 .getUnits()
-                .filter((card) => card.row === "agile" && to.getCardScore(card) > from.getCardScore(card))
+                .filter((card) => card.abilities.includes("agile") && to.getCardScore(card) > from.getCardScore(card))
                 .forEach((card) => {
                     from.remove(card);
                     to.add(card);
