@@ -1,6 +1,6 @@
 import {z} from "zod/v4";
-import {AbilityIdSchema} from "./ability";
-import {FactionNameSchema} from "./faction";
+import {AbilityIdSchema} from "./ability.js";
+import {FactionNameSchema} from "./faction.js";
 
 export const UnitRowSchema = z.enum(["close", "ranged", "siege"]);
 

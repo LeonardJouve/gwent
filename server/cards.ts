@@ -1,4 +1,4 @@
-import type {CardData} from "../shared/types/card";
+import type {CardData} from "../shared/types/card.js";
 
 export default class Cards {
     public deck: CardData[];

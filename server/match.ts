@@ -1,13 +1,13 @@
-import Game from "./game";
-import Listeners from "./listeners";
-import type {PlayerIndex, RoundResult} from "./types/game";
-import type {CardData} from "../shared/types/card";
-import type {NotificationName} from "../shared/types/notification";
-import type {ServerSideSocket} from "../shared/types/socket";
-import type {Play, State} from "../shared/types/game";
-import type {PlayerIndicator} from "../shared/types/player";
-import type {Deck} from "../shared/types/deck";
-import type {RoundResult as SocketRoundResult} from "../shared/types/game";
+import Game from "./game.js";
+import Listeners from "./listeners.js";
+import type {PlayerIndex, RoundResult} from "./types/game.js";
+import type {CardData} from "../shared/types/card.js";
+import type {NotificationName} from "../shared/types/notification.js";
+import type {ServerSideSocket} from "../shared/types/socket.js";
+import type {Play, State} from "../shared/types/game.js";
+import type {PlayerIndicator} from "../shared/types/player.js";
+import type {Deck} from "../shared/types/deck.js";
+import type {RoundResult as SocketRoundResult} from "../shared/types/game.js";
 
 export default class Match extends Listeners {
     static matches = new Map<string, Match>();

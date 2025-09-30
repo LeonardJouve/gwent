@@ -1,7 +1,7 @@
-import Cards from "./cards";
-import type {GameOptions} from "./types/game";
-import type {CardData} from "../shared/types/card";
-import type {RowSpecial} from "../shared/types/game";
+import Cards from "./cards.js";
+import type {GameOptions} from "./types/game.js";
+import type {CardData} from "../shared/types/card.js";
+import type {RowSpecial} from "../shared/types/game.js";
 
 export default class Row {
     public units: CardData[];

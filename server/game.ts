@@ -1,12 +1,12 @@
-import Cards from "./cards";
-import Board from "./board";
-import abilities from "./abilities";
-import factions from "./factions";
-import type {GameOptions, PlayerIndex, RoundResult} from "./types/game";
-import type {UnitRow} from "../shared/types/card";
-import type {Deck} from "../shared/types/deck";
-import type Listeners from "./listeners";
-import type {PlayerBoard, Play, State} from "../shared/types/game";
+import Cards from "./cards.js";
+import Board from "./board.js";
+import abilities from "./abilities.js";
+import factions from "./factions.js";
+import type {GameOptions, PlayerIndex, RoundResult} from "./types/game.js";
+import type {UnitRow} from "../shared/types/card.js";
+import type {Deck} from "../shared/types/deck.js";
+import type Listeners from "./listeners.js";
+import type {PlayerBoard, Play, State} from "../shared/types/game.js";
 
 type Player = Omit<Deck, "deck"> & {
     isLeaderAvailable: boolean;

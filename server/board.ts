@@ -1,7 +1,7 @@
-import Row from "./row";
-import type {GameOptions, PlayerIndex} from "./types/game";
-import type {CardData, UnitRow} from "../shared/types/card";
-import type {Weather} from "../shared/types/weather";
+import Row from "./row.js";
+import type {GameOptions, PlayerIndex} from "./types/game.js";
+import type {CardData, UnitRow} from "../shared/types/card.js";
+import type {Weather} from "../shared/types/weather.js";
 
 type PlayerBoard = Record<UnitRow, Row>;
 

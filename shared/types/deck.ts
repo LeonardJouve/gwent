@@ -1,6 +1,6 @@
 import {z} from "zod/v4";
-import {CardDataSchema} from "./card";
-import {FactionNameSchema} from "./faction";
+import {CardDataSchema} from "./card.js";
+import {FactionNameSchema} from "./faction.js";
 
 export const DeckSchema = z.object({
     name: z.string(),

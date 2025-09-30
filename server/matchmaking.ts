@@ -1,8 +1,8 @@
 import type {Context, Handler} from "hono";
 import type {BlankInput} from "hono/types";
-import Match from "./match";
-import type {SocketData} from "../shared/types/socket";
-import {type Deck, DeckSchema} from "../shared/types/deck";
+import Match from "./match.js";
+import type {SocketData} from "../shared/types/socket.js";
+import {type Deck, DeckSchema} from "../shared/types/deck.js";
 
 type QueueItem = Deck & {
     id: string;

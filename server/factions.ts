@@ -1,8 +1,8 @@
-import Cards from "./cards";
-import type Game from "./game";
-import type {PlayerIndex} from "./types/game";
-import type {FactionName} from "../shared/types/faction";
-import type {PlayerBoard} from "../shared/types/game";
+import Cards from "./cards.js";
+import type Game from "./game.js";
+import type {PlayerIndex} from "./types/game.js";
+import type {FactionName} from "../shared/types/faction.js";
+import type {PlayerBoard} from "../shared/types/game.js";
 
 type FactionAbility = (game: Game, playerIndex: PlayerIndex) => void;
 

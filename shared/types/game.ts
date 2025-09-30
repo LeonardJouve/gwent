@@ -1,6 +1,6 @@
-import type {CardData, UnitRow} from "./card";
-import type {FactionName} from "./faction";
-import type {PlayerIndicator} from "./player";
+import type {CardData, UnitRow} from "./card.js";
+import type {FactionName} from "./faction.js";
+import type {PlayerIndicator} from "./player.js";
 
 export type Play = {
     type: "pass"|"leader";

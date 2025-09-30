@@ -1,7 +1,7 @@
-import type {CardData} from "../shared/types/card";
-import type {NotificationName} from "../shared/types/notification";
-import type {Play, State} from "../shared/types/game";
-import type {PlayerIndex, RoundResult} from "./types/game";
+import type {CardData} from "../shared/types/card.js";
+import type {NotificationName} from "../shared/types/notification.js";
+import type {Play, State} from "../shared/types/game.js";
+import type {PlayerIndex, RoundResult} from "./types/game.js";
 
 export default abstract class Listeners {
     abstract askStart(playerIndex: PlayerIndex): Promise<PlayerIndex>;
