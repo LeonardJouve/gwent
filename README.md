@@ -1,7 +1,5 @@
 TODOS:
-- Array of rows
 - fix server build
-- Special row
 - Restrict playable cards
 - Play all cards
 - Only send card ID
