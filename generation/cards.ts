@@ -1,6 +1,6 @@
 import {createCanvas, loadImage, type Canvas} from "canvas";
 import type {ISize} from "image-size/types/interface";
-import type {CardData} from "../shared/types/card";
+import type {CardData, UnitCardData} from "../shared/types/card";
 import path from "node:path";
 import fs from "node:fs";
 import imageSize from "image-size";
@@ -38,7 +38,7 @@ export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: G
     }
 
     if (card.type === "unit") {
-        const rowPath = path.join(iconsFolder, `card_row_${card.row}.png`);
+        const rowPath = path.join(iconsFolder, `card_row_${getRow(card)}.png`);
 
         const buffer = await fs.promises.readFile(rowPath);
         const rowDimensions = imageSize(buffer);
@@ -105,4 +105,16 @@ const getAbility = (card: CardData): string|null => {
     }
 
     return "card_ability_" + abilityName;
+};
+
+const getRow = (card: UnitCardData): string => {
+    if (card.abilities.includes("agile")) {
+        return "agile";
+    }
+
+    if (!card.rows.length) {
+        throw new Error(`card ${card.name} has no row`);
+    }
+
+    return card.rows[0];
 };

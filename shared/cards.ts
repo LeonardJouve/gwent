@@ -25,9 +25,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
-        rows: [
-            "special",
-        ],
     },
     {
         name: "Biting Frost",
@@ -38,9 +35,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "weather",
-        rows: [
-            "weather",
-        ],
     },
     {
         name: "Cirilla Fiona Elen Riannon",
@@ -65,9 +59,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "weather",
-        rows: [
-            "weather",
-        ],
     },
     {
         name: "Commander's Horn",
@@ -78,9 +69,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
-        rows: [
-            "special",
-        ],
     },
     {
         name: "Dandelion",
@@ -131,9 +119,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "weather",
-        rows: [
-            "weather",
-        ],
     },
     {
         name: "Scorch",
@@ -144,9 +129,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
-        rows: [
-            "special",
-        ],
     },
     {
         name: "Torrential Rain",
@@ -157,9 +139,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "weather",
-        rows: [
-            "weather",
-        ],
     },
     {
         name: "Triss Merigold",
@@ -307,9 +286,6 @@ const cards: CardData[] = [
         ],
         faction: "realms",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Foltest - Lord Commander of the North",
@@ -320,9 +296,6 @@ const cards: CardData[] = [
         ],
         faction: "realms",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Foltest - The Siegemaster",
@@ -333,9 +306,6 @@ const cards: CardData[] = [
         ],
         faction: "realms",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Foltest - The Steel-Forged",
@@ -346,9 +316,6 @@ const cards: CardData[] = [
         ],
         faction: "realms",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Foltest - Son of Medell",
@@ -359,9 +326,6 @@ const cards: CardData[] = [
         ],
         faction: "realms",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Ballista",
@@ -750,9 +714,6 @@ const cards: CardData[] = [
         ],
         faction: "nilfgaard",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Emhyr var Emreis - Emperor of Nilfgaard",
@@ -763,9 +724,6 @@ const cards: CardData[] = [
         ],
         faction: "nilfgaard",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Emhyr var Emreis - the White Flame",
@@ -776,9 +734,6 @@ const cards: CardData[] = [
         ],
         faction: "nilfgaard",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Emhyr var Emreis - The Relentless",
@@ -789,9 +744,6 @@ const cards: CardData[] = [
         ],
         faction: "nilfgaard",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Emhyr var Emreis - Invader of the North",
@@ -802,9 +754,6 @@ const cards: CardData[] = [
         ],
         faction: "nilfgaard",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Albrich",
@@ -1228,9 +1177,6 @@ const cards: CardData[] = [
         ],
         faction: "monsters",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Eredin - Bringer of Death",
@@ -1241,9 +1187,6 @@ const cards: CardData[] = [
         ],
         faction: "monsters",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Eredin - Destroyer of Worlds",
@@ -1254,9 +1197,6 @@ const cards: CardData[] = [
         ],
         faction: "monsters",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Eredin - King of the Wild Hunt",
@@ -1267,9 +1207,6 @@ const cards: CardData[] = [
         ],
         faction: "monsters",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Eredin Bréacc Glas - The Treacherous",
@@ -1280,9 +1217,6 @@ const cards: CardData[] = [
         ],
         faction: "monsters",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Arachas ",
@@ -1840,9 +1774,6 @@ const cards: CardData[] = [
         ],
         faction: "scoiatael",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Francesca Findabair - the Beautiful",
@@ -1853,9 +1784,6 @@ const cards: CardData[] = [
         ],
         faction: "scoiatael",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Francesca Findabair - Daisy of the Valley",
@@ -1866,9 +1794,6 @@ const cards: CardData[] = [
         ],
         faction: "scoiatael",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Francesca Findabair - Pureblood Elf",
@@ -1879,9 +1804,6 @@ const cards: CardData[] = [
         ],
         faction: "scoiatael",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Francesca Findabair - Hope of the Aen Seidhe",
@@ -1892,9 +1814,6 @@ const cards: CardData[] = [
         ],
         faction: "scoiatael",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Ciaran aep Easnillien",
@@ -2693,9 +2612,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
-        rows: [
-            "special",
-        ],
     },
     {
         name: "Olaf",
@@ -2723,9 +2639,6 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "weather",
-        rows: [
-            "weather",
-        ],
     },
     {
         name: "Svanrige",
@@ -2816,9 +2729,6 @@ const cards: CardData[] = [
         ],
         faction: "skellige",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "King Bran",
@@ -2829,9 +2739,6 @@ const cards: CardData[] = [
         ],
         faction: "skellige",
         type: "leader",
-        rows: [
-            "leader",
-        ],
     },
     {
         name: "Schirru",
