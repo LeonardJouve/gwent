@@ -24,6 +24,10 @@ export default class Row {
     }
 
     getCardScore(card: CardData): number {
+        if (card.type !== "unit") {
+            return 0;
+        }
+
         let total = card.strength;
 
         if (card.abilities.includes("hero")) {

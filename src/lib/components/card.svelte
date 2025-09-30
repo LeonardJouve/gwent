@@ -12,10 +12,10 @@
         card,
         isSelectible,
         onSelect,
-        score = card.strength,
+        score = card.type === "unit" ? card.strength : 0,
     }: Props = $props();
 
-    const isUnit = $derived(card.row === "close" || card.row === "ranged" || card.row === "siege" || card.row === "agile");
+    const isUnit = $derived(card.type === "unit");
     const isHero = $derived(card.abilities.includes("hero"));
 
     const handleSelect = $derived((event: MouseEvent) => onSelect?.(card, event));

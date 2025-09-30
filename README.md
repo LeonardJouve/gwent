@@ -1,5 +1,6 @@
 TODOS:
 - Array of rows
+- fix server build
 - Special row
 - Restrict playable cards
 - Play all cards
@@ -7,3 +8,4 @@ TODOS:
 - Deck builder
 - #each with keys
 - Card animations
+- Migrate from SvelteKit to Svelte

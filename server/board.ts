@@ -83,11 +83,12 @@ export default class Board {
     }
 
     play(card: CardData, playerIndex: PlayerIndex, row?: UnitRow): void {
-        const r = row ?? (card.row === "agile" ? "close" : card.row);
-        if (!r) {
+        if (card.type !== "unit" || !card.rows.length) {
             // TODO special / weather / decoy
             return;
         }
+
+        const r = row ?? (card.abilities.includes("agile") ? "close" : card.rows[0]);
 
         // TODO check if card can be played on this row
 
