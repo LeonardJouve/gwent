@@ -1,5 +1,5 @@
 import type {CardData, UnitRow} from "./card.js";
-import type {FactionName} from "./faction.js";
+import type {Deck} from "./deck.js";
 import type {PlayerIndicator} from "./player.js";
 
 export type Play = {
@@ -32,13 +32,10 @@ export type PlayerBoard = Record<UnitRow, Row>;
 
 export type Board = Record<PlayerIndicator, PlayerBoard>;
 
-type Player = {
-    name: string;
-    faction: FactionName;
+export type Player = Omit<Deck, "deck"> & {
+    isLeaderAvailable: boolean;
     gems: number;
     hasPassed: boolean;
-    leader: CardData;
-    isLeaderAvailable: boolean;
     grave: CardData[];
 };
 

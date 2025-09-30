@@ -6,13 +6,10 @@ import type {GameOptions, PlayerIndex, RoundResult} from "./types/game.js";
 import type {UnitRow} from "../shared/types/card.js";
 import type {Deck} from "../shared/types/deck.js";
 import type Listeners from "./listeners.js";
-import type {PlayerBoard, Play, State} from "../shared/types/game.js";
+import type {PlayerBoard, Play, State, Player} from "../shared/types/game.js";
 
-type Player = Omit<Deck, "deck"> & {
-    isLeaderAvailable: boolean;
+type GamePlayer = Omit<Player, "grave"> & {
     cards: Cards;
-    gems: number;
-    hasPassed: boolean;
 };
 
 type Effect = {
@@ -22,7 +19,7 @@ type Effect = {
 
 export default class Game {
     private options: GameOptions;
-    public players: Player[];
+    public players: GamePlayer[];
     public currentPlayerIndex: PlayerIndex;
     private roundResults: RoundResult[];
     public onGameStart: Effect[];
@@ -78,7 +75,7 @@ export default class Game {
         return (playerIndex + 1) % this.players.length;
     }
 
-    getPlayer(playerIndex: PlayerIndex): Player {
+    getPlayer(playerIndex: PlayerIndex): GamePlayer {
         return this.players[playerIndex];
     }
 
