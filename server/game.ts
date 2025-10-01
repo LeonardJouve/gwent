@@ -7,6 +7,7 @@ import type {UnitRow} from "../shared/types/card.js";
 import type {Deck} from "../shared/types/deck.js";
 import type Listeners from "./listeners.js";
 import type {PlayerBoard, Play, State, Player} from "../shared/types/game.js";
+import cards from "../shared/cards.js";
 
 type GamePlayer = Omit<Player, "grave"> & {
     cards: Cards;
@@ -200,9 +201,12 @@ export default class Game {
                 this.startTurn();
 
                 if (!this.players[this.currentPlayerIndex].hasPassed) {
-                    const play = await this.listeners.askPlay(this.currentPlayerIndex);
+                    let ok = false;
+                    while (!ok) {
+                        const play = await this.listeners.askPlay(this.currentPlayerIndex);
 
-                    await this.executePlay(play);
+                        ok = await this.executePlay(play);
+                    }
                 }
 
                 this.currentPlayerIndex = this.getOpponentIndex(this.currentPlayerIndex);
@@ -323,29 +327,45 @@ export default class Game {
         this.board.clear();
     }
 
-    private async executePlay(play: Play): Promise<void> {
+    private async executePlay(play: Play): Promise<boolean> {
+        if (this.players[this.currentPlayerIndex].hasPassed) {
+            throw new Error("cannot execute play on a player who passed");
+        }
+
         switch (play.type) {
         case "pass":
             this.players[this.currentPlayerIndex].hasPassed = true;
             this.players.forEach((_, i) => this.listeners.notify(i, `pass_${this.currentPlayerIndex === i ? "me" : "op"}`));
-            break;
+
+            return true;
         case "leader": {
-            const {leader} = this.players[this.currentPlayerIndex];
+            const {leader, isLeaderAvailable} = this.players[this.currentPlayerIndex];
+            if (!isLeaderAvailable) {
+                return false;
+            }
+
             await Promise.all(leader.abilities.map(async (ability) => {
                 await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, leader);
             }));
 
             this.players[this.currentPlayerIndex].isLeaderAvailable = false;
-            break;
+
+            return true;
         }
         case "card": {
-            const {card, row} = play;
+            const card = cards.find(({filename}) => filename === play.card);
+            if (!card) {
+                return false;
+            }
+
             this.board.play(card, this.currentPlayerIndex, row);
             this.players[this.currentPlayerIndex].cards.play(card);
+
             await Promise.all(card.abilities.map(async (ability) => {
                 await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
             }));
-            break;
+
+            return true;
         }
         }
     }

@@ -8,7 +8,7 @@ export type Play = {
     row?: undefined;
 } | {
     type: "card";
-    card: CardData;
+    card: CardData["filename"];
     row?: UnitRow;
 };
 
