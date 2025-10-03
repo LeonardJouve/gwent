@@ -59,17 +59,22 @@ export default class Match extends Listeners {
     }
 
     selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number, isClosable: boolean): Promise<CardData[]> {
-        const mapFilenameToCards = (filenames: CardData["filename"][]): CardData[] => filenames.reduce<CardData[]>((acc, filename) => {
-            const card = cards.find((card) => card.filename === filename);
-            // TODO handle error
-            if (card) {
-                acc.push(card);
+        const mapFilenameToCards = (filenames: CardData["filename"][]): CardData[]|null => filenames.reduce<CardData[]|null>((acc, filename) => {
+            if (acc === null) {
+                return null;
             }
+
+            const card = cards.find((card) => card.filename === filename);
+            if (!card) {
+                return [];
+            }
+
+            acc.push(card);
 
             return acc;
         }, []);
 
-        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, (filenames) => resolve(mapFilenameToCards(filenames))));
+        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, (filenames) => resolve(mapFilenameToCards(filenames) ?? cards.slice(0, amount))));
     }
 
     showCards(playerIndex: PlayerIndex, cards: CardData[]): Promise<void> {
