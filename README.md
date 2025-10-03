@@ -1,7 +1,5 @@
 TODOS:
-- Restrict playable cards
-- Play all cards
-- Only send card ID
+- scorch_c applies to self
 - Deck builder
 - #each with keys
 - Card animations

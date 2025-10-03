@@ -42,7 +42,7 @@ const playLeaderHorn = (game: Game, playerIndex: PlayerIndex, row: UnitRow): voi
         throw new Error("could not find horn");
     }
 
-    game.board.addSpecial(row, playerIndex, horn);
+    game.board.playSpecial(horn, playerIndex, row);
     cancelDiscard(game, playerIndex, "horn");
 };
 
@@ -270,7 +270,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            game.board.addWeather(card, playerIndex);
+            game.board.playWeather(card, playerIndex);
         },
     },
     francesca_hope: {

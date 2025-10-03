@@ -17,7 +17,7 @@ type GameStore = State & {
 };
 
 const leader = cards.find(({faction, type}) => faction === "realms" && type === "leader");
-if (!leader) {
+if (leader?.type !== "leader") {
     throw new Error("leader not found");
 }
 
@@ -48,77 +48,59 @@ export const store = $state<GameStore>({
         },
     },
     board: {
-        me: {
-            close: {
-                units: [],
-                hasWeather: false,
-                special: {
-                    hasHorn: false,
-                    hasMardroeme: false,
+        rows: {
+            me: {
+                close: {
+                    units: [],
+                    special: [],
+                },
+                ranged: {
+                    units: [],
+                    special: [],
+                },
+                siege: {
+                    units: [],
+                    special: [],
                 },
             },
-            ranged: {
-                units: [],
-                hasWeather: false,
-                special: {
-                    hasHorn: false,
-                    hasMardroeme: false,
+            opponent: {
+                close: {
+                    units: [],
+                    special: [],
                 },
-            },
-            siege: {
-                units: [],
-                hasWeather: false,
-                special: {
-                    hasHorn: false,
-                    hasMardroeme: false,
+                ranged: {
+                    units: [],
+                    special: [],
                 },
-            },
-        },
-        opponent: {
-            close: {
-                units: [],
-                hasWeather: false,
-                special: {
-                    hasHorn: false,
-                    hasMardroeme: false,
-                },
-            },
-            ranged: {
-                units: [],
-                hasWeather: false,
-                special: {
-                    hasHorn: false,
-                    hasMardroeme: false,
-                },
-            },
-            siege: {
-                units: [],
-                hasWeather: false,
-                special: {
-                    hasHorn: false,
-                    hasMardroeme: false,
+                siege: {
+                    units: [],
+                    special: [],
                 },
             },
         },
+        weather: [],
     },
 });
 
-export const getPlayerScore = (player: PlayerIndicator): number => Object.keys(store.board[player])
+export const getPlayerScore = (player: PlayerIndicator): number => Object.keys(store.board.rows[player])
     .reduce((acc, rowName) => acc + getRowScore(rowName as keyof PlayerBoard, player), 0);
 
-export const getRowScore = (rowName: UnitRow, player: PlayerIndicator): number => store.board[player][rowName].units
+export const getRowScore = (rowName: UnitRow, player: PlayerIndicator): number => store.board.rows[player][rowName].units
     .reduce((acc, {score}) => acc + score, 0);
 
-export const getRowWeather = (rowName: UnitRow, player: PlayerIndicator): Weather|null => {
-    if (!store.board[player][rowName].hasWeather) {
-        return null;
-    }
-
-    const rowWeather: Record<UnitRow, Weather> = {
-        close: "frost",
-        ranged: "fog",
-        siege: "rain",
+export const getRowWeather = (rowName: UnitRow): Weather|null => {
+    const weatherToRow: Record<Weather, UnitRow> = {
+        frost: "close",
+        fog: "ranged",
+        rain: "siege",
     };
 
-    return rowWeather[rowName];
+    for (const {abilities} of store.board.weather) {
+        const weather = abilities.find((ability): ability is Weather => ability in weatherToRow && weatherToRow[ability as keyof typeof weatherToRow] === rowName);
+        if (weather) {
+            return weather;
+        }
+    }
+
+    return null;
 };

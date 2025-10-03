@@ -14,7 +14,7 @@
 
     const row = $derived(store.board.rows[player][rowName]);
 
-    const weather = $derived(getRowWeather(rowName, player));
+    const weather = $derived(getRowWeather(rowName));
 
     const canPlay = $derived(store.selectedCard && store.turn === "me" && store.askPlay);
 

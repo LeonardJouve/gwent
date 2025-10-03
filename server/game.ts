@@ -369,7 +369,7 @@ export default class Game {
         switch (card.type) {
         case "weather":
             // TODO
-            this.board.addWeather(card, playerIndex);
+            this.board.playWeather(card, playerIndex);
 
             await this.placeCard(card, playerIndex, null);
 
@@ -380,7 +380,7 @@ export default class Game {
                 return false;
             }
 
-            this.board.addSpecial(row, playerIndex, card);
+            this.board.playSpecial(card, playerIndex, row);
 
             await this.placeCard(card, playerIndex, row);
 

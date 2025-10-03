@@ -61,11 +61,11 @@ export default class Board {
         return this.board[playerIndex];
     }
 
-    addSpecial(row: UnitRow, playerIndex: PlayerIndex, card: SpecialCardData): void {
+    playSpecial(card: SpecialCardData, playerIndex: PlayerIndex, row: UnitRow): void {
         this.getRow(row, playerIndex).addSpecial(card);
     }
 
-    addWeather(card: WeatherCardData, playerIndex: PlayerIndex): void {
+    playWeather(card: WeatherCardData, playerIndex: PlayerIndex): void {
         this.weather[playerIndex].push(card);
     }
 

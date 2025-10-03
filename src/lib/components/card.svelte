@@ -76,10 +76,10 @@
     }
 
     .buffed {
-        color: greenyellow;
+        color: green;
     }
 
     .debuffed {
-        color: tomato;
+        color: red;
     }
 </style>
