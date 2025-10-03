@@ -68,6 +68,9 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             if (!row) {
                 throw new Error("mardroeme must be placed on a unit row");
             }
+            if (card.type !== "unit") {
+                throw new Error("played card must be a unit");
+            }
 
             const playerRow = game.board.getRow(row, playerIndex);
             const berserkers = playerRow
@@ -77,10 +80,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             berserkers.forEach(() => {
                 playerRow.remove(card);
                 const transformed = card.name === "Young Berserker" ?
-                    cards.find(({name}) => name === "Transformed Young Vildkaarl") :
-                    cards.find(({name}) => name === "Transformed Vildkaarl");
+                    cards.find(({filename}) => filename === "Transformed Young Vildkaarl") :
+                    cards.find(({filename}) => filename === "Transformed Vildkaarl");
 
-                if (!transformed) {
+                if (!transformed || transformed.type !== "unit") {
                     return;
                 }
 
@@ -99,6 +102,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             const units = playerRow.getUnits();
 
             const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
+            if (card.type !== "unit") {
+                return;
+            }
+
             playerRow.remove(card);
             game.getPlayerCards(playerIndex).hand.push(card);
         },
@@ -258,12 +265,12 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     },
     francesca_pureblood: {
         onPlaced: async (game, playerIndex) => {
-            const card = game.getPlayerCards(playerIndex).deck.find(({name}) => name === "Biting Frost");
-            if (!card) {
+            const card = game.getPlayerCards(playerIndex).deck.find(({filename}) => filename === "frost");
+            if (!card || card.type !== "weather") {
                 return;
             }
 
-            game.board.addWeather(card);
+            game.board.addWeather(card, playerIndex);
         },
     },
     francesca_hope: {
