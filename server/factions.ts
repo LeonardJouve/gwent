@@ -90,7 +90,7 @@ const factions: Record<FactionName, FactionAbility> = {
                     .filter(Cards.isNormalUnit), 2);
 
                 game.getPlayerCards(playerIndex).restore(...cards);
-                cards.forEach((card) => game.board.play(card, playerIndex));
+                cards.forEach((card) => game.playCard(card, playerIndex));
 
                 game.players.forEach((_, i) => game.listeners.notify(i, `skellige_${game.currentPlayerIndex === i ? "me" : "op"}`));
             },

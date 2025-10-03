@@ -29,7 +29,7 @@ const playLeaderWeather = (game: Game, playerIndex: PlayerIndex, name: CardData[
     }
 
     playerCards.drawCard(card);
-    game.board.play(card, playerIndex);
+    game.playCard(card, playerIndex);
 };
 
 const playLeaderHorn = (game: Game, playerIndex: PlayerIndex, row: UnitRow): void => {
@@ -52,7 +52,7 @@ const playAvenger = (game: Game, playerIndex: PlayerIndex, filename: CardData["f
         return;
     }
 
-    game.board.play(card, playerIndex);
+    game.playCard(card, playerIndex);
     cancelDiscard(game, playerIndex, filename);
 };
 
@@ -131,7 +131,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            units.forEach((c) => game.board.play(c, playerIndex));
+            units.forEach((c) => game.playCard(c, playerIndex));
         },
     },
     spy: {
@@ -154,7 +154,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             }
 
             playerCards.restore(card);
-            game.board.play(card, playerIndex);
+            game.playCard(card, playerIndex);
         },
     },
     avenger: {
@@ -241,7 +241,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onPlaced: async (game, playerIndex) => {
             const weather = game.getPlayerCards(playerIndex).deck.filter(({type}) => type === "weather");
             const [card] = await game.listeners.selectCards(playerIndex, weather, 1, false);
-            game.board.play(card, playerIndex);
+            game.playCard(card, playerIndex);
         },
     },
     eredin_treacherous: {
