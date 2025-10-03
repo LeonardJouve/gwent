@@ -1,8 +1,10 @@
 <script lang="ts">
+    import CardContainer from "./card_container.svelte";
+    import {store} from "$lib/store/game.svelte";
 </script>
 
 <div class="hoverable weather">
-    <!-- TODO <CardContainer cards={store.cards}/> -->
+    <CardContainer cards={store.board.weather}/>
 </div>
 
 <style>

@@ -12,7 +12,7 @@
     };
     const {rowName, player}: Props = $props();
 
-    const row = $derived(store.board[player][rowName]);
+    const row = $derived(store.board.rows[player][rowName]);
 
     const weather = $derived(getRowWeather(rowName, player));
 
@@ -22,7 +22,7 @@
         if (canPlay && store.selectedCard && store.askPlay) {
             store.askPlay({
                 type: "card",
-                card: store.selectedCard,
+                card: store.selectedCard.filename,
                 row: rowName,
             });
         }
@@ -31,7 +31,7 @@
 
 <div class="row">
     <div class="hoverable special-row">
-        <!-- TODO <CardContainer cards={row.specials}/> -->
+        <CardContainer cards={row.special}/>
     </div>
     <div class="hoverable unit-row">
         <CardContainer
