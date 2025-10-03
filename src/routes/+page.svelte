@@ -7,13 +7,14 @@
     import type {Deck} from "@shared/types/deck";
     import {PUBLIC_API_URL} from "$env/static/public";
     import {goto} from "$app/navigation";
+    import type {LeaderCardData} from "@shared/types/card";
 
     const factionName = "realms";
     const faction = factions[factionName];
 
     const bank = cards.slice(20, 30);
     const deck = cards.slice(0, 20);
-    const leader = cards[24];
+    const leader = cards[24] as LeaderCardData;
 
     let isInQueue = $state<boolean>(false);
     const id = $state<string>(crypto.randomUUID());

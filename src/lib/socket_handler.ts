@@ -56,9 +56,9 @@ export class SocketHandler {
         };
     }
 
-    static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData[]) => void): void {
+    static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData["filename"][]) => void): void {
         carouselStore.amount = amount;
-        carouselStore.onClose = callback;
+        carouselStore.onClose = (c: CardData[]): void => callback(c.map(({filename}) => filename));
         carouselStore.isClosable = isClosable;
         carouselStore.cards = cards;
         carouselStore.isOpen = true;
