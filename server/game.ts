@@ -315,7 +315,7 @@ export default class Game {
 
         this.players.forEach((player, i) => {
             Object.values(this.board.getPlayerBoard(i))
-                .forEach((row) => player.cards.discard(...row.getUnits()));
+                .forEach((row) => player.cards.discard(...row.getUnits(), ...row.getSpecial(), ...this.board.getPlayerWeather(i)));
 
             const result = winner === null ?
                 "draw" :
@@ -362,6 +362,12 @@ export default class Game {
             switch (card.type) {
             case "weather":
                 // TODO
+                this.board.addWeather(card, this.currentPlayerIndex);
+
+                await Promise.all(card.abilities.map(async (ability) => {
+                    await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, card);
+                }));
+
                 return true;
             case "special":
                 // TODO
@@ -374,7 +380,7 @@ export default class Game {
                 this.players[this.currentPlayerIndex].cards.play(card);
 
                 await Promise.all(card.abilities.map(async (ability) => {
-                    await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
+                    await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row, card);
                 }));
 
                 return true;

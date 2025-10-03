@@ -86,6 +86,10 @@ export default class Row {
         return this.units;
     }
 
+    getSpecial(): SpecialCardData[] {
+        return this.special;
+    }
+
     addSpecial(card: SpecialCardData): void {
         this.special.push(card);
     }
