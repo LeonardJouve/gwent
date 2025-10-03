@@ -390,7 +390,11 @@ export default class Game {
             // TODO
             const r = row ?? card.abilities.includes("agile") ? "close" : card.rows[0];
 
-            this.board.play(card, playerIndex, r);
+            const ok = this.board.playUnit(card, playerIndex, r);
+            if (!ok) {
+                return false;
+            }
+
             this.players[playerIndex].cards.play(card);
 
             await this.placeCard(card, playerIndex, r);

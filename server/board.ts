@@ -1,6 +1,6 @@
 import Row from "./row.js";
 import type {GameOptions, PlayerIndex} from "./types/game.js";
-import type {CardData, SpecialCardData, UnitRow, WeatherCardData} from "../shared/types/card.js";
+import type {SpecialCardData, UnitCardData, UnitRow, WeatherCardData} from "../shared/types/card.js";
 import type {Weather} from "../shared/types/weather.js";
 
 type PlayerBoard = Record<UnitRow, Row>;
@@ -77,16 +77,13 @@ export default class Board {
         return Object.values(this.board[player]).reduce((acc, row) => acc + row.getScore(), 0);
     }
 
-    play(card: CardData, playerIndex: PlayerIndex, row?: UnitRow): void {
-        if (card.type !== "unit" || !card.rows.length) {
-            // TODO special / weather
-            return;
+    playUnit(card: UnitCardData, playerIndex: PlayerIndex, row: UnitRow): boolean {
+        if (!card.rows.includes(row)) {
+            return false;
         }
 
-        const r = row ?? (card.abilities.includes("agile") ? "close" : card.rows[0]);
+        this.getRow(row, playerIndex).add(card);
 
-        // TODO check if card can be played on this row
-
-        this.getRow(r, playerIndex).add(card);
+        return true;
     }
 }
