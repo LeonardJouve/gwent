@@ -59,8 +59,17 @@ export default class Match extends Listeners {
     }
 
     selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number, isClosable: boolean): Promise<CardData[]> {
-        // TODO use filename and verify selected card is valid
-        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, resolve));
+        const mapFilenameToCards = (filenames: CardData["filename"][]): CardData[] => filenames.reduce<CardData[]>((acc, filename) => {
+            const card = cards.find((card) => card.filename === filename);
+            // TODO handle error
+            if (card) {
+                acc.push(card);
+            }
+
+            return acc;
+        }, []);
+
+        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, (filenames) => resolve(mapFilenameToCards(filenames))));
     }
 
     showCards(playerIndex: PlayerIndex, cards: CardData[]): Promise<void> {
