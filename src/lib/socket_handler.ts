@@ -4,7 +4,7 @@ import {PUBLIC_API_URL} from "$env/static/public";
 import type {Play, RoundResult, State} from "@shared/types/game";
 import {store as gameStore} from "$lib/store/game.svelte";
 import {store as notificationStore} from "$lib/store/notifications.svelte";
-import {store as carouselStore} from "$lib/store/carousel.svelte";
+import {openModal} from "$lib/store/carousel.svelte";
 import type {CardData} from "@shared/types/card";
 import type {NotificationName} from "@shared/types/notification";
 import type {PlayerIndicator} from "@shared/types/player";
@@ -57,11 +57,12 @@ export class SocketHandler {
     }
 
     static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData["filename"][]) => void): void {
-        carouselStore.amount = amount;
-        carouselStore.onClose = (c: CardData[]): void => callback(c.map(({filename}) => filename));
-        carouselStore.isClosable = isClosable;
-        carouselStore.cards = cards;
-        carouselStore.isOpen = true;
+        openModal({
+            amount,
+            isClosable,
+            cards,
+            onClose: (c: CardData[]): void => callback(c.map(({filename}) => filename)),
+        });
     }
 
     static handleNotify(name: NotificationName): void {
@@ -69,11 +70,12 @@ export class SocketHandler {
     }
 
     static handleShowCards(cards: CardData[], callback: () => void): void {
-        carouselStore.amount = 1;
-        carouselStore.onClose = callback;
-        carouselStore.isClosable = true;
-        carouselStore.cards = cards;
-        carouselStore.isOpen = true;
+        openModal({
+            amount: 1,
+            isClosable: true,
+            cards,
+            onClose: callback,
+        });
     }
 
     static handleShowResults(results: RoundResult[], winner: PlayerIndicator|null): void {

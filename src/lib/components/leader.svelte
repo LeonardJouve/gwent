@@ -1,6 +1,6 @@
 <script lang="ts">
     import {store} from "$lib/store/game.svelte";
-    import {store as carouselStore} from "$lib/store/carousel.svelte";
+    import {openModal, type Modal} from "$lib/store/carousel.svelte";
     import type {PlayerIndicator} from "@shared/types/player";
     import Card from "$lib/components/card.svelte";
     import {iconURL} from "$lib/utils";
@@ -14,10 +14,11 @@
     const playerData = $derived(store.players[player]);
 
     const handleSelect = (card: CardData) => {
+        let onClose: Modal["onClose"];
         if (!playerData.isLeaderAvailable || player !== "me" || store.turn !== "me" || !store.askPlay) {
-            carouselStore.onClose = () => {};
+            onClose = () => {};
         } else {
-            carouselStore.onClose = (cards) => {
+            onClose = (cards) => {
                 if (!cards.length || !store.askPlay) {
                     return;
                 }
@@ -25,10 +26,13 @@
                 store.askPlay({type: "leader"});
             };
         }
-        carouselStore.amount = 1;
-        carouselStore.isClosable = true;
-        carouselStore.cards = [card];
-        carouselStore.isOpen = true;
+
+        openModal({
+            amount: 1,
+            isClosable: true,
+            cards: [card],
+            onClose,
+        });
     };
 </script>
 
