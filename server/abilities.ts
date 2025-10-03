@@ -6,12 +6,12 @@ import type {PlayerIndex} from "./types/game.js";
 import type {AbilityId} from "../shared/types/ability.js";
 import type {CardData, UnitRow} from "../shared/types/card.js";
 
-const cancelDiscard = (game: Game, playerIndex: PlayerIndex, name: CardData["name"]): void => {
+const cancelDiscard = (game: Game, playerIndex: PlayerIndex, filename: CardData["filename"]): void => {
     game.onRoundStart.push({
         once: true,
         run: async () => {
             const {grave} = game.getPlayerCards(playerIndex);
-            const index = grave.findIndex((card) => card.name === name);
+            const index = grave.findIndex((card) => card.filename === filename);
             if (index === -1) {
                 return;
             }
@@ -33,22 +33,27 @@ const playLeaderWeather = (game: Game, playerIndex: PlayerIndex, name: CardData[
 };
 
 const playLeaderHorn = (game: Game, playerIndex: PlayerIndex, row: UnitRow): void => {
-    if (game.board.getPlayerBoard(playerIndex)[row].special.hasHorn) {
+    if (game.board.getPlayerBoard(playerIndex)[row].special.some(({abilities}) => abilities.includes("horn"))) {
         return;
     }
 
-    game.board.horn(row, playerIndex);
-    cancelDiscard(game, playerIndex, "Commander's Horn");
+    const horn = cards.find(({filename}) => filename === "horn");
+    if (!horn || horn.type !== "special") {
+        throw new Error("could not find horn");
+    }
+
+    game.board.addSpecial(row, playerIndex, horn);
+    cancelDiscard(game, playerIndex, "horn");
 };
 
-const playAvenger = (game: Game, playerIndex: PlayerIndex, name: CardData["name"]): void => {
-    const card = cards.find((card) => card.name === name);
+const playAvenger = (game: Game, playerIndex: PlayerIndex, filename: CardData["filename"]): void => {
+    const card = cards.find((card) => card.filename === filename);
     if (!card) {
         return;
     }
 
     game.board.play(card, playerIndex);
-    cancelDiscard(game, playerIndex, name);
+    cancelDiscard(game, playerIndex, filename);
 };
 
 type Ability = {
@@ -90,6 +95,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             }
 
             const playerRow = game.board.getRow(row, playerIndex);
+            // TODO filter heros ?
             const units = playerRow.getUnits();
 
             const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
@@ -152,10 +158,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     avenger: {
-        onRemoved: async (game, playerIndex) => playAvenger(game, playerIndex, "Bovine Defense Force"),
+        onRemoved: async (game, playerIndex) => playAvenger(game, playerIndex, "chort"),
     },
     avenger_kambi: {
-        onRemoved: async (game, playerIndex) => playAvenger(game, playerIndex, "Hemdall"),
+        onRemoved: async (game, playerIndex) => playAvenger(game, playerIndex, "hemdall"),
     },
     foltest_king: {
         onPlaced: async (game, playerIndex) => playLeaderWeather(game, playerIndex, "Impenetrable Fog"),

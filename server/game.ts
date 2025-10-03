@@ -7,7 +7,6 @@ import type {UnitRow} from "../shared/types/card.js";
 import type {Deck} from "../shared/types/deck.js";
 import type Listeners from "./listeners.js";
 import type {PlayerBoard, Play, State, Player} from "../shared/types/game.js";
-import cards from "../shared/cards.js";
 
 type GamePlayer = Omit<Player, "grave"> & {
     cards: Cards;
@@ -154,7 +153,6 @@ export default class Game {
                 Object.entries(playerBoard).map(([rowName, row]) => [
                     rowName, {
                         special: row.special,
-                        hasWeather: row.hasWeather,
                         units: row.units.map((card) => ({
                             card,
                             score: row.getCardScore(card),
@@ -178,8 +176,11 @@ export default class Game {
                     },
                 },
                 board: {
-                    me: board[i],
-                    opponent: board[this.getOpponentIndex(i)],
+                    rows: {
+                        me: board[i],
+                        opponent: board[this.getOpponentIndex(i)],
+                    },
+                    weather: this.board.getWeather(),
                 },
             };
 
@@ -353,19 +354,34 @@ export default class Game {
             return true;
         }
         case "card": {
-            const card = cards.find(({filename}) => filename === play.card);
+            const card = this.players[this.currentPlayerIndex].cards.hand.find(({filename}) => filename === play.card);
             if (!card) {
                 return false;
             }
 
-            this.board.play(card, this.currentPlayerIndex, row);
-            this.players[this.currentPlayerIndex].cards.play(card);
+            switch (card.type) {
+            case "weather":
+                // TODO
+                return true;
+            case "special":
+                // TODO
+                return true;
+            case "unit": {
+                // TODO
+                const row = play.row ?? card.abilities.includes("agile") ? "close" : card.rows[0];
 
-            await Promise.all(card.abilities.map(async (ability) => {
-                await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
-            }));
+                this.board.play(card, this.currentPlayerIndex, row);
+                this.players[this.currentPlayerIndex].cards.play(card);
 
-            return true;
+                await Promise.all(card.abilities.map(async (ability) => {
+                    await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row ?? null, card);
+                }));
+
+                return true;
+            }
+            default:
+                return false;
+            }
         }
         }
     }

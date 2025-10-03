@@ -1,4 +1,4 @@
-import type {CardData, UnitRow} from "./card.js";
+import type {CardData, SpecialCardData, UnitCardData, UnitRow, WeatherCardData} from "./card.js";
 import type {Deck} from "./deck.js";
 import type {PlayerIndicator} from "./player.js";
 
@@ -12,25 +12,22 @@ export type Play = {
     row?: UnitRow;
 };
 
-export type RowSpecial = {
-    hasHorn: boolean;
-    hasMardroeme: boolean;
-};
-
-export type CardWithScore = {
-    card: CardData;
+export type UnitCardWithScore = {
+    card: UnitCardData;
     score: number;
 };
 
 export type Row = {
-    units: CardWithScore[];
-    hasWeather: boolean;
-    special: RowSpecial;
+    units: UnitCardWithScore[];
+    special: SpecialCardData[];
 };
 
 export type PlayerBoard = Record<UnitRow, Row>;
 
-export type Board = Record<PlayerIndicator, PlayerBoard>;
+export type Board = {
+    rows: Record<PlayerIndicator, PlayerBoard>;
+    weather: WeatherCardData[];
+};
 
 export type Player = Omit<Deck, "deck"> & {
     isLeaderAvailable: boolean;

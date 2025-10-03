@@ -1,26 +1,18 @@
 import Cards from "./cards.js";
 import type {GameOptions} from "./types/game.js";
-import type {CardData} from "../shared/types/card.js";
-import type {RowSpecial} from "../shared/types/game.js";
+import type {CardData, SpecialCardData, UnitCardData} from "../shared/types/card.js";
 
 export default class Row {
-    public units: CardData[];
-    public special: RowSpecial;
-    public hasWeather: boolean;
+    public units: UnitCardData[];
+    public special: SpecialCardData[];
+    private getWeather: () => boolean;
     private getOptions: () => GameOptions;
 
-    constructor(getOptions: () => GameOptions) {
+    constructor(getOptions: () => GameOptions, getWeather: () => boolean) {
         this.units = [];
-        this.special = {
-            hasHorn: false,
-            hasMardroeme: false,
-        };
-        this.hasWeather = false;
+        this.special = [];
+        this.getWeather = getWeather;
         this.getOptions = getOptions;
-    }
-
-    setWeather(hasWeather: boolean): void {
-        this.hasWeather = hasWeather;
     }
 
     getCardScore(card: CardData): number {
@@ -36,7 +28,7 @@ export default class Row {
 
         const {halfWeather, doubleSpyPower} = this.getOptions();
 
-        if (this.hasWeather) {
+        if (this.getWeather()) {
             if (halfWeather) {
                 total = Math.ceil(total / 2);
             } else {
@@ -75,30 +67,26 @@ export default class Row {
     }
 
     getHorn(): number {
-        return Number(this.special.hasHorn) + this.units.reduce((acc, {abilities}) => acc + Number(abilities.includes("horn")), 0);
+        return Number(this.special.filter(({abilities}) => abilities.includes("horn")).length + this.units.reduce((acc, {abilities}) => acc + Number(abilities.includes("horn")), 0));
     }
 
     hasMardroeme(): boolean {
-        return this.special.hasMardroeme || this.units.some(({abilities}) => abilities.includes("mardroeme"));
+        return this.special.some(({abilities}) => abilities.includes("mardroeme")) || this.units.some(({abilities}) => abilities.includes("mardroeme"));
     }
 
-    add(...cards: CardData[]): void {
+    add(...cards: UnitCardData[]): void {
         this.units.push(...cards);
     }
 
-    remove(...cards: CardData[]): void {
+    remove(...cards: UnitCardData[]): void {
         this.units = Cards.filterCards(this.units, cards);
     }
 
-    getUnits(): CardData[] {
+    getUnits(): UnitCardData[] {
         return this.units;
     }
 
-    horn(): void {
-        this.special.hasHorn = true;
-    }
-
-    mardroeme(): void {
-        this.special.hasMardroeme = true;
+    addSpecial(card: SpecialCardData): void {
+        this.special.push(card);
     }
 };

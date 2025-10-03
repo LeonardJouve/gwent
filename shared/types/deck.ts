@@ -1,11 +1,11 @@
 import {z} from "zod/v4";
-import {CardDataSchema} from "./card.js";
+import {CardDataSchema, LeaderCardSchema} from "./card.js";
 import {FactionNameSchema} from "./faction.js";
 
 export const DeckSchema = z.object({
     name: z.string(),
     faction: FactionNameSchema,
-    leader: CardDataSchema,
+    leader: LeaderCardSchema,
     deck: z.array(CardDataSchema),
 });
 

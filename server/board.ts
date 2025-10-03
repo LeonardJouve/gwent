@@ -1,13 +1,13 @@
 import Row from "./row.js";
 import type {GameOptions, PlayerIndex} from "./types/game.js";
-import type {CardData, UnitRow} from "../shared/types/card.js";
+import type {CardData, SpecialCardData, UnitRow, WeatherCardData} from "../shared/types/card.js";
 import type {Weather} from "../shared/types/weather.js";
 
 type PlayerBoard = Record<UnitRow, Row>;
 
 export default class Board {
     private board: PlayerBoard[];
-    private weather: CardData[];
+    private weather: WeatherCardData[];
     private getOptions: () => GameOptions;
 
     constructor(getOptions: () => GameOptions) {
@@ -22,18 +22,31 @@ export default class Board {
     }
 
     clearBoard(): PlayerBoard[] {
-        return this.board = [
-            {
-                close: new Row(this.getOptions.bind(this)),
-                ranged: new Row(this.getOptions.bind(this)),
-                siege: new Row(this.getOptions.bind(this)),
-            },
-            {
-                close: new Row(this.getOptions.bind(this)),
-                ranged: new Row(this.getOptions.bind(this)),
-                siege: new Row(this.getOptions.bind(this)),
-            },
-        ];
+        return Array.from({length: 2}, () => ["close", "ranged", "siege"].reduce<PlayerBoard>((acc, row) => {
+            acc[row as UnitRow] = new Row(this.getOptions.bind(this), () => this.getRowWeather(row as UnitRow));
+
+            return acc;
+        }, {} as PlayerBoard));
+    }
+
+    getWeather(): WeatherCardData[] {
+        return this.weather;
+    }
+
+    getRowWeather(row: UnitRow): boolean {
+        const weatherToRow: Record<Weather, UnitRow> = {
+            frost: "close",
+            fog: "ranged",
+            rain: "siege",
+        };
+
+        return this.weather.some(({abilities}) => abilities.some((ability) => {
+            if (!(ability in weatherToRow)) {
+                return false;
+            }
+
+            return row === weatherToRow[ability as keyof typeof weatherToRow];
+        }));
     }
 
     getRow(row: UnitRow, playerIndex: PlayerIndex): Row {
@@ -44,37 +57,15 @@ export default class Board {
         return this.board[playerIndex];
     }
 
-    horn(row: UnitRow, playerIndex: PlayerIndex): void {
-        this.getRow(row, playerIndex).horn();
+    addSpecial(row: UnitRow, playerIndex: PlayerIndex, card: SpecialCardData): void {
+        this.getRow(row, playerIndex).addSpecial(card);
     }
 
-    mardroeme(row: UnitRow, playerIndex: PlayerIndex): void {
-        this.getRow(row, playerIndex).mardroeme();
-    }
-
-    addWeather(card: CardData): void {
-        const weatherRow: Record<Weather, UnitRow> = {
-            frost: "close",
-            fog: "ranged",
-            rain: "siege",
-        };
-
+    addWeather(card: WeatherCardData): void {
         this.weather.push(card);
-
-
-        this.board.forEach((playerBoard) => {
-            card.abilities.forEach((ability) => {
-                if (!(ability in weatherRow)) {
-                    return;
-                }
-
-                playerBoard[weatherRow[ability as keyof typeof weatherRow]].setWeather(true);
-            });
-        });
     }
 
-    clearWeather(): CardData[] {
-        this.board.forEach((playerBoard) => Object.values(playerBoard).forEach((row) => row.setWeather(false)));
+    clearWeather(): WeatherCardData[] {
         return this.weather = [];
     }
 
@@ -84,7 +75,7 @@ export default class Board {
 
     play(card: CardData, playerIndex: PlayerIndex, row?: UnitRow): void {
         if (card.type !== "unit" || !card.rows.length) {
-            // TODO special / weather / decoy
+            // TODO special / weather
             return;
         }
 

@@ -8,7 +8,7 @@ export const BaseCardDataSchema = z.object({
     name: z.string(),
     faction: FactionNameSchema.or(z.literal("neutral")),
     abilities: z.array(AbilityIdSchema),
-    filename: z.string(),
+    filename: z.string().describe("can be used as a unique identifier"),
     maxPerDeck: z.number(),
 });
 
@@ -18,6 +18,7 @@ export const WeatherCardSchema = BaseCardDataSchema.and(z.object({
 
 export const SpecialCardSchema = BaseCardDataSchema.and(z.object({
     type: z.literal("special"),
+    rows: z.array(UnitRowSchema),
 }));
 
 export const LeaderCardSchema = BaseCardDataSchema.and(z.object({
@@ -38,7 +39,6 @@ export const CardDataSchema = WeatherCardSchema
 export type UnitRow = z.infer<typeof UnitRowSchema>;
 
 export type CardData = z.infer<typeof CardDataSchema>;
-
 
 export type WeatherCardData = z.infer<typeof WeatherCardSchema>;
 

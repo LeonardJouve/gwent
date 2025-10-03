@@ -25,6 +25,11 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
+        rows: [
+            "close",
+            "ranged",
+            "siege",
+        ],
     },
     {
         name: "Biting Frost",
@@ -69,6 +74,11 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
+        rows: [
+            "close",
+            "ranged",
+            "siege",
+        ],
     },
     {
         name: "Dandelion",
@@ -129,6 +139,11 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
+        rows: [
+            "close",
+            "ranged",
+            "siege",
+        ],
     },
     {
         name: "Torrential Rain",
@@ -2612,6 +2627,11 @@ const cards: CardData[] = [
         ],
         faction: "neutral",
         type: "special",
+        rows: [
+            "close",
+            "ranged",
+            "siege",
+        ],
     },
     {
         name: "Olaf",

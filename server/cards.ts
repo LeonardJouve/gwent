@@ -39,7 +39,7 @@ export default class Cards {
         return indices.map((index) => cards[index]);
     }
 
-    static filterCards(from: CardData[], cards: CardData[]): CardData[] {
+    static filterCards<T extends CardData>(from: T[], cards: T[]): T[] {
         return from.filter((card) => {
             const playingCardIndex = cards.findIndex(({filename}) => filename === card.filename);
             if (playingCardIndex !== -1) {

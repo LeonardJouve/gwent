@@ -17,6 +17,8 @@
 
     const isUnit = $derived(card.type === "unit");
     const isHero = $derived(card.abilities.includes("hero"));
+    const isBuffed = $derived(card.type === "unit" && score > card.strength);
+    const isDebuffed = $derived(card.type === "unit" && score < card.strength);
 
     const handleSelect = $derived((event: MouseEvent) => onSelect?.(card, event));
 </script>
@@ -33,6 +35,8 @@
         <p class={{
             strength: true,
             hero: isHero,
+            buffed: isBuffed,
+            debuffed: isDebuffed,
         }}>
             {score}
         </p>
@@ -69,5 +73,13 @@
 
     .hero {
         color: white;
+    }
+
+    .buffed {
+        color: greenyellow;
+    }
+
+    .debuffed {
+        color: tomato;
     }
 </style>
