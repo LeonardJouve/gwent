@@ -3,7 +3,7 @@ import Board from "./board.js";
 import abilities from "./abilities.js";
 import factions from "./factions.js";
 import type {GameOptions, PlayerIndex, RoundResult} from "./types/game.js";
-import type {UnitRow} from "../shared/types/card.js";
+import type {CardData, UnitRow} from "../shared/types/card.js";
 import type {Deck} from "../shared/types/deck.js";
 import type Listeners from "./listeners.js";
 import type {PlayerBoard, Play, State, Player} from "../shared/types/game.js";
@@ -345,9 +345,10 @@ export default class Game {
                 return false;
             }
 
-            await Promise.all(leader.abilities.map(async (ability) => {
-                await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, leader);
-            }));
+            const ok = this.playCard(leader, this.currentPlayerIndex);
+            if (!ok) {
+                return false;
+            }
 
             this.players[this.currentPlayerIndex].isLeaderAvailable = false;
 
@@ -359,36 +360,53 @@ export default class Game {
                 return false;
             }
 
-            switch (card.type) {
-            case "weather":
-                // TODO
-                this.board.addWeather(card, this.currentPlayerIndex);
+            return this.playCard(card, this.currentPlayerIndex, play.row);
+        }
+        }
+    }
 
-                await Promise.all(card.abilities.map(async (ability) => {
-                    await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, null, card);
-                }));
+    async playCard(card: CardData, playerIndex: PlayerIndex, row?: UnitRow) : Promise<boolean> {
+        switch (card.type) {
+        case "weather":
+            // TODO
+            this.board.addWeather(card, playerIndex);
 
-                return true;
-            case "special":
-                // TODO
-                return true;
-            case "unit": {
-                // TODO
-                const row = play.row ?? card.abilities.includes("agile") ? "close" : card.rows[0];
+            await this.placeCard(card, playerIndex, null);
 
-                this.board.play(card, this.currentPlayerIndex, row);
-                this.players[this.currentPlayerIndex].cards.play(card);
-
-                await Promise.all(card.abilities.map(async (ability) => {
-                    await abilities[ability]?.onPlaced?.(this, this.currentPlayerIndex, row, card);
-                }));
-
-                return true;
-            }
-            default:
+            return true;
+        case "special": {
+            // TODO
+            if (!row) {
                 return false;
             }
+
+            this.board.addSpecial(row, playerIndex, card);
+
+            await this.placeCard(card, playerIndex, row);
+
+            return true;
         }
+        case "unit": {
+            // TODO
+            const r = row ?? card.abilities.includes("agile") ? "close" : card.rows[0];
+
+            this.board.play(card, playerIndex, r);
+            this.players[playerIndex].cards.play(card);
+
+            await this.placeCard(card, playerIndex, r);
+
+            return true;
         }
+        case "leader":
+            await this.placeCard(card, playerIndex, null);
+
+            return true;
+        }
+    }
+
+    private async placeCard(card: CardData, playerIndex: PlayerIndex, row: UnitRow|null): Promise<void> {
+        await Promise.all(card.abilities.map(async (ability) => {
+            await abilities[ability]?.onPlaced?.(this, playerIndex, row, card);
+        }));
     }
 }
