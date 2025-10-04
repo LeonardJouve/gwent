@@ -7,7 +7,7 @@ type PlayerBoard = Record<UnitRow, Row>;
 
 export default class Board {
     private board: PlayerBoard[];
-    private weather: Record<PlayerIndex, WeatherCardData[]>;
+    private weather: WeatherCardData[][];
     private getOptions: () => GameOptions;
 
     constructor(getOptions: () => GameOptions) {
@@ -22,7 +22,7 @@ export default class Board {
     }
 
     clearBoard(): PlayerBoard[] {
-        return Array.from({length: 2}, () => ["close", "ranged", "siege"].reduce<PlayerBoard>((acc, row) => {
+        return this.board = Array.from({length: 2}, () => ["close", "ranged", "siege"].reduce<PlayerBoard>((acc, row) => {
             acc[row as UnitRow] = new Row(this.getOptions.bind(this), () => this.getRowWeather(row as UnitRow));
 
             return acc;
@@ -30,7 +30,7 @@ export default class Board {
     }
 
     getWeather(): WeatherCardData[] {
-        return Object.values(this.weather).flat();
+        return this.weather.flat();
     }
 
     getPlayerWeather(playerIndex: PlayerIndex): WeatherCardData[] {
@@ -69,8 +69,8 @@ export default class Board {
         this.weather[playerIndex].push(card);
     }
 
-    clearWeather(): Record<PlayerIndex, WeatherCardData[]> {
-        return this.weather = {};
+    clearWeather(): WeatherCardData[][] {
+        return this.weather = [[], []];
     }
 
     getPlayerScore(player: PlayerIndex): number {
