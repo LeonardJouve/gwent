@@ -14,24 +14,17 @@
     const playerData = $derived(store.players[player]);
 
     const handleSelect = (card: CardData) => {
-        let onClose: Modal["onClose"];
-        if (!playerData.isLeaderAvailable || player !== "me" || store.turn !== "me" || !store.askPlay) {
-            onClose = () => {};
-        } else {
-            onClose = (cards) => {
-                if (!cards.length || !store.askPlay) {
-                    return;
-                }
-
-                store.askPlay({type: "leader"});
-            };
-        }
-
         openModal({
             amount: 1,
             isClosable: true,
             cards: [card],
-            onClose,
+            onClose: () => {
+                if (player !== "me" || store.turn !== "me" || !store.askPlay) {
+                    return;
+                }
+
+                store.askPlay({type: "leader"});
+            },
         });
     };
 </script>
