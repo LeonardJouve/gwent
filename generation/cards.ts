@@ -37,7 +37,8 @@ export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: G
         ctx.drawImage(powerImage, x, y, width, height);
     }
 
-    if (card.type === "unit") {
+    const isUnit = card.type === "unit" && !card.abilities.includes("decoy");
+    if (isUnit) {
         const rowPath = path.join(iconsFolder, `card_row_${getRow(card)}.png`);
 
         const buffer = await fs.promises.readFile(rowPath);
@@ -64,7 +65,7 @@ export const generateCard = async ({imagePath, dimensions, iconsFolder, card}: G
         const width = dimensions.width * scale;
         const height = abilityDimensions.height / abilityDimensions.width * width;
         let x = dimensions.width - width - padding;
-        if (card.type === "unit") {
+        if (isUnit) {
             x -= width + padding;
         }
         const y = dimensions.height - height - padding;

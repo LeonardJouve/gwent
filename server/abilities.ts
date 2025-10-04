@@ -99,7 +99,9 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
 
             const playerRow = game.board.getRow(row, playerIndex);
             // TODO filter heros ?
-            const units = playerRow.getUnits();
+            const units = playerRow
+                .getUnits()
+                .filter((card) => !card.abilities.includes("hero") && !card.abilities.includes("decoy"));
 
             const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
             if (card.type !== "unit") {

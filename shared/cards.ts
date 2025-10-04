@@ -18,13 +18,14 @@ const cards: CardData[] = [
     },
     {
         name: "Decoy",
+        strength: 0,
         filename: "decoy",
         maxPerDeck: 3,
         abilities: [
             "decoy",
         ],
         faction: "neutral",
-        type: "special",
+        type: "unit",
         rows: [
             "close",
             "ranged",
@@ -138,12 +139,7 @@ const cards: CardData[] = [
             "scorch",
         ],
         faction: "neutral",
-        type: "special",
-        rows: [
-            "close",
-            "ranged",
-            "siege",
-        ],
+        type: "weather",
     },
     {
         name: "Torrential Rain",
