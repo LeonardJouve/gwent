@@ -1,4 +1,5 @@
 TODOS:
+- handle deconnection
 - Deck builder
 - #each with keys
 - Card animations
