@@ -1,6 +1,6 @@
 <script lang="ts">
     import CardContainer from "$lib/components/card_container.svelte";
-    import type {UnitRow} from "@shared/types/card";
+    import type {CardData, UnitRow} from "@shared/types/card";
     import type {PlayerIndicator} from "@shared/types/player";
     import {getRowScore, getRowWeather, store} from "$lib/store/game.svelte";
     import Score from "$lib/components/score.svelte";
@@ -18,8 +18,8 @@
 
     const canPlay = $derived(store.selectedCard && store.turn === "me" && store.askPlay);
 
-    const handleClick = () => {
-        if (canPlay && store.selectedCard && store.askPlay) {
+    const handleRowClick = (type: CardData["type"]) => () => {
+        if (canPlay && store.selectedCard?.type === type && store.askPlay) {
             store.askPlay({
                 type: "card",
                 card: store.selectedCard.filename,
@@ -31,13 +31,17 @@
 
 <div class="row">
     <div class="hoverable special-row">
-        <CardContainer cards={row.special}/>
+        <CardContainer
+            cards={row.special}
+            onClick={handleRowClick("special")}
+            canOpenCarousel={!canPlay}
+        />
     </div>
     <div class="hoverable unit-row">
         <CardContainer
             cards={row.units.map(({card}) => card)}
             scores={row.units.map(({score}) => score)}
-            onClick={handleClick}
+            onClick={handleRowClick("unit")}
             canOpenCarousel={!canPlay}
         />
     </div>
