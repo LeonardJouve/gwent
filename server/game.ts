@@ -315,7 +315,11 @@ export default class Game {
 
         this.players.forEach((player, i) => {
             Object.values(this.board.getPlayerBoard(i))
-                .forEach((row) => player.cards.discard(...row.getUnits(), ...row.getSpecial(), ...this.board.getPlayerWeather(i)));
+                .forEach((row) => player.cards.discard(
+                    ...row.getUnits(),
+                    ...row.getSpecial(),
+                    ...this.board.getPlayerWeather(i),
+                ));
 
             const result = winner === null ?
                 "draw" :
@@ -388,7 +392,7 @@ export default class Game {
         }
         case "unit": {
             // TODO
-            const r = row ?? card.abilities.includes("agile") ? "close" : card.rows[0];
+            const r = row ?? (card.abilities.includes("agile") ? "close" : card.rows[0]);
 
             const ok = this.board.playUnit(card, playerIndex, r);
             if (!ok) {
