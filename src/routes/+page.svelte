@@ -17,9 +17,11 @@
 
     const deck = $state<CardData[]>(cards.slice(0, 20));
     const bank = $derived(cards.filter(({faction, type}) => faction === "neutral" || faction === factionName && type !== "leader"));
-    const leader = cards[24] as LeaderCardData;
+    let leader = $state<LeaderCardData>(cards[24] as LeaderCardData);
 
     const handleChangeFaction = (name: FactionName) => factionName = name;
+
+    const handleSelectLeader = (newLeader: LeaderCardData) => leader = newLeader;
 
     let isInQueue = $state<boolean>(false);
     const id = $state<string>(crypto.randomUUID());
@@ -86,6 +88,7 @@
     <div class="info">
         <DeckInfo
             leader={leader}
+            onSelectLeader={handleSelectLeader}
             onQueue={handleQueue}
         />
     </div>
