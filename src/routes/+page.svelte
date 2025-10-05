@@ -1,25 +1,29 @@
 <script lang="ts">
-    // TODO
     import {onDestroy} from "svelte";
-    import {iconURL, largeClass} from "$lib/utils";
     import cards from "@shared/cards";
     import factions from "$lib/factions";
     import type {Deck} from "@shared/types/deck";
     import {PUBLIC_API_URL} from "$env/static/public";
     import {goto} from "$app/navigation";
-    import type {LeaderCardData} from "@shared/types/card";
+    import FactionHeader from "$lib/components/faction_header.svelte";
+    import GameCarousel from "$lib/components/game_carousel.svelte";
+    import DeckInfo from "$lib/components/deck_info.svelte";
+    import CardList from "$lib/components/card_list.svelte";
+    import type {CardData, LeaderCardData} from "@shared/types/card";
+    import type {FactionName} from "@shared/types/faction";
 
-    const factionName = "realms";
-    const faction = factions[factionName];
+    let factionName = $state<FactionName>("realms");
+    const faction = $derived(factions[factionName]);
 
-    const bank = cards.slice(20, 30);
-    const deck = cards.slice(0, 20);
+    const deck = $state<CardData[]>(cards.slice(0, 20));
+    const bank = $derived(cards.filter(({faction, type}) => faction === "neutral" || faction === factionName && type !== "leader"));
     const leader = cards[24] as LeaderCardData;
+
+    const handleChangeFaction = (name: FactionName) => factionName = name;
 
     let isInQueue = $state<boolean>(false);
     const id = $state<string>(crypto.randomUUID());
     let abortController = $state<AbortController>(new AbortController());
-    let username = $state<string>("");
 
     onDestroy(() => {
         if (!isInQueue) return;
@@ -32,9 +36,7 @@
         fetch(`${PUBLIC_API_URL}/matchmaking/${id}`, {method: "DELETE"});
     };
 
-    const handleQueue = async (e: MouseEvent) => {
-        e.preventDefault();
-
+    const handleQueue = async (username: string) => {
         if (isInQueue) {
             abortController.abort();
             return;
@@ -72,104 +74,25 @@
 <section class="deck-maker">
     <div class="header">
         <h2>Card Collection</h2>
-        <div class="faction-header">
-            <div class="faction-title">
-                <img
-                    alt={faction.id + " shield"}
-                    src={iconURL("deck_shield_" + faction.id)}
-                />
-                <h1>{faction.name}</h1>
-            </div>
-            <p class="faction-description">{faction.description}</p>
-            <div class="actions">
-                <button class="upload">
-                    <input type="file"/>
-                    Upload Deck
-                </button>
-                <button>Change Faction</button>
-                <button>Download Deck</button>
-            </div>
-        </div>
+        <FactionHeader
+            faction={faction}
+            onChangeFaction={handleChangeFaction}
+        />
         <h2>Cards in Deck</h2>
     </div>
-    <div class="card-list">
-        {#each bank as card}
-            <div
-                class="card"
-                style={`--count: "${card.maxPerDeck}"`}
-            >
-                <div class={largeClass(card)}></div>
-            </div>
-        {/each}
+    <div class="bank">
+        <CardList cards={bank}/>
     </div>
-    <div class="deck-info">
-        <p>Leader</p>
-        <div class={[largeClass(leader), "leader"]}></div>
-        <div class="deck-stats">
-            <p>Total cards in deck</p>
-            <div>
-                <img
-                    alt="count"
-                    src={iconURL("deck_stats_count")}
-                />
-                <p>0</p>
-            </div>
-            <p>Number of Unit Cards</p>
-            <div>
-                <img
-                    alt="unit"
-                    src={iconURL("deck_stats_unit")}
-                />
-                <p>0</p>
-            </div>
-            <p>Special Cards</p>
-            <div>
-                <img
-                    alt="special"
-                    src={iconURL("deck_stats_special")}
-                />
-                <p>0/10</p>
-            </div>
-            <p>Total Unit Card Strength</p>
-            <div>
-                <img
-                    alt="strength"
-                    src={iconURL("deck_stats_strength")}
-                />
-                <p>0</p>
-            </div>
-            <p>Hero Cards</p>
-            <div>
-                <img
-                    alt="hero"
-                    src={iconURL("deck_stats_hero")}
-                />
-                <p>0</p>
-            </div>
-        </div>
-        <p class="toggle-music">♫</p>
-        <input
-            id="username"
-            placeholder="Username"
-            bind:value={username}
+    <div class="info">
+        <DeckInfo
+            leader={leader}
+            onQueue={handleQueue}
         />
-        <button
-            id="start-game"
-            onclick={handleQueue}
-        >
-            Find match
-        </button>
     </div>
-    <div class="card-list">
-        {#each deck as card}
-            <div
-                class="card"
-                style={`--count: "${card.maxPerDeck}"`}
-            >
-                <div class={largeClass(card)}></div>
-            </div>
-        {/each}
+    <div class="deck">
+        <CardList cards={deck}/>
     </div>
+    <GameCarousel/>
 </section>
 
 <style>
@@ -185,8 +108,27 @@
         max-width: 100vw;
         max-height: 100vh;
         padding: 35px 60px 35px 60px;
-        /* background-color: rgba(10,10,10,.95); */
+        background-color: black;
+        opacity: 0.9;
+        color: white;
+    }
 
+    .bank {
+        grid-area: bank;
+        display: flex;
+        overflow-y: hidden;
+    }
+
+    .info {
+        grid-area: info;
+        display: flex;
+        overflow-y: hidden;
+    }
+
+    .deck {
+        grid-area: deck;
+        display: flex;
+        overflow-y: hidden;
     }
 
     .header {
@@ -194,112 +136,5 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-    }
-
-    .faction-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .faction-title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        text-transform: capitalize;
-        height: 50px;
-
-        img {
-            height: 100%;
-        }
-    }
-
-    .actions {
-        display: flex;
-        gap: 10px;
-        .upload input {
-            display: none;
-        }
-    }
-
-    .card-list {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        overflow-y: scroll;
-
-        &:nth-child(1) {
-            grid-area: bank;
-        }
-
-        &:nth-child(3) {
-            grid-area: deck;
-        }
-    }
-
-    .card {
-        width: 9.88vw;
-        height: 18.45vw;
-        position: relative;
-        --count: "0";
-
-        * {
-            border-radius: 1vw;
-            width: 100%;
-            height: 100%;
-        }
-
-        &::before {
-            content: var(--count);
-            background-image: url("assets/img/icons/preview_count.png");
-            position: absolute;
-            top: 82.5%;
-            left: 76%;
-            width: 20%;
-            height: 7%;
-            font-size: 1.2vw;
-            color: #5f4923;
-            padding-left: 1.7vw;
-            background-image: url("assets/img/icons/preview_count.png");
-            background-repeat: no-repeat;
-            background-size: contain;
-        }
-    }
-
-    .deck-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        grid-area: info;
-    }
-
-    .deck-stats {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 3px;
-
-        div {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        img {
-            width: 2.5vw;
-        }
-    }
-
-    .leader {
-        height: 25vh;
-        border-radius: .5vw;
-    }
-
-    .toggle-music {
-        font-size: 2.5vw;
     }
 </style>
