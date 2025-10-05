@@ -108,8 +108,7 @@
         max-width: 100vw;
         max-height: 100vh;
         padding: 35px 60px 35px 60px;
-        background-color: black;
-        opacity: 0.9;
+        background-color: rgba(10,10,10,.95);
         color: white;
     }
 
