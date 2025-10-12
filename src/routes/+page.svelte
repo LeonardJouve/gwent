@@ -11,54 +11,31 @@
     import CardList from "$lib/components/card_list.svelte";
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import type {FactionName} from "@shared/types/faction";
-    import {getCardsWithAmount} from "$lib/utils";
+    import {getCardsWithAmount, getPremadeDeck, getPremadeLeader, sortCards} from "$lib/utils";
 
-    let factionName = $state<FactionName>("realms");
+    const defaultFactionName = "realms";
+    let factionName = $state<FactionName>(defaultFactionName);
     const faction = $derived(factions[factionName]);
 
-    let deck = $state<CardData[]>([]);
+    let leader = $state<LeaderCardData>(getPremadeLeader(defaultFactionName));
+    let deck = $state<CardData[]>(getPremadeDeck(defaultFactionName));
     const bank = $derived.by(() => {
         const deckCardsWithAmount = getCardsWithAmount(deck);
 
-        return cards
+        return sortCards(cards
             .filter(({faction, type}) => (faction === "neutral" || faction === factionName) && type !== "leader")
-            .sort((a, b) => {
-                const typeRank = (card: CardData) => {
-                    switch (true) {
-                    case card.type === "special" || card.abilities.includes("decoy"):
-                        return 0;
-                    case card.type === "weather":
-                        return 1;
-                    case card.abilities.includes("hero"):
-                        return 2;
-                    default:
-                        return 3;
-                    }
-                };
-
-                const typeDiff = typeRank(a) - typeRank(b);
-                if (typeDiff) {
-                    return typeDiff;
-                }
-
-                const strengthDiff = (b.type === "unit" ? b.strength : 0) - (a.type === "unit" ? a.strength : 0);
-                if (strengthDiff) {
-                    return strengthDiff;
-                }
-
-                return a.name.localeCompare(b.name);
-            })
-            .flatMap((card) => Array.from({length: card.maxPerDeck - (deckCardsWithAmount.get(card.filename)?.amount ?? 0)}, () => card));
-        });
-    let leader = $state<LeaderCardData>(cards[24] as LeaderCardData);
+            .flatMap((card) => Array.from({length: card.maxPerDeck - (deckCardsWithAmount.get(card.filename)?.amount ?? 0)}, () => card)));
+    });
 
     const handleChangeFaction = (name: FactionName) => {
         factionName = name;
-        deck = [];
+        deck = getPremadeDeck(factionName);
+        leader = getPremadeLeader(factionName);
     };
 
     const handleAddToDeck = (card: CardData): void => {
         deck.push(card);
+        sortCards(deck);
     };
 
     const handleRemoveFromDeck = (card: CardData): void => {

@@ -1,5 +1,7 @@
-import type {CardData} from "@shared/types/card";
+import type {CardData, LeaderCardData} from "@shared/types/card";
 import type {FactionName} from "@shared/types/faction";
+import premadeDecks from "$lib/decks";
+import cards from "@shared/cards";
 
 export const imgURL = (file: string, ext: string, prefix?: string): string => `assets/img/${prefix ? `${prefix}/` : ""}${file}.${ext}`;
 
@@ -14,7 +16,7 @@ export const smallClass = (card: CardData): string => getClass("sm", card);
 export const backClass = (faction: FactionName): string => `lg-back-${faction}`;
 
 type CardWithAmount = CardData & {amount: number};
-export const getCardsWithAmount = (cards: CardData[]): Map<CardData["filename"], CardWithAmount> => cards.reduce<Map<CardData["filename"], CardWithAmount>>((acc, card) => {
+export const getCardsWithAmount = (c: CardData[]): Map<CardData["filename"], CardWithAmount> => c.reduce<Map<CardData["filename"], CardWithAmount>>((acc, card) => {
     const previousCard = acc.get(card.filename);
     if (previousCard) {
         previousCard.amount += 1;
@@ -24,3 +26,50 @@ export const getCardsWithAmount = (cards: CardData[]): Map<CardData["filename"],
 
     return acc;
 }, new Map());
+
+export const sortCards = (c: CardData[]): CardData[] => c.sort((a, b) => {
+    const typeRank = (card: CardData): number => {
+        switch (true) {
+        case card.type === "special" || card.abilities.includes("decoy"):
+            return 0;
+        case card.type === "weather":
+            return 1;
+        case card.abilities.includes("hero"):
+            return 2;
+        default:
+            return 3;
+        }
+    };
+
+    const typeDiff = typeRank(a) - typeRank(b);
+    if (typeDiff) {
+        return typeDiff;
+    }
+
+    const strengthDiff = (b.type === "unit" ? b.strength : 0) - (a.type === "unit" ? a.strength : 0);
+    if (strengthDiff) {
+        return strengthDiff;
+    }
+
+    return a.name.localeCompare(b.name);
+});
+
+export const getPremadeDeck = (faction: FactionName): CardData[] => premadeDecks[faction].cards.flatMap(([name, amount]) => {
+    const card = cards.find(({filename}) => filename === name);
+    if (!card || card.type === "leader" || card.faction !== "neutral" && card.faction !== faction) {
+        throw new Error(`premade deck ${faction} has invalid card ${name}`);
+    }
+
+    return Array.from({length: amount}, () => card);
+});
+
+export const getPremadeLeader = (faction: FactionName): LeaderCardData => {
+    const {leader} = premadeDecks[faction];
+
+    const card = cards.find(({filename}) => filename === leader);
+    if (!card || card.type !== "leader") {
+        throw new Error(`premade deck ${faction} has invalid leader`);
+    }
+
+    return card;
+};

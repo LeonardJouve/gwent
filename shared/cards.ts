@@ -2774,7 +2774,6 @@ const cards: CardData[] = [
             "siege",
         ],
     },
-]
-;
+];
 
 export default cards;

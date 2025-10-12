@@ -1,6 +1,5 @@
 TODOS:
 - Deck builder
-- Premade decks
 - Server validates deck
 - Handle disconnect
 - Use `openModal` instead of `<CardCarousel/>`
