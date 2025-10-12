@@ -1,5 +1,18 @@
 <script lang="ts">
     import {iconURL} from "$lib/utils";
+    import type {CardData, UnitCardData} from "@shared/types/card";
+
+    type Props = {
+        deck: CardData[];
+    };
+    const {deck}: Props = $props();
+
+    const totalAmount = $derived(deck.length);
+    const units = $derived(deck.filter((card): card is UnitCardData => card.filename !== "decoy" && card.type === "unit"));
+    const unitAmount = $derived(units.length);
+    const specialAmount = $derived(totalAmount - unitAmount);
+    const heroAmount = $derived(deck.filter((card) => card.abilities.includes("hero")).length);
+    const strength = $derived(units.reduce((acc, card) => acc + card.strength, 0));
 </script>
 
 <div class="deck-stats">
@@ -9,7 +22,7 @@
             alt="count"
             src={iconURL("deck_stats_count")}
         />
-        <p>0</p>
+        <p>{totalAmount}</p>
     </div>
     <p>Number of Unit Cards</p>
     <div>
@@ -17,7 +30,7 @@
             alt="unit"
             src={iconURL("deck_stats_unit")}
         />
-        <p>0</p>
+        <p>{unitAmount}</p>
     </div>
     <p>Special Cards</p>
     <div>
@@ -25,7 +38,7 @@
             alt="special"
             src={iconURL("deck_stats_special")}
         />
-        <p>0/10</p>
+        <p>{specialAmount}/10</p>
     </div>
     <p>Total Unit Card Strength</p>
     <div>
@@ -33,7 +46,7 @@
             alt="strength"
             src={iconURL("deck_stats_strength")}
         />
-        <p>0</p>
+        <p>{strength}</p>
     </div>
     <p>Hero Cards</p>
     <div>
@@ -41,7 +54,7 @@
             alt="hero"
             src={iconURL("deck_stats_hero")}
         />
-        <p>0</p>
+        <p>{heroAmount}</p>
     </div>
 </div>
 

@@ -2,16 +2,17 @@
     import {largeClass} from "$lib/utils";
     import SoundtrackToggle from "$lib/components/soundtrack_toggle.svelte";
     import DeckStats from "$lib/components/deck_stats.svelte";
-    import type {LeaderCardData} from "@shared/types/card";
+    import type {CardData, LeaderCardData} from "@shared/types/card";
     import {openModal} from "$lib/store/carousel.svelte";
     import cards from "@shared/cards";
 
     type Props = {
         leader: LeaderCardData;
+        deck: CardData[];
         onSelectLeader: (leader: LeaderCardData) => void;
         onQueue: (username: string) => void;
     };
-    const {leader, onSelectLeader, onQueue}: Props = $props();
+    const {leader, deck, onSelectLeader, onQueue}: Props = $props();
 
     let username = $state<string>("");
 
@@ -46,7 +47,7 @@
     >
         <div class={[largeClass(leader), "width"]}></div>
     </div>
-    <DeckStats/>
+    <DeckStats deck={deck}/>
     <SoundtrackToggle/>
     <input
         id="username"

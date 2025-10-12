@@ -88,6 +88,7 @@
     <div class="info">
         <DeckInfo
             leader={leader}
+            deck={deck}
             onSelectLeader={handleSelectLeader}
             onQueue={handleQueue}
         />
