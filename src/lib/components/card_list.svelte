@@ -1,18 +1,22 @@
 <script lang="ts">
     import {largeClass} from "$lib/utils";
-    import type { CardData } from "@shared/types/card";
+    import type {CardData} from "@shared/types/card";
 
     type Props = {
         cards: CardData[];
+        onClick: (card: CardData) => void;
     };
-    const {cards}: Props = $props();
+    const {cards, onClick}: Props = $props();
 </script>
 
 <div class="card-list">
     {#each cards as card}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class={[largeClass(card), "card"]}
             style={`--count: "${card.maxPerDeck}"`}
+            onclick={() => onClick(card)}
         ></div>
     {/each}
 </div>
@@ -23,8 +27,6 @@
         justify-content: center;
         flex-wrap: wrap;
         gap: 10px;
-        overflow-y: scroll;
-        overflow-x: hidden;
     }
 
     .card {

@@ -51,6 +51,19 @@
         deck = [];
     };
 
+    const handleAddToDeck = (card: CardData): void => {
+        deck.push(card);
+    };
+
+    const handleRemoveFromDeck = (card: CardData): void => {
+        const index = deck.findIndex(({filename}) => card.filename === filename);
+        if (index === -1) {
+            return;
+        }
+
+        deck.splice(index, 1);
+    };
+
     const handleSelectLeader = (newLeader: LeaderCardData) => leader = newLeader;
 
     let isInQueue = $state<boolean>(false);
@@ -113,7 +126,10 @@
         <h2>Cards in Deck</h2>
     </div>
     <div class="bank">
-        <CardList cards={bank}/>
+        <CardList
+            cards={bank}
+            onClick={handleAddToDeck}
+        />
     </div>
     <div class="info">
         <DeckInfo
@@ -124,7 +140,10 @@
         />
     </div>
     <div class="deck">
-        <CardList cards={deck}/>
+        <CardList
+            cards={deck}
+            onClick={handleRemoveFromDeck}
+        />
     </div>
     <GameCarousel/>
 </section>
@@ -148,20 +167,17 @@
 
     .bank {
         grid-area: bank;
-        display: flex;
-        overflow-y: hidden;
+        overflow-y: scroll;
     }
 
     .info {
         grid-area: info;
         display: flex;
-        overflow-y: hidden;
     }
 
     .deck {
         grid-area: deck;
-        display: flex;
-        overflow-y: hidden;
+        overflow-y: scroll;
     }
 
     .header {
