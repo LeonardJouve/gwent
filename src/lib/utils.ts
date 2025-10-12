@@ -12,3 +12,15 @@ export const largeClass = (card: CardData): string => getClass("lg", card);
 export const smallClass = (card: CardData): string => getClass("sm", card);
 
 export const backClass = (faction: FactionName): string => `lg-back-${faction}`;
+
+type CardWithAmount = CardData & {amount: number};
+export const getCardsWithAmount = (cards: CardData[]): Map<CardData["filename"], CardWithAmount> => cards.reduce<Map<CardData["filename"], CardWithAmount>>((acc, card) => {
+    const previousCard = acc.get(card.filename);
+    if (previousCard) {
+        previousCard.amount += 1;
+    } else {
+        acc.set(card.filename, {...card, amount: 1});
+    }
+
+    return acc;
+}, new Map());

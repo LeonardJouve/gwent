@@ -1,8 +1,10 @@
 TODOS:
 - Deck builder
+- Premade decks
 - Server validates deck
 - Handle disconnect
 - Use `openModal` instead of `<CardCarousel/>`
+- Combine generated css
 - Test each abilities
 - Authentication / save decks
 - Add logs
