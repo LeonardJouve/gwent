@@ -1,5 +1,6 @@
 TODOS:
 - Deck builder
+- Server validates deck
 - Handle disconnect
 - Use `openModal` instead of `<CardCarousel/>`
 - Test each abilities

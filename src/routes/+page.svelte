@@ -15,11 +15,41 @@
     let factionName = $state<FactionName>("realms");
     const faction = $derived(factions[factionName]);
 
-    const deck = $state<CardData[]>(cards.slice(0, 20));
-    const bank = $derived(cards.filter(({faction, type}) => faction === "neutral" || faction === factionName && type !== "leader"));
+    let deck = $state<CardData[]>([]);
+    const bank = $derived(cards
+        .filter(({faction, type}) => (faction === "neutral" || faction === factionName) && type !== "leader")
+        .sort((a, b) => {
+            const typeRank = (card: CardData) => {
+                switch (true) {
+                case card.type === "special" || card.abilities.includes("decoy"):
+                    return 0;
+                case card.type === "weather":
+                    return 1;
+                case card.abilities.includes("hero"):
+                    return 2;
+                default:
+                    return 3;
+                }
+            };
+
+            const typeDiff = typeRank(a) - typeRank(b);
+            if (typeDiff) {
+                return typeDiff;
+            }
+
+            const strengthDiff = (b.type === "unit" ? b.strength : 0) - (a.type === "unit" ? a.strength : 0);
+            if (strengthDiff) {
+                return strengthDiff;
+            }
+
+            return a.name.localeCompare(b.name);
+        }));
     let leader = $state<LeaderCardData>(cards[24] as LeaderCardData);
 
-    const handleChangeFaction = (name: FactionName) => factionName = name;
+    const handleChangeFaction = (name: FactionName) => {
+        factionName = name;
+        deck = [];
+    };
 
     const handleSelectLeader = (newLeader: LeaderCardData) => leader = newLeader;
 
