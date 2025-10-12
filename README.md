@@ -1,11 +1,11 @@
 TODOS:
 - Deck builder
+- Store last deck played per faction
 - Server validates deck
 - Handle disconnect
 - Use `openModal` instead of `<CardCarousel/>`
 - Combine generated css
 - Test each abilities
-- Authentication / save decks
 - Add logs
 - #each with keys
 - Card animations
