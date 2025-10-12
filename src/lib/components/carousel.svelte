@@ -1,45 +1,45 @@
-<script lang="ts">
-    import LargeCard from "$lib/components/large_card.svelte";
+<script lang="ts" generics="T = CardData">
     import type {CardData} from "@shared/types/card";
-    import {onMount} from "svelte";
-    import CardDescription from "$lib/components/card_description.svelte";
+    import {onMount, type Snippet} from "svelte";
 
     type Props = {
-        onClose: (cards: CardData[]) => void;
-        cards: CardData[];
+        onClose: (items: T[]) => void;
+        items: T[];
         isClosable?: boolean;
         startIndex?: number;
         amount?: number;
+        render: Snippet<[slide: T, isCenter: boolean, onClick: (event: MouseEvent, item: T) => void]>;
     };
     const {
         onClose,
-        cards,
+        items,
         isClosable,
+        render,
         amount = 1,
         startIndex = 0,
     }: Props = $props();
 
     let index = $state(startIndex);
-    const selectedCards = $state<CardData[]>([]);
+    const selectedItems = $state<T[]>([]);
 
     let modal: HTMLDialogElement;
 
     onMount(() => modal.showModal());
 
-    const leftSlides = $derived(cards.slice(0, index).reverse());
-    const currentSlide = $derived(cards[index]);
-    const rightSlides = $derived(cards.slice(index + 1));
+    const leftSlides = $derived(items.slice(0, index).reverse());
+    const currentSlide = $derived(items[index]);
+    const rightSlides = $derived(items.slice(index + 1));
 
     const handleClose = $derived(() => {
-        onClose(selectedCards);
+        onClose(selectedItems);
         modal.close();
     });
 
-    const handleSelect = $derived((card: CardData, event: MouseEvent) => {
+    const handleSelect = $derived((event: MouseEvent, item: T) => {
         event.stopPropagation();
-        selectedCards.push(card);
+        selectedItems.push(item);
 
-        if (selectedCards.length === amount) {
+        if (selectedItems.length === amount) {
             handleClose();
         }
     });
@@ -52,21 +52,11 @@
         }
     });
 
-    const handleClick = (card: CardData, event: MouseEvent) => {
+    const handleClick = (event: MouseEvent, _: T, i: number) => {
         event.stopPropagation();
-        index = cards.findIndex(({filename}) => card.filename === filename);
+        index = i;
     };
 </script>
-
-{#snippet card(slide: CardData, index: number)}
-    <div style:width={`calc(100% / 2 - ${(index + 1) * 5}%)`}>
-        <LargeCard
-            card={slide}
-            size="width"
-            onClick={handleClick}
-        />
-    </div>
-{/snippet}
 
 <dialog
     class="modal"
@@ -76,22 +66,25 @@
     <div class="carousel">
         <div class="side">
             {#each leftSlides as slide, i}
-                {@render card(slide, i)}
+                <div
+                    class="slide"
+                    style:width={`calc(100% / 2 - ${(i + 1) * 5}%)`}
+                >
+                    {@render render(slide, false, (event, item) => handleClick(event, item, leftSlides.length - i - 1))}
+                </div>
             {/each}
         </div>
         <div class="center">
-            <LargeCard
-                card={currentSlide}
-                size="width"
-                onClick={handleSelect}
-            />
-            <div class="description">
-                <CardDescription card={currentSlide}/>
-            </div>
+            {@render render(currentSlide, true, handleSelect)}
         </div>
         <div class="side">
             {#each rightSlides as slide, i}
-                {@render card(slide, i)}
+                <div
+                    class="slide"
+                    style:width={`calc(100% / 2 - ${(i + 1) * 5}%)`}
+                >
+                    {@render render(slide, false, (event, item) => handleClick(event, item, leftSlides.length + i + 1))}
+                </div>
             {/each}
         </div>
     </div>
@@ -118,7 +111,7 @@
         display: flex;
         gap: var(--gap);
 
-        div {
+        > div {
             display: flex;
             height: 100%;
             overflow-x: hidden;
@@ -135,18 +128,14 @@
     .center {
         width: var(--center-size);
         justify-content: center;
-
-        .description {
-            position: absolute;
-            width: 30vw;
-            height: unset;
-            bottom: 0;
-            left: 50%;
-            transform: translate(-50%, 0%);
-        }
     }
 
     .side {
         width: calc((100% - var(--center-size)) / 2 - var(--gap));
+
+    }
+
+    .slide {
+        flex-shrink: 0;
     }
 </style>

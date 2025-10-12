@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {CardData} from "@shared/types/card";
     import Card from "$lib/components/card.svelte";
-    import Carousel from "$lib/components/carousel.svelte";
+    import CardCarousel from "$lib/components/card_carousel.svelte";
 
     type Props = {
         cards: CardData[];
@@ -60,7 +60,7 @@
     onclick={handleClick}
 >
     {#if isCarouselOpen && cards.length}
-        <Carousel
+        <CardCarousel
             cards={cards}
             startIndex={selectedIndex}
             onClose={handleCloseCarousel}

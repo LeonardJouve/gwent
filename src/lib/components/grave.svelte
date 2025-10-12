@@ -3,7 +3,7 @@
     import type {PlayerIndicator} from "@shared/types/player";
     import Card from "$lib/components/card.svelte";
     import CardPile from "$lib/components/card_pile.svelte";
-    import Carousel from "$lib/components/carousel.svelte";
+    import CardCarousel from "./card_carousel.svelte";
 
     type Props = {
         player: PlayerIndicator;
@@ -34,7 +34,7 @@
     onclick={handleOpenCarousel}
 >
     {#if isCarouselOpen && grave.length}
-        <Carousel
+        <CardCarousel
             cards={grave}
             isClosable={true}
             onClose={handleCloseCarousel}

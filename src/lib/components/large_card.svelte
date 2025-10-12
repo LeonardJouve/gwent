@@ -5,11 +5,11 @@
     type Props = {
         card: CardData;
         size?: "width" | "height";
-        onClick?: (card: CardData, event: MouseEvent) => void;
+        onClick?: (event: MouseEvent, card: CardData) => void;
     };
     const {card, size = "height", onClick}: Props = $props();
 
-    const handleClick = $derived((event: MouseEvent) => onClick?.(card, event));
+    const handleClick = $derived((event: MouseEvent) => onClick?.(event, card));
 </script>
 
 <button
