@@ -11,11 +11,9 @@
 <div class="card-list">
     {#each cards as card}
         <div
-            class="card"
+            class={[largeClass(card), "card"]}
             style={`--count: "${card.maxPerDeck}"`}
-        >
-            <div class={largeClass(card)}></div>
-        </div>
+        ></div>
     {/each}
 </div>
 
@@ -34,12 +32,6 @@
         height: 18.45vw;
         position: relative;
         --count: "0";
-
-        * {
-            border-radius: 1vw;
-            width: 100%;
-            height: 100%;
-        }
 
         &::before {
             content: var(--count);

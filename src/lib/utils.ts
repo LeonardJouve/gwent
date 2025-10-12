@@ -1,4 +1,5 @@
 import type {CardData} from "@shared/types/card";
+import type {FactionName} from "@shared/types/faction";
 
 export const imgURL = (file: string, ext: string, prefix?: string): string => `assets/img/${prefix ? `${prefix}/` : ""}${file}.${ext}`;
 
@@ -9,3 +10,5 @@ export const getClass = (prefix: string, card: CardData): string => `${prefix}-$
 export const largeClass = (card: CardData): string => getClass("lg", card);
 
 export const smallClass = (card: CardData): string => getClass("sm", card);
+
+export const backClass = (faction: FactionName): string => `lg-back-${faction}`;

@@ -85,9 +85,5 @@
 
     .leader {
         width: 70%;
-
-        div {
-            border-radius: 4%;
-        }
     }
 </style>

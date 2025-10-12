@@ -28,6 +28,7 @@ const getDefaultCSS = (prefix: string, spritesheetDimensions: ISize, cardDimensi
         calc(100% * ${spritesheetDimensions.width} / ${cardDimensions.width})
         calc(100% * ${spritesheetDimensions.height} / ${cardDimensions.height});
     aspect-ratio: calc(${cardDimensions.width} / ${cardDimensions.height});
+    border-radius: 4%;
 
     &.width {
         width: 100%;

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {iconURL} from "$lib/utils";
+    import {backClass, iconURL} from "$lib/utils";
     import {FactionNameSchema, type Faction, type FactionName} from "@shared/types/faction";
     import Carousel from "$lib/components/carousel.svelte";
     import Description from "./description.svelte";
@@ -43,7 +43,7 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div style:width="100%">
             <div
-                class={[`lg-back-${faction}`, "width"]}
+                class={[backClass(faction), "width"]}
                 onclick={onClick}
             ></div>
             <div class="desc">
@@ -69,7 +69,7 @@
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-            class={[`lg-back-${faction}`, "width"]}
+            class={[backClass(faction), "width"]}
             onclick={onClick}
         ></div>
     {/if}
