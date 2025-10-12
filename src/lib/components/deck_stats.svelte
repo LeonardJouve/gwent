@@ -16,8 +16,8 @@
     const heroAmount = $derived(deck.filter((card) => card.abilities.includes("hero")).length);
     const strength = $derived(units.reduce((acc, card) => acc + card.strength, 0));
 
-    const isUnitAmountValid = $derived(unitAmount < minUnitAmountPerDeck);
-    const isSpecialAmountValid = $derived(specialAmount > maxSpecialAmountPerDeck);
+    const isUnitAmountValid = $derived(unitAmount >= minUnitAmountPerDeck);
+    const isSpecialAmountValid = $derived(specialAmount <= maxSpecialAmountPerDeck);
     const isValid = $derived(isUnitAmountValid && isSpecialAmountValid);
 
     $effect(() => setIsDeckValid(isValid));
@@ -38,7 +38,7 @@
             alt="unit"
             src={iconURL("deck_stats_unit")}
         />
-        <p class={{danger: isUnitAmountValid}}>
+        <p class={{danger: !isUnitAmountValid}}>
             {`${unitAmount}/${minUnitAmountPerDeck}`}
         </p>
     </div>
@@ -48,7 +48,7 @@
             alt="special"
             src={iconURL("deck_stats_special")}
         />
-        <p class={{danger: isSpecialAmountValid}}>
+        <p class={{danger: !isSpecialAmountValid}}>
             {`${specialAmount}/${maxSpecialAmountPerDeck}`}
         </p>
     </div>
