@@ -1,5 +1,9 @@
 import type {CardData} from "./types/card.js";
 
+export const minUnitAmountPerDeck = 22;
+
+export const maxSpecialAmountPerDeck = 10;
+
 const cards: CardData[] = [
     {
         name: "Mysterious Elf",

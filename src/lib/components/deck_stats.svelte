@@ -1,11 +1,13 @@
 <script lang="ts">
     import {iconURL} from "$lib/utils";
+    import {maxSpecialAmountPerDeck, minUnitAmountPerDeck} from "@shared/cards";
     import type {CardData, UnitCardData} from "@shared/types/card";
 
     type Props = {
         deck: CardData[];
+        setIsDeckValid: (isValid: boolean) => void;
     };
-    const {deck}: Props = $props();
+    const {deck, setIsDeckValid}: Props = $props();
 
     const totalAmount = $derived(deck.length);
     const units = $derived(deck.filter((card): card is UnitCardData => card.filename !== "decoy" && card.type === "unit"));
@@ -13,6 +15,12 @@
     const specialAmount = $derived(totalAmount - unitAmount);
     const heroAmount = $derived(deck.filter((card) => card.abilities.includes("hero")).length);
     const strength = $derived(units.reduce((acc, card) => acc + card.strength, 0));
+
+    const isUnitAmountValid = $derived(unitAmount < minUnitAmountPerDeck);
+    const isSpecialAmountValid = $derived(specialAmount > maxSpecialAmountPerDeck);
+    const isValid = $derived(isUnitAmountValid && isSpecialAmountValid);
+
+    $effect(() => setIsDeckValid(isValid));
 </script>
 
 <div class="deck-stats">
@@ -30,7 +38,9 @@
             alt="unit"
             src={iconURL("deck_stats_unit")}
         />
-        <p>{unitAmount}</p>
+        <p class={{danger: isUnitAmountValid}}>
+            {`${unitAmount}/${minUnitAmountPerDeck}`}
+        </p>
     </div>
     <p>Special Cards</p>
     <div>
@@ -38,7 +48,9 @@
             alt="special"
             src={iconURL("deck_stats_special")}
         />
-        <p>{specialAmount}/10</p>
+        <p class={{danger: isSpecialAmountValid}}>
+            {`${specialAmount}/${maxSpecialAmountPerDeck}`}
+        </p>
     </div>
     <p>Total Unit Card Strength</p>
     <div>
@@ -74,5 +86,9 @@
         img {
             width: 2.5vw;
         }
+    }
+
+    .danger {
+        color: firebrick;
     }
 </style>

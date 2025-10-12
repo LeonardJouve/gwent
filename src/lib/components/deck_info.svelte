@@ -15,6 +15,9 @@
     const {leader, deck, onSelectLeader, onQueue}: Props = $props();
 
     let username = $state<string>("");
+    let isDeckValid = $state<boolean>(false);
+
+    const handleIsDeckValid = (isValid: boolean) => isDeckValid = isValid;
 
     const handleQueue = $derived(() => onQueue(username));
 
@@ -47,7 +50,10 @@
     >
         <div class={[largeClass(leader), "width"]}></div>
     </div>
-    <DeckStats deck={deck}/>
+    <DeckStats
+        deck={deck}
+        setIsDeckValid={handleIsDeckValid}
+    />
     <SoundtrackToggle/>
     <input
         id="username"
@@ -57,6 +63,7 @@
     <button
         id="queue"
         onclick={handleQueue}
+        disabled={!isDeckValid}
     >
         Find match
     </button>

@@ -80,6 +80,6 @@
     }
 
     .debuffed {
-        color: red;
+        color: firebrick;
     }
 </style>
