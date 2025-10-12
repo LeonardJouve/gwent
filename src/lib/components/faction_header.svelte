@@ -2,6 +2,8 @@
     import {iconURL} from "$lib/utils";
     import {FactionNameSchema, type Faction, type FactionName} from "@shared/types/faction";
     import Carousel from "$lib/components/carousel.svelte";
+    import Description from "./description.svelte";
+    import factions from "$lib/factions";
 
     type Props = {
         faction: Faction;
@@ -11,8 +13,8 @@
 
     let isCarouselOpen = $state(false);
 
-    const factions = FactionNameSchema.options;
-    const selectedFactionIndex = $derived(factions.findIndex((f) => faction.id === f));
+    const factionNames = FactionNameSchema.options;
+    const selectedFactionIndex = $derived(factionNames.findIndex((f) => faction.id === f));
 
     const handleOpenCarousel = () => isCarouselOpen = true;
 
@@ -27,13 +29,50 @@
     };
 </script>
 
-{#snippet render(faction: FactionName, _: boolean, onClick: (event: MouseEvent) => void)}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        class={[`lg-back-${faction}`, "width"]}
-        onclick={onClick}
-    ></div>
+{#snippet renderHeader(faction: Faction)}
+    <h2>{faction.name}</h2>
+{/snippet}
+
+{#snippet renderDescription(faction: Faction)}
+    <p>{faction.description}</p>
+{/snippet}
+
+{#snippet render(faction: FactionName, isCenter: boolean, onClick: (event: MouseEvent) => void)}
+    {#if isCenter}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div style:width="100%">
+            <div
+                class={[`lg-back-${faction}`, "width"]}
+                onclick={onClick}
+            ></div>
+            <div class="desc">
+                <Description
+                    element={factions[faction]}
+                    renderHeader={renderHeader}
+                    renderDescription={renderDescription}
+                />
+            </div>
+        </div>
+
+        <style>
+            .desc {
+                position: absolute;
+                width: 30vw;
+                height: unset;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, 0%);
+            }
+        </style>
+    {:else}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+            class={[`lg-back-${faction}`, "width"]}
+            onclick={onClick}
+        ></div>
+    {/if}
 {/snippet}
 
 <div class="header">
@@ -55,7 +94,7 @@
         <Carousel
             isClosable={true}
             startIndex={selectedFactionIndex}
-            items={factions}
+            items={factionNames}
             onClose={handleCloseCarousel}
             render={render}
         />

@@ -2,6 +2,7 @@
     import type {CardData} from "@shared/types/card";
     import abilities from "$lib/abilities";
     import CardAbility from "$lib/components/card_ability.svelte";
+    import Description from "./description.svelte";
 
     type Props = {
         card: CardData;
@@ -22,52 +23,22 @@
         .join(""));
 </script>
 
+{#snippet renderHeader()}
+    <CardAbility
+        card={card}
+        size="height"
+    />
+    <h2>{name}</h2>
+{/snippet}
+
+{#snippet renderDescription()}
+    <p>{description}</p>
+{/snippet}
+
 {#if card.abilities.length}
-    <div class="container">
-        <div class="header">
-            <div class="ability">
-                <CardAbility card={card}/>
-            </div>
-            <h1 class="name">{name}</h1>
-        </div>
-        <p class="description">{description}</p>
-    </div>
+    <Description
+        element={null}
+        renderHeader={renderHeader}
+        renderDescription={renderDescription}
+    />
 {/if}
-
-<style>
-    .container {
-        width: 100%;
-        height: 100%;
-        padding: 0.3vh 0.5vw 0.3vh 0.5vw;
-        box-sizing: border-box;
-
-        background-color: rgba(20,20,20, 0.95);
-        color: tan;
-        text-align: center;
-        pointer-events : none;
-        border: .1vw solid #ffffff57;
-        border-width: .1vw 0;
-
-        display: flex;
-        flex-direction: column;
-        gap: 0.3vh;
-    }
-
-    .header {
-        height: 2.5vw;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5vw;
-    }
-
-    .ability {
-        height: 100%;
-    }
-
-    .name {
-        font-weight: bold;
-        font-size: 1.7vw;
-        text-transform: capitalize;
-    }
-</style>

@@ -16,7 +16,7 @@
 
 {#snippet render(slide: CardData, isCenter: boolean, onClick: (event: MouseEvent) => void)}
     {#if isCenter}
-        <div class="container">
+        <div style:width="100%">
             <LargeCard
                 card={slide}
                 size="width"
@@ -28,10 +28,6 @@
         </div>
 
         <style>
-            .container {
-                width: 100%;
-            }
-
             .desc {
                 position: absolute;
                 width: 30vw;
