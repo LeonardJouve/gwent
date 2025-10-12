@@ -8,7 +8,7 @@
         isClosable?: boolean;
         startIndex?: number;
         amount?: number;
-        render: Snippet<[slide: T, isCenter: boolean, onClick: (event: MouseEvent, item: T) => void]>;
+        render: Snippet<[slide: T, isCenter: boolean, onClick: (event: MouseEvent) => void]>;
     };
     const {
         onClose,
@@ -70,12 +70,12 @@
                     class="slide"
                     style:width={`calc(100% / 2 - ${(i + 1) * 5}%)`}
                 >
-                    {@render render(slide, false, (event, item) => handleClick(event, item, leftSlides.length - i - 1))}
+                    {@render render(slide, false, (event) => handleClick(event, slide, leftSlides.length - i - 1))}
                 </div>
             {/each}
         </div>
         <div class="center">
-            {@render render(currentSlide, true, handleSelect)}
+            {@render render(currentSlide, true, (event) => handleSelect(event, currentSlide))}
         </div>
         <div class="side">
             {#each rightSlides as slide, i}
@@ -83,7 +83,7 @@
                     class="slide"
                     style:width={`calc(100% / 2 - ${(i + 1) * 5}%)`}
                 >
-                    {@render render(slide, false, (event, item) => handleClick(event, item, leftSlides.length + i + 1))}
+                    {@render render(slide, false, (event) => handleClick(event, slide, leftSlides.length + i + 1))}
                 </div>
             {/each}
         </div>

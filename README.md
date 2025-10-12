@@ -1,6 +1,7 @@
 TODOS:
 - Deck builder
-- Handle deconnection
+- Handle disconnect
+- Use `openModal` instead of `<CardCarousel/>`
 - Test each abilities
 - Authentication / save decks
 - Add logs

@@ -14,7 +14,7 @@
     const {cards, ...props}: Props = $props();
 </script>
 
-{#snippet render(slide: CardData, isCenter: boolean, onClick: (event: MouseEvent, card: CardData) => void)}
+{#snippet render(slide: CardData, isCenter: boolean, onClick: (event: MouseEvent) => void)}
     {#if isCenter}
         <div class="container">
             <LargeCard

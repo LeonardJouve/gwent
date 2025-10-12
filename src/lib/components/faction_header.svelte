@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {openModal} from "$lib/store/carousel.svelte";
     import {iconURL} from "$lib/utils";
-    import type {Faction, FactionName} from "@shared/types/faction";
+    import {FactionNameSchema, type Faction, type FactionName} from "@shared/types/faction";
+    import Carousel from "$lib/components/carousel.svelte";
 
     type Props = {
         faction: Faction;
@@ -9,16 +9,32 @@
     };
     const {faction, onChangeFaction}: Props = $props();
 
-    const handleChangeFaction = () => {
-        // TODO
-        openModal({
-            amount: 1,
-            isClosable: true,
-            onClose: () => onChangeFaction("monsters"),
-            cards: [],
-        });
+    let isCarouselOpen = $state(false);
+
+    const factions = FactionNameSchema.options;
+    const selectedFactionIndex = $derived(factions.findIndex((f) => faction.id === f));
+
+    const handleOpenCarousel = () => isCarouselOpen = true;
+
+    const handleCloseCarousel = ([newFaction]: FactionName[]) => {
+        isCarouselOpen = false;
+
+        if (!newFaction) {
+            return;
+        }
+
+        onChangeFaction(newFaction);
     };
 </script>
+
+{#snippet render(faction: FactionName, _: boolean, onClick: (event: MouseEvent) => void)}
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div
+        class={[`lg-back-${faction}`, "width"]}
+        onclick={onClick}
+    ></div>
+{/snippet}
 
 <div class="header">
     <div class="title">
@@ -31,10 +47,19 @@
     <p class="description">{faction.description}</p>
     <button
         class="change"
-        onclick={handleChangeFaction}
+        onclick={handleOpenCarousel}
     >
         Change Faction
     </button>
+    {#if isCarouselOpen}
+        <Carousel
+            isClosable={true}
+            startIndex={selectedFactionIndex}
+            items={factions}
+            onClose={handleCloseCarousel}
+            render={render}
+        />
+    {/if}
 </div>
 
 <style>
