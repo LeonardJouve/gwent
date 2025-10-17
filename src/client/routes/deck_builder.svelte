@@ -10,14 +10,15 @@
     import CardList from "../components/card_list.svelte";
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import type {FactionName} from "@shared/types/faction";
-    import {getCardsWithAmount, getPremadeDeck, getPremadeLeader, sortCards} from "../utils/utils";
+    import {getCardsWithAmount, getLastDeck, sortCards} from "../utils/utils";
 
     const defaultFactionName = "realms";
     let factionName = $state<FactionName>(defaultFactionName);
     const faction = $derived(factions[factionName]);
 
-    let leader = $state<LeaderCardData>(getPremadeLeader(defaultFactionName));
-    let deck = $state<CardData[]>(getPremadeDeck(defaultFactionName));
+    let lastDeck = $state(getLastDeck(defaultFactionName));
+    let leader = $derived(lastDeck.leader);
+    let deck = $derived(lastDeck.cards);
     const bank = $derived.by(() => {
         const deckCardsWithAmount = getCardsWithAmount(deck);
 
@@ -28,13 +29,21 @@
 
     const handleChangeFaction = (name: FactionName) => {
         factionName = name;
-        deck = getPremadeDeck(factionName);
-        leader = getPremadeLeader(factionName);
+        lastDeck = getLastDeck(factionName);
     };
+
+    const saveDeck = (): void => {
+        // TODO
+        // localStorage.setItem("", JSON.stringify({
+        //     leader: leader.filename,
+        //     deck: getCardsWithAmount(deck).,
+        // }));
+    }
 
     const handleAddToDeck = (card: CardData): void => {
         deck.push(card);
         sortCards(deck);
+        saveDeck();
     };
 
     const handleRemoveFromDeck = (card: CardData): void => {
@@ -44,9 +53,14 @@
         }
 
         deck.splice(index, 1);
+        saveDeck();
     };
 
-    const handleSelectLeader = (newLeader: LeaderCardData) => leader = newLeader;
+    const handleSelectLeader = (newLeader: LeaderCardData) => {
+        // TODO
+        //leader = newLeader;
+        saveDeck();
+    };
 
     let isInQueue = $state<boolean>(false);
     const id = $state<string>(crypto.randomUUID());

@@ -4,6 +4,7 @@ TODOS:
 - Handle disconnect
 - Use `openCarousel` instead of `<CardCarousel/>`
 - Only send card name with state not full cards
+- Only send card name to matchmaking not full cards
 - Combine generated css
 - Test each abilities
 - Add logs

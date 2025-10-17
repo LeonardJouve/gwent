@@ -54,22 +54,27 @@ export const sortCards = (c: CardData[]): CardData[] => c.sort((a, b) => {
     return a.name.localeCompare(b.name);
 });
 
-export const getPremadeDeck = (faction: FactionName): CardData[] => premadeDecks[faction].cards.flatMap(([name, amount]) => {
-    const card = cards.find(({filename}) => filename === name);
-    if (!card || card.type === "leader" || card.faction !== "neutral" && card.faction !== faction) {
-        throw new Error(`premade deck ${faction} has invalid card ${name}`);
-    }
+type Deck = {
+    leader: LeaderCardData;
+    cards: CardData[];
+};
+export const getLastDeck = (faction: FactionName): Deck => {
+    const deck = premadeDecks[faction];
 
-    return Array.from({length: amount}, () => card);
-});
-
-export const getPremadeLeader = (faction: FactionName): LeaderCardData => {
-    const {leader} = premadeDecks[faction];
-
-    const card = cards.find(({filename}) => filename === leader);
-    if (!card || card.type !== "leader") {
+    const leader = cards.find(({filename}) => filename === deck.leader);
+    if (!leader || leader.type !== "leader") {
         throw new Error(`premade deck ${faction} has invalid leader`);
     }
 
-    return card;
+    return {
+        leader,
+        cards: Object.entries(deck.cards).flatMap(([name, amount]) => {
+            const card = cards.find(({filename}) => filename === name);
+            if (!card || card.type === "leader" || card.faction !== "neutral" && card.faction !== faction) {
+                throw new Error(`premade deck ${faction} has invalid card ${name}`);
+            }
+
+            return Array.from({length: amount}, () => card);
+        }),
+    };
 };
