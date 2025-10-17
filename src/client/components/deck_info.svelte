@@ -1,0 +1,89 @@
+<script lang="ts">
+    import {largeClass} from "../utils/utils";
+    import SoundtrackToggle from "../components/soundtrack_toggle.svelte";
+    import DeckStats from "../components/deck_stats.svelte";
+    import type {CardData, LeaderCardData} from "@shared/types/card";
+    import {openModal} from "../store/carousel.svelte";
+    import cards from "@shared/cards";
+
+    type Props = {
+        leader: LeaderCardData;
+        deck: CardData[];
+        onSelectLeader: (leader: LeaderCardData) => void;
+        onQueue: (username: string) => void;
+    };
+    const {leader, deck, onSelectLeader, onQueue}: Props = $props();
+
+    let username = $state<string>("");
+    let isDeckValid = $state<boolean>(false);
+
+    const handleIsDeckValid = (isValid: boolean) => isDeckValid = isValid;
+
+    const handleQueue = $derived(() => onQueue(username));
+
+    const handleSelectLeader = () => {
+        const c = cards.filter(({faction, type}) => (faction === "neutral" || faction === leader.faction) && type === "leader");
+
+        openModal({
+            amount: 1,
+            isClosable: true,
+            startIndex: c.findIndex(({filename}) => filename === leader.filename),
+            onClose: ([card]) => {
+                if (card?.type !== "leader") {
+                    return;
+                }
+
+                onSelectLeader(card);
+            },
+            cards: c,
+        });
+    };
+</script>
+
+<div class="deck-info">
+    <p>Leader</p>
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div
+        class="leader"
+        onclick={handleSelectLeader}
+    >
+        <div class={[largeClass(leader), "width"]}></div>
+    </div>
+    <DeckStats
+        deck={deck}
+        setIsDeckValid={handleIsDeckValid}
+    />
+    <SoundtrackToggle/>
+    <input
+        id="username"
+        placeholder="Username"
+        bind:value={username}
+    />
+    <button
+        id="queue"
+        onclick={handleQueue}
+        disabled={!isDeckValid}
+    >
+        Find match
+    </button>
+</div>
+
+<style>
+    .deck-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        grid-area: info;
+        color: tan;
+    }
+
+    .queue {
+        color: white;
+    }
+
+    .leader {
+        width: 70%;
+    }
+</style>

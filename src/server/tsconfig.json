@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "nodenext",
+        "esModuleInterop": true,
+        "outDir": "../../dist",
+        "moduleResolution": "nodenext",
+        "resolveJsonModule": true,
+        "paths": {
+            "@shared/*": ["../shared/*"],
+            "@shared": ["../shared"],
+        },
+    },
+    "include": ["./", "../shared"],
+}
