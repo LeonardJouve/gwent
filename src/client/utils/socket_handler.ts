@@ -14,7 +14,7 @@ export class SocketHandler {
 
     constructor(socketData: SocketData) {
         this.socketData = socketData;
-        this.socket = io(import.meta.env.PUBLIC_API_URL);
+        this.socket = io(import.meta.env.VITE_API_URL);
 
         this.handle();
     }

@@ -59,7 +59,7 @@
     const handleAbort = () => {
         if (!isInQueue) return;
         isInQueue = false;
-        fetch(`${import.meta.env.PUBLIC_API_URL}/matchmaking/${id}`, {method: "DELETE"});
+        fetch(`${import.meta.env.VITE_API_URL}/matchmaking/${id}`, {method: "DELETE"});
     };
 
     const handleQueue = async (username: string) => {
@@ -73,7 +73,7 @@
             abortController = new AbortController();
             abortController.signal.addEventListener("abort", handleAbort);
 
-            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}/matchmaking/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/matchmaking/${id}`, {
                 method: "POST",
                 body: JSON.stringify({
                     name: username,
@@ -89,8 +89,7 @@
             const data = await res.json();
             isInQueue = false;
 
-            // TODO
-            //goto(`/game?${new URLSearchParams(data).toString()}`);
+            window.location.href = `/game?${new URLSearchParams(data).toString()}`;
         } catch (err) {
             isInQueue = false;
         }
