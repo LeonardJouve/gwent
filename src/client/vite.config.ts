@@ -12,6 +12,20 @@ export default defineConfig({
         fs: {
             allow: ["./", "../shared"],
         },
+        proxy: {
+            "/": {
+                target: "http://localhost:3000",
+                changeOrigin: true,
+                ws: true,
+                bypass: ({url}) => {
+                    if (url?.startsWith("/matchmaking") || url?.startsWith("/socket.io")) {
+                        return;
+                    }
+
+                    return url;
+                },
+            },
+        },
     },
     build: {
         outDir: "../../dist/client",

@@ -1,5 +1,6 @@
 import {Hono} from "hono";
 import {serve} from "@hono/node-server";
+import {serveStatic} from "@hono/node-server/serve-static";
 import {cors} from "hono/cors";
 import {initSocketIO} from "./socket.js";
 import {abort, matchmake} from "./matchmaking.js";
@@ -24,3 +25,5 @@ app.use("*", cors({
 
 app.post("/matchmaking/:id", matchmake);
 app.delete("/matchmaking/:id", abort);
+
+app.use("/*", serveStatic({root: "./dist/client"}));

@@ -3,7 +3,7 @@ import type {SocketData, ClientSideSocket} from "@shared/types/socket";
 import type {Play, RoundResult, State} from "@shared/types/game";
 import {store as gameStore} from "../store/game.svelte";
 import {store as notificationStore} from "../store/notifications.svelte";
-import {openModal} from "../store/carousel.svelte";
+import {openCarousel} from "../store/carousel.svelte";
 import type {CardData} from "@shared/types/card";
 import type {NotificationName} from "@shared/types/notification";
 import type {PlayerIndicator} from "@shared/types/player";
@@ -14,7 +14,7 @@ export class SocketHandler {
 
     constructor(socketData: SocketData) {
         this.socketData = socketData;
-        this.socket = io(import.meta.env.VITE_API_URL);
+        this.socket = io();
 
         this.handle();
     }
@@ -56,7 +56,7 @@ export class SocketHandler {
     }
 
     static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData["filename"][]) => void): void {
-        openModal({
+        openCarousel({
             amount,
             isClosable,
             cards,
@@ -69,7 +69,7 @@ export class SocketHandler {
     }
 
     static handleShowCards(cards: CardData[], callback: () => void): void {
-        openModal({
+        openCarousel({
             amount: 1,
             isClosable: true,
             cards,

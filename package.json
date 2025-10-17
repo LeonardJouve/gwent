@@ -5,7 +5,7 @@
 		"generate": "tsx --tsconfig src/generation/tsconfig.json src/generation",
 		"dev:kit": "vite dev --config src/client/vite.config.js",
 		"dev:server": "tsx watch --tsconfig src/server/tsconfig.json --env-file=src/server/.env src/server",
-		"build:kit": "npm run check && vite build --config src/client/vite.config.ts",
+		"build:kit": "npm run check && vite build --config src/client/vite.config.ts --emptyOutDir",
 		"build:server": "tsc --project src/server/tsconfig.json",
 		"build": "npm run build:kit && npm run build:server",
 		"prepare": "npm run generate || echo ''",

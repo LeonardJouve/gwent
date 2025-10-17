@@ -3,7 +3,7 @@
     import SoundtrackToggle from "../components/soundtrack_toggle.svelte";
     import DeckStats from "../components/deck_stats.svelte";
     import type {CardData, LeaderCardData} from "@shared/types/card";
-    import {openModal} from "../store/carousel.svelte";
+    import {openCarousel} from "../store/carousel.svelte";
     import cards from "@shared/cards";
 
     type Props = {
@@ -24,7 +24,7 @@
     const handleSelectLeader = () => {
         const c = cards.filter(({faction, type}) => (faction === "neutral" || faction === leader.faction) && type === "leader");
 
-        openModal({
+        openCarousel({
             amount: 1,
             isClosable: true,
             startIndex: c.findIndex(({filename}) => filename === leader.filename),

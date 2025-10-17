@@ -1,6 +1,6 @@
 <script lang="ts">
     import {store} from "../store/game.svelte";
-    import {openModal, type Modal} from "../store/carousel.svelte";
+    import {openCarousel} from "../store/carousel.svelte";
     import type {PlayerIndicator} from "@shared/types/player";
     import Card from "../components/card.svelte";
     import {iconURL} from "../utils/utils";
@@ -14,7 +14,7 @@
     const playerData = $derived(store.players[player]);
 
     const handleSelect = (card: CardData) => {
-        openModal({
+        openCarousel({
             amount: 1,
             isClosable: true,
             cards: [card],

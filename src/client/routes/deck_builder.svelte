@@ -60,7 +60,7 @@
     const handleAbort = () => {
         if (!isInQueue) return;
         isInQueue = false;
-        fetch(`${import.meta.env.VITE_API_URL}/matchmaking/${id}`, {method: "DELETE"});
+        fetch(`/matchmaking/${id}`, {method: "DELETE"});
     };
 
     const handleQueue = async (username: string) => {
@@ -74,7 +74,7 @@
             abortController = new AbortController();
             abortController.signal.addEventListener("abort", handleAbort);
 
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/matchmaking/${id}`, {
+            const res = await fetch(`/matchmaking/${id}`, {
                 method: "POST",
                 body: JSON.stringify({
                     name: username,
