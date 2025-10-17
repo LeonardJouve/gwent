@@ -1,12 +1,7 @@
-import type {CardData, LeaderCardData} from "./types/card.js";
+import type {SerializedDeck} from "./types/deck.js";
 import type {FactionName} from "./types/faction.js";
 
-type PremadeDeck = {
-    leader: LeaderCardData["name"];
-    cards: [CardData["filename"], number][];
-};
-
-const premadeDecks: Record<FactionName, PremadeDeck> = {
+const premadeDecks: Record<FactionName, SerializedDeck> = {
     realms: {
         leader: "foltest_copper",
         cards: [

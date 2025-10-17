@@ -10,3 +10,10 @@ export const DeckSchema = z.object({
 });
 
 export type Deck = z.infer<typeof DeckSchema>;
+
+export const SerializedDeckSchema = z.object({
+    leader: z.string().describe("leader filename"),
+    cards: z.record(z.string().describe("card filename"), z.number().describe("card amount")),
+});
+
+export type SerializedDeck = z.infer<typeof SerializedDeckSchema>;
