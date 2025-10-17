@@ -1,5 +1,6 @@
 <script lang="ts">
     import {onMount} from "svelte";
+    import {navigate} from "svelte5-router";
     import Deck from "../components/deck.svelte";
     import Grave from "../components/grave.svelte";
     import Hand from "../components/hand.svelte";
@@ -33,7 +34,7 @@
 
             socketHandler = new SocketHandler(socketData);
         } catch (_) {
-            window.location.replace("/");
+            navigate("/");
         }
     });
 

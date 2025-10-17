@@ -1,5 +1,6 @@
 <script lang="ts">
     import {onDestroy} from "svelte";
+    import {navigate} from "svelte5-router";
     import cards from "@shared/cards";
     import factions from "@shared/factions";
     import type {Deck} from "@shared/types/deck";
@@ -89,7 +90,7 @@
             const data = await res.json();
             isInQueue = false;
 
-            window.location.href = `/game?${new URLSearchParams(data).toString()}`;
+            navigate(`/game?${new URLSearchParams(data).toString()}`);
         } catch (err) {
             isInQueue = false;
         }

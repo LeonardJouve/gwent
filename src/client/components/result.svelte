@@ -1,4 +1,5 @@
 <script lang="ts">
+    import {navigate} from "svelte5-router";
     import {iconURL} from "../utils/utils";
     import {store} from "../store/game.svelte";
     import Button from "../components/button.svelte";
@@ -32,7 +33,7 @@
 
     const handleMenu = () => {
         store.result = undefined;
-        window.location.replace("/");
+        navigate("/");
     };
 
     const handleReplay = () => {
