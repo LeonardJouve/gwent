@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {CardData} from "@shared/types/card";
     import Card from "../components/card.svelte";
-    import CardCarousel from "../components/card_carousel.svelte";
+    import {openCarousel} from "../store/carousel.svelte";
 
     type Props = {
         cards: CardData[];
@@ -18,9 +18,6 @@
         canOpenCarousel = true,
     }: Props = $props();
 
-    let isCarouselOpen = $state(false);
-    let selectedIndex = $state(0);
-
     const handleClick = () => {
         if (canOpenCarousel) {
             handleOpenCarousel();
@@ -29,27 +26,30 @@
         onClick?.();
     };
 
-    const handleOpenCarousel = () => isCarouselOpen = true;
+    const handleOpenCarousel = (index?: number) => openCarousel({
+        cards,
+        amount: 1,
+        startIndex: index,
+        isClosable: true,
+        onClose: (cards: CardData[]) => {
+            if (!cards.length) {
+                return;
+            }
 
-    const handleCloseCarousel = (cards: CardData[]) => {
-        isCarouselOpen = false;
-
-        if (!cards.length) {
-            return;
-        }
-
-        const [card] = cards;
-        onSelect?.(card);
-    };
+            const [card] = cards;
+            onSelect?.(card);
+        },
+    });
 
     const handleSelect = $derived((index: number) => (card: CardData, event: MouseEvent) => {
+        event.stopPropagation();
+
         if (onSelect) {
-            event.stopPropagation();
             onSelect(card);
             return;
         }
 
-        selectedIndex = index;
+        handleOpenCarousel(index);
     });
 </script>
 
@@ -59,14 +59,6 @@
     class="container"
     onclick={handleClick}
 >
-    {#if isCarouselOpen && cards.length}
-        <CardCarousel
-            cards={cards}
-            startIndex={selectedIndex}
-            onClose={handleCloseCarousel}
-            isClosable={true}
-        />
-    {/if}
     {#each cards as card, i}
         {#key card.filename + ":" + i}
             <Card

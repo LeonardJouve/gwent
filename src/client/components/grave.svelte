@@ -3,7 +3,7 @@
     import type {PlayerIndicator} from "@shared/types/player";
     import Card from "../components/card.svelte";
     import CardPile from "../components/card_pile.svelte";
-    import CardCarousel from "./card_carousel.svelte";
+    import {openCarousel} from "../store/carousel.svelte";
 
     type Props = {
         player: PlayerIndicator;
@@ -12,15 +12,12 @@
 
     const grave = $derived(store.players[player].grave);
 
-    let isCarouselOpen = $state(false);
-
-    const handleOpenCarousel = (): void => {
-        isCarouselOpen = true;
-    };
-
-    const handleCloseCarousel = (): void => {
-        isCarouselOpen = false;
-    };
+    const handleOpenCarousel = (): void => openCarousel({
+        cards: grave,
+        isClosable: true,
+        amount: 1,
+        onClose: () => {},
+    });
 </script>
 
 {#snippet card(i: number)}
@@ -33,13 +30,6 @@
     class="grave hoverable"
     onclick={handleOpenCarousel}
 >
-    {#if isCarouselOpen && grave.length}
-        <CardCarousel
-            cards={grave}
-            isClosable={true}
-            onClose={handleCloseCarousel}
-        />
-    {/if}
     <CardPile
         cardAmount={grave.length}
         render={card}

@@ -21,6 +21,10 @@ type CarouselStore = Modal | {
 export const store = $state<CarouselStore>({isOpen: false});
 
 export const openCarousel = ({amount, onClose, isClosable, cards, startIndex}: Omit<Modal, "isOpen">): void => {
+    if (!cards.length) {
+        return;
+    }
+
     store.amount = amount;
     store.onClose = onClose;
     store.isClosable = isClosable;
