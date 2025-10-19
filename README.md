@@ -1,5 +1,5 @@
 TODOS:
-- Server validates deck
+- Terraform
 - Handle disconnect
 - Use `openCarousel` instead of `<CardCarousel/>`
 - Only send card name with state not full cards

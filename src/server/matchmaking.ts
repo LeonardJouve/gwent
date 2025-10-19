@@ -3,6 +3,7 @@ import type {BlankInput} from "hono/types";
 import Match from "./match.js";
 import type {SocketData} from "@shared/types/socket.js";
 import {type Deck, DeckSchema} from "@shared/types/deck.js";
+import {isValidDeck} from "@shared/decks.js";
 
 type QueueItem = Deck & {
     id: string;
@@ -60,7 +61,6 @@ const tryStartGame = (): void => {
 
 
 export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => {
-    // TODO: get user id from account
     const id = context.req.param("id");
 
     if (queue.contains(id)) {
@@ -70,6 +70,9 @@ export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => 
     try {
         const body = await context.req.json();
         const deck = DeckSchema.parse(body);
+        if (!isValidDeck(deck)) {
+            return context.json({error: "invalid deck"}, 400);
+        }
 
         return await new Promise<Response>((resolve) => {
             const item: QueueItem = {

@@ -1,5 +1,20 @@
-import type {SerializedDeck} from "./types/deck.js";
+import {maxSpecialAmountPerDeck, minUnitAmountPerDeck} from "./cards.js";
+import {CardData} from "./types/card.js";
+import type {Deck, SerializedDeck} from "./types/deck.js";
 import type {FactionName} from "./types/faction.js";
+
+const isValidFaction = (card: CardData, faction: FactionName): boolean => card.faction === faction || card.faction === "neutral";
+
+export const isValidDeck = (deck: Deck) => {
+    if (!isValidFaction(deck.leader, deck.faction) || deck.deck.some((card) => !isValidFaction(card, deck.faction))) {
+        return false;
+    }
+
+    const unitAmount = deck.deck.filter((card) => card.filename !== "decoy" && card.type === "unit").length;
+    const specialAmount = deck.deck.length - unitAmount;
+
+    return unitAmount >= minUnitAmountPerDeck && specialAmount <= maxSpecialAmountPerDeck
+};
 
 const premadeDecks: Record<FactionName, SerializedDeck> = {
     realms: {
