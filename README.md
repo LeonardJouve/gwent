@@ -1,4 +1,5 @@
 TODOS:
+- Server verifies card amount is inferior or equal to maxAmount
 - Terraform
 - Handle disconnect
 - Use `openCarousel` instead of `<CardCarousel/>`
