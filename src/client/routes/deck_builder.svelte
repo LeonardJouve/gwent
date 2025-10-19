@@ -10,15 +10,16 @@
     import CardList from "../components/card_list.svelte";
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import type {FactionName} from "@shared/types/faction";
-    import {getCardsWithAmount, getLastDeck, sortCards} from "../utils/utils";
+    import {getCardsWithAmount, sortCards} from "../utils/utils";
+    import {getFactionDeck, getLastFaction, setFactionDeck, setLastFaction} from "../utils/local_storage";
 
-    const defaultFactionName = "realms";
-    let factionName = $state<FactionName>(defaultFactionName);
+    const lastFactionName = getLastFaction() || "realms";
+    let factionName = $state<FactionName>(lastFactionName);
     const faction = $derived(factions[factionName]);
 
-    let lastDeck = $state(getLastDeck(defaultFactionName));
-    let leader = $derived(lastDeck.leader);
-    let deck = $derived(lastDeck.cards);
+    const lastDeck = getFactionDeck(lastFactionName);
+    let leader = $state<LeaderCardData>(lastDeck.leader);
+    let deck = $state<CardData[]>(lastDeck.cards);
     const bank = $derived.by(() => {
         const deckCardsWithAmount = getCardsWithAmount(deck);
 
@@ -29,21 +30,16 @@
 
     const handleChangeFaction = (name: FactionName) => {
         factionName = name;
-        lastDeck = getLastDeck(factionName);
+        setLastFaction(factionName);
+        const lastDeck = getFactionDeck(factionName);
+        deck = lastDeck.cards;
+        leader = lastDeck.leader;
     };
-
-    const saveDeck = (): void => {
-        // TODO
-        // localStorage.setItem("", JSON.stringify({
-        //     leader: leader.filename,
-        //     deck: getCardsWithAmount(deck).,
-        // }));
-    }
 
     const handleAddToDeck = (card: CardData): void => {
         deck.push(card);
         sortCards(deck);
-        saveDeck();
+        setFactionDeck(factionName, deck, leader);
     };
 
     const handleRemoveFromDeck = (card: CardData): void => {
@@ -53,13 +49,12 @@
         }
 
         deck.splice(index, 1);
-        saveDeck();
+        setFactionDeck(factionName, deck, leader);
     };
 
     const handleSelectLeader = (newLeader: LeaderCardData) => {
-        // TODO
-        //leader = newLeader;
-        saveDeck();
+        leader = newLeader;
+        setFactionDeck(factionName, deck, leader);
     };
 
     let isInQueue = $state<boolean>(false);

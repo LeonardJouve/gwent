@@ -1,5 +1,4 @@
 TODOS:
-- Store last deck played per faction
 - Server validates deck
 - Handle disconnect
 - Use `openCarousel` instead of `<CardCarousel/>`

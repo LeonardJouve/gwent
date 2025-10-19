@@ -1,7 +1,5 @@
-import type {CardData, LeaderCardData} from "@shared/types/card";
+import type {CardData} from "@shared/types/card";
 import type {FactionName} from "@shared/types/faction";
-import premadeDecks from "@shared/decks";
-import cards from "@shared/cards";
 
 export const imgURL = (file: string, ext: string, prefix?: string): string => `assets/img/${prefix ? `${prefix}/` : ""}${file}.${ext}`;
 
@@ -16,7 +14,7 @@ export const smallClass = (card: CardData): string => getClass("sm", card);
 export const backClass = (faction: FactionName): string => `lg-back-${faction}`;
 
 type CardWithAmount = CardData & {amount: number};
-export const getCardsWithAmount = (c: CardData[]): Map<CardData["filename"], CardWithAmount> => c.reduce<Map<CardData["filename"], CardWithAmount>>((acc, card) => {
+export const getCardsWithAmount = (cards: CardData[]): Map<CardData["filename"], CardWithAmount> => cards.reduce<Map<CardData["filename"], CardWithAmount>>((acc, card) => {
     const previousCard = acc.get(card.filename);
     if (previousCard) {
         previousCard.amount += 1;
@@ -27,7 +25,7 @@ export const getCardsWithAmount = (c: CardData[]): Map<CardData["filename"], Car
     return acc;
 }, new Map());
 
-export const sortCards = (c: CardData[]): CardData[] => c.sort((a, b) => {
+export const sortCards = (cards: CardData[]): CardData[] => cards.sort((a, b) => {
     const typeRank = (card: CardData): number => {
         switch (true) {
         case card.type === "special" || card.abilities.includes("decoy"):
@@ -53,28 +51,3 @@ export const sortCards = (c: CardData[]): CardData[] => c.sort((a, b) => {
 
     return a.name.localeCompare(b.name);
 });
-
-type Deck = {
-    leader: LeaderCardData;
-    cards: CardData[];
-};
-export const getLastDeck = (faction: FactionName): Deck => {
-    const deck = premadeDecks[faction];
-
-    const leader = cards.find(({filename}) => filename === deck.leader);
-    if (!leader || leader.type !== "leader") {
-        throw new Error(`premade deck ${faction} has invalid leader`);
-    }
-
-    return {
-        leader,
-        cards: Object.entries(deck.cards).flatMap(([name, amount]) => {
-            const card = cards.find(({filename}) => filename === name);
-            if (!card || card.type === "leader" || card.faction !== "neutral" && card.faction !== faction) {
-                throw new Error(`premade deck ${faction} has invalid card ${name}`);
-            }
-
-            return Array.from({length: amount}, () => card);
-        }),
-    };
-};
