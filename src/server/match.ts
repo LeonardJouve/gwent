@@ -34,11 +34,20 @@ export default class Match extends Listeners {
             return false;
         }
 
+        const playerIndex = this.sockets.length;
+        socket.on("disconnect", () => this.handleDisconnect(playerIndex));
         this.sockets.push(socket);
 
         this.tryStartMatch();
 
         return true;
+    }
+
+    handleDisconnect(playerIndex: PlayerIndex): void {
+        // TODO stop game
+        const otherPlayer = this.game.getOpponentIndex(playerIndex);
+        this.notify(otherPlayer, "player_left");
+        this.showResults(otherPlayer, [], otherPlayer);
     }
 
     private async tryStartMatch(): Promise<void> {
@@ -59,6 +68,7 @@ export default class Match extends Listeners {
     }
 
     selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number, isClosable: boolean): Promise<CardData[]> {
+        // TODO reuse this
         const mapFilenameToCards = (filenames: CardData["filename"][]): CardData[]|null => filenames.reduce<CardData[]|null>((acc, filename) => {
             if (acc === null) {
                 return null;

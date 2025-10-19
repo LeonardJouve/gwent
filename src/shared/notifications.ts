@@ -71,6 +71,9 @@ const notifications: Record<NotificationName, Notification> = {
         message: "Opponent Skellige Ability Triggered!",
         imageSource: "notif_skellige",
     },
+    player_left: {
+        message: "Opponent player left the game",
+    },
 };
 
 export default notifications;
