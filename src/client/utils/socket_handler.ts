@@ -4,6 +4,7 @@ import type {Play, RoundResult, State} from "@shared/types/game";
 import {store as gameStore} from "../store/game.svelte";
 import {store as notificationStore} from "../store/notifications.svelte";
 import {openCarousel} from "../store/carousel.svelte";
+import {serialize} from "@shared/cards";
 import type {CardData} from "@shared/types/card";
 import type {NotificationName} from "@shared/types/notification";
 import type {PlayerIndicator} from "@shared/types/player";
@@ -60,7 +61,7 @@ export class SocketHandler {
             amount,
             isClosable,
             cards,
-            onClose: (c: CardData[]): void => callback(c.map(({filename}) => filename)),
+            onClose: (c: CardData[]): void => callback(c.map(serialize)),
         });
     }
 

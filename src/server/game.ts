@@ -3,13 +3,14 @@ import Board from "./board.js";
 import abilities from "./abilities.js";
 import factions from "./factions.js";
 import type {GameOptions, PlayerIndex, RoundResult} from "./types/game.js";
-import type {CardData, UnitRow} from "@shared/types/card.js";
-import type {Deck} from "@shared/types/deck.js";
+import type {CardData, LeaderCardData, UnitRow} from "@shared/types/card.js";
 import type Listeners from "./listeners.js";
 import type {PlayerBoard, Play, State, Player} from "@shared/types/game.js";
+import type {Matchmake} from "@shared/types/matchmake.js";
 
 type GamePlayer = Omit<Player, "grave"> & {
     cards: Cards;
+    leader: LeaderCardData;
 };
 
 type Effect = {
@@ -28,7 +29,7 @@ export default class Game {
     public board: Board;
     public listeners: Listeners;
 
-    constructor(listeners: Listeners, decks: Deck[]) {
+    constructor(listeners: Listeners, requests: Matchmake[]) {
         this.listeners = listeners;
         this.board = new Board(this.getOptions.bind(this));
         this.currentPlayerIndex = 0;
@@ -41,9 +42,10 @@ export default class Game {
             halfWeather: false,
             randomRespawn: false,
         };
-        this.players = decks.map(({deck, ...player}) => ({
+        this.players = requests.map(({deck, ...player}) => ({
             ...player,
-            cards: new Cards(deck),
+            leader: deck.leader,
+            cards: new Cards(deck.cards),
             isLeaderAvailable: true,
             gems: 2,
             hasPassed: false,

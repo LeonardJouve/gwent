@@ -1,5 +1,6 @@
 <script lang="ts">
-    import {getCardsWithAmount, iconURL, largeClass} from "../utils/utils";
+    import {stackCards} from "@shared/cards";
+    import {iconURL, largeClass} from "../utils/utils";
     import type {CardData} from "@shared/types/card";
 
     type Props = {
@@ -8,7 +9,7 @@
     };
     const {cards, onClick}: Props = $props();
 
-    const cardsWithAmount = $derived(getCardsWithAmount(cards).values());
+    const cardsWithAmount = $derived(stackCards(cards).values());
 </script>
 
 <div class="card-list">

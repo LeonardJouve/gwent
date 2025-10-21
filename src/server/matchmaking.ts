@@ -1,11 +1,11 @@
 import type {Context, Handler} from "hono";
 import type {BlankInput} from "hono/types";
 import Match from "./match.js";
+import {deserializeDeck, isValidDeck} from "@shared/decks.js";
+import {type Matchmake, SerializedMatchmakeSchema} from "@shared/types/matchmake.js";
 import type {SocketData} from "@shared/types/socket.js";
-import {type Deck, DeckSchema} from "@shared/types/deck.js";
-import {isValidDeck} from "@shared/decks.js";
 
-type QueueItem = Deck & {
+type QueueItem = Matchmake & {
     id: string;
     resolve: (data: Response) => void;
     context: Context<never, "/matchmaking/:id", BlankInput>;
@@ -59,7 +59,6 @@ const tryStartGame = (): void => {
     });
 };
 
-
 export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => {
     const id = context.req.param("id");
 
@@ -69,8 +68,9 @@ export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => 
 
     try {
         const body = await context.req.json();
-        const deck = DeckSchema.parse(body);
-        if (!isValidDeck(deck)) {
+        const request = SerializedMatchmakeSchema.parse(body);
+        const deck = deserializeDeck(request.deck);
+        if (!isValidDeck(deck, request.faction)) {
             return context.json({error: "invalid deck"}, 400);
         }
 
@@ -79,7 +79,9 @@ export const matchmake: Handler<never, "/matchmaking/:id"> = async (context) => 
                 id,
                 resolve,
                 context,
-                ...deck,
+                name: request.name,
+                faction: request.faction,
+                deck,
             };
 
             queue.enqueue(item);

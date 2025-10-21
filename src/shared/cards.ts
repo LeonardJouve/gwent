@@ -1,8 +1,31 @@
-import type {CardData} from "./types/card.js";
+import type {CardData, SerializedCard} from "./types/card.js";
 
 export const minUnitAmountPerDeck = 22;
 
 export const maxSpecialAmountPerDeck = 10;
+
+export const serialize = ({filename}: CardData): SerializedCard => filename;
+
+export const deserialize = (filename: SerializedCard) => {
+    const card = cards.find((card) => card.filename === filename);
+    if (!card) {
+        throw new Error(`card not found ${filename}`);
+    }
+
+    return card
+};
+
+type CardWithAmount = CardData & {amount: number};
+export const stackCards = (cards: CardData[]): Map<SerializedCard, CardWithAmount> => cards.reduce((acc, card) => {
+    const previousCard = acc.get(card.filename);
+    if (previousCard) {
+        previousCard.amount += 1;
+    } else {
+        acc.set(card.filename, {...card, amount: 1});
+    }
+
+    return acc;
+}, new Map());
 
 const cards: CardData[] = [
     {

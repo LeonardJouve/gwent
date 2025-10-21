@@ -1,6 +1,5 @@
-import cards from "@shared/cards";
+import cards, {stackCards} from "@shared/cards";
 import {FactionNameSchema, type FactionName} from "@shared/types/faction";
-import {getCardsWithAmount} from "./utils";
 import {SerializedDeckSchema, type SerializedDeck} from "@shared/types/deck";
 import type {CardData, LeaderCardData} from "@shared/types/card";
 import premadeDecks from "@shared/decks";
@@ -21,7 +20,7 @@ export const getLastFaction = (): FactionName|null => {
 export const setFactionDeck = (faction: FactionName, deck: CardData[], leader: LeaderCardData): void => {
     localStorage.setItem(getFactionDeckKey(faction), JSON.stringify({
         leader: leader.filename,
-        cards: Array.from(getCardsWithAmount(deck)).reduce<SerializedDeck["cards"]>((acc, [filename, card]) => {
+        cards: Array.from(stackCards(deck)).reduce<SerializedDeck["cards"]>((acc, [filename, card]) => {
             acc[filename] = card.amount;
 
             return acc;

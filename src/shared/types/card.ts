@@ -47,3 +47,7 @@ export type SpecialCardData = z.infer<typeof SpecialCardSchema>;
 export type LeaderCardData = z.infer<typeof LeaderCardSchema>;
 
 export type UnitCardData = z.infer<typeof UnitCardSchema>;
+
+export const SerializedCardSchema = z.string().describe("card filename");
+
+export type SerializedCard = z.infer<typeof SerializedCardSchema>;

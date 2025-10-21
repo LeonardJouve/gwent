@@ -1,17 +1,18 @@
 <script lang="ts">
     import {onDestroy} from "svelte";
     import {navigate} from "svelte5-router";
-    import cards from "@shared/cards";
+    import cards, {stackCards} from "@shared/cards";
     import factions from "@shared/factions";
-    import type {Deck} from "@shared/types/deck";
     import FactionHeader from "../components/faction_header.svelte";
     import GameCarousel from "../components/game_carousel.svelte";
     import DeckInfo from "../components/deck_info.svelte";
     import CardList from "../components/card_list.svelte";
+    import {sortCards} from "../utils/utils";
+    import {getFactionDeck, getLastFaction, setFactionDeck, setLastFaction} from "../utils/local_storage";
+    import {serializeDeck} from "@shared/decks";
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import type {FactionName} from "@shared/types/faction";
-    import {getCardsWithAmount, sortCards} from "../utils/utils";
-    import {getFactionDeck, getLastFaction, setFactionDeck, setLastFaction} from "../utils/local_storage";
+    import type {SerializedMatchmake} from "@shared/types/matchmake";
 
     const lastFactionName = getLastFaction() || "realms";
     let factionName = $state<FactionName>(lastFactionName);
@@ -21,7 +22,7 @@
     let leader = $state<LeaderCardData>(lastDeck.leader);
     let deck = $state<CardData[]>(lastDeck.cards);
     const bank = $derived.by(() => {
-        const deckCardsWithAmount = getCardsWithAmount(deck);
+        const deckCardsWithAmount = stackCards(deck);
 
         return sortCards(cards
             .filter(({faction, type}) => (faction === "neutral" || faction === factionName) && type !== "leader")
@@ -88,9 +89,11 @@
                 body: JSON.stringify({
                     name: username,
                     faction: factionName,
-                    leader,
-                    deck,
-                } satisfies Deck),
+                    deck: serializeDeck({
+                        cards: deck,
+                        leader,
+                    }),
+                } satisfies SerializedMatchmake),
                 signal: abortController.signal,
             });
 

@@ -1,5 +1,5 @@
 import type {CardData, SpecialCardData, UnitCardData, UnitRow, WeatherCardData} from "./card.js";
-import type {Deck} from "./deck.js";
+import type {Matchmake} from "./matchmake.js";
 import type {PlayerIndicator} from "./player.js";
 
 export type Play = {
@@ -29,7 +29,7 @@ export type Board = {
     weather: WeatherCardData[];
 };
 
-export type Player = Omit<Deck, "deck"> & {
+export type Player = Omit<Matchmake, "deck"> & {
     isLeaderAvailable: boolean;
     gems: number;
     hasPassed: boolean;

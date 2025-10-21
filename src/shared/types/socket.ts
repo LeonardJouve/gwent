@@ -2,7 +2,7 @@ import {z} from "zod/v4";
 import type {Socket as ServerSocket} from "socket.io";
 import type {Socket as ClientSocket} from "socket.io-client";
 import type {RoundResult} from "./game.js";
-import type {CardData} from "./card.js";
+import type {CardData, SerializedCard} from "./card.js";
 import type {NotificationName} from "./notification.js";
 import type {Play, State} from "./game.js";
 import type {PlayerIndicator} from "./player.js";
@@ -13,7 +13,7 @@ export type ServerToClientEvents = {
     get_data: (callback: (data: SocketData) => void) => void;
     ask_start: (callback: (player: PlayerIndicator) => void) => void;
     ask_play: (callback: (play: Play) => void) => void;
-    select_cards: (cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData["filename"][]) => void) => void;
+    select_cards: (cards: CardData[], amount: number, isClosable: boolean, callback: (cards: SerializedCard[]) => void) => void;
     notify: (name: NotificationName) => void;
     show_cards: (cards: CardData[], callback: () => void) => void;
     show_results: (results: RoundResult[], winner: PlayerIndicator|null) => void;

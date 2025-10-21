@@ -6,8 +6,9 @@ import type {NotificationName} from "@shared/types/notification.js";
 import type {ServerSideSocket} from "@shared/types/socket.js";
 import type {Play, State} from "@shared/types/game.js";
 import type {PlayerIndicator} from "@shared/types/player.js";
-import type {Deck} from "@shared/types/deck.js";
 import type {RoundResult as SocketRoundResult} from "@shared/types/game.js";
+import {deserialize} from "@shared/cards.js";
+import type {Matchmake} from "@shared/types/matchmake.js";
 
 export default class Match extends Listeners {
     static matches = new Map<string, Match>();
@@ -16,7 +17,7 @@ export default class Match extends Listeners {
     private sockets: ServerSideSocket[];
     private game: Game;
 
-    constructor(playerDatas: (Deck & {id: string})[]) {
+    constructor(playerDatas: (Matchmake & {id: string})[]) {
         super();
 
         if (playerDatas.length !== 2) {
@@ -68,23 +69,7 @@ export default class Match extends Listeners {
     }
 
     selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number, isClosable: boolean): Promise<CardData[]> {
-        // TODO reuse this
-        const mapFilenameToCards = (filenames: CardData["filename"][]): CardData[]|null => filenames.reduce<CardData[]|null>((acc, filename) => {
-            if (acc === null) {
-                return null;
-            }
-
-            const card = cards.find((card) => card.filename === filename);
-            if (!card) {
-                return [];
-            }
-
-            acc.push(card);
-
-            return acc;
-        }, []);
-
-        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, (filenames) => resolve(mapFilenameToCards(filenames) ?? cards.slice(0, amount))));
+        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, (filenames) => resolve(filenames.map(deserialize))));
     }
 
     showCards(playerIndex: PlayerIndex, cards: CardData[]): Promise<void> {
@@ -101,6 +86,7 @@ export default class Match extends Listeners {
             winner === playerIndex ?
                 "me" :
                 "opponent";
+
         const socketResults = results.map<SocketRoundResult>((result) => ({
             winner: result.winner === playerIndex ? "me" : "opponent",
             scores: result.scores.reduce((acc, score, i) => {
@@ -116,6 +102,7 @@ export default class Match extends Listeners {
                 opponent: 0,
             }),
         }));
+
         this.sockets[playerIndex].emit("show_results", socketResults, winnerIndicator);
 
         this.remove();

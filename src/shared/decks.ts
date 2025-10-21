@@ -1,17 +1,37 @@
-import {maxSpecialAmountPerDeck, minUnitAmountPerDeck} from "./cards.js";
-import {CardData} from "./types/card.js";
+import {deserialize, maxSpecialAmountPerDeck, minUnitAmountPerDeck, serialize, stackCards} from "./cards.js";
+import {type CardData, LeaderCardSchema} from "./types/card.js";
 import type {Deck, SerializedDeck} from "./types/deck.js";
 import type {FactionName} from "./types/faction.js";
 
+export const serializeDeck = ({cards, leader}: Deck): SerializedDeck => ({
+    cards: Object.fromEntries(Array.from(stackCards(cards).values()).map((card) => [
+        serialize(card),
+        card.amount,
+    ])),
+    leader: serialize(leader),
+});
+
+export const deserializeDeck = (deck: SerializedDeck): Deck => ({
+    cards: Object.entries(deck.cards)
+        .flatMap(([card, amount]) => Array.from({length: amount}, () => deserialize(card))),
+    leader: LeaderCardSchema.parse(deserialize(deck.leader)),
+});
+
 const isValidFaction = (card: CardData, faction: FactionName): boolean => card.faction === faction || card.faction === "neutral";
 
-export const isValidDeck = (deck: Deck) => {
-    if (!isValidFaction(deck.leader, deck.faction) || deck.deck.some((card) => !isValidFaction(card, deck.faction))) {
+export const isValidDeck = (deck: Deck, faction: FactionName) => {
+    if (!isValidFaction(deck.leader, faction) || deck.cards.some((card) => !isValidFaction(card, faction))) {
         return false;
     }
 
-    const unitAmount = deck.deck.filter((card) => card.filename !== "decoy" && card.type === "unit").length;
-    const specialAmount = deck.deck.length - unitAmount;
+    for (const card of stackCards(deck.cards).values()) {
+        if (card.amount <= 0 || card.amount > card.maxPerDeck) {
+            return false;
+        }
+    }
+
+    const unitAmount = deck.cards.filter((card) => card.filename !== "decoy" && card.type === "unit").length;
+    const specialAmount = deck.cards.length - unitAmount;
 
     return unitAmount >= minUnitAmountPerDeck && specialAmount <= maxSpecialAmountPerDeck
 };
