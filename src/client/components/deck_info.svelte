@@ -19,7 +19,10 @@
 
     const handleIsDeckValid = (isValid: boolean) => isDeckValid = isValid;
 
-    const handleQueue = $derived(() => onQueue(username));
+    const handleQueue = (e: SubmitEvent) => {
+        e.preventDefault();
+        onQueue(username);
+    };
 
     const handleSelectLeader = () => {
         const c = cards.filter(({faction, type}) => (faction === "neutral" || faction === leader.faction) && type === "leader");
@@ -55,18 +58,24 @@
         setIsDeckValid={handleIsDeckValid}
     />
     <SoundtrackToggle/>
-    <input
-        id="username"
-        placeholder="Username"
-        bind:value={username}
-    />
-    <button
-        id="queue"
-        onclick={handleQueue}
-        disabled={!isDeckValid}
+    <form
+        class="form"
+        onsubmit={handleQueue}
     >
-        Find match
-    </button>
+        <input
+            id="username"
+            required={true}
+            placeholder="Username"
+            bind:value={username}
+        />
+        <button
+            type="submit"
+            class="queue"
+            disabled={!isDeckValid}
+        >
+            Find match
+        </button>
+    </form>
 </div>
 
 <style>
@@ -81,9 +90,16 @@
 
     .queue {
         color: white;
+        font-size: larger;
     }
 
     .leader {
         width: 70%;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
 </style>
