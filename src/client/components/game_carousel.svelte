@@ -1,6 +1,6 @@
 <script lang="ts">
-    import {closeModal, store} from "../store/carousel.svelte";
     import CardCarousel from "../components/card_carousel.svelte";
+    import {store, closeCarousel} from "../store/carousel.svelte";
 </script>
 
 {#if store.isOpen}
@@ -8,7 +8,7 @@
         cards={store.cards}
         amount={store.amount}
         isClosable={store.isClosable}
-        onClose={closeModal}
+        onClose={closeCarousel}
         startIndex={store.startIndex}
-    />
+    />closeCarousel
 {/if}
