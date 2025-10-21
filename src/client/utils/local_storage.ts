@@ -45,15 +45,15 @@ export const getFactionDeck = (faction: FactionName): Deck => {
         }
     }
 
-    const leader = cards.find(({filename}) => filename === deck.leader);
-    if (!leader || leader.type !== "leader") {
+    const leader = cards[deck.leader];
+    if (leader?.type !== "leader") {
         throw new Error(`deck ${faction} has invalid leader`);
     }
 
     return {
         leader,
         cards: Object.entries(deck.cards).flatMap(([name, amount]) => {
-            const card = cards.find(({filename}) => filename === name);
+            const card = cards[name];
             if (!card || card.type === "leader" || card.faction !== "neutral" && card.faction !== faction) {
                 throw new Error(`deck ${faction} has invalid card ${name}`);
             }

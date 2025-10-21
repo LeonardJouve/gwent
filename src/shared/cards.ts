@@ -7,7 +7,7 @@ export const maxSpecialAmountPerDeck = 10;
 export const serialize = ({filename}: CardData): SerializedCard => filename;
 
 export const deserialize = (filename: SerializedCard) => {
-    const card = cards.find((card) => card.filename === filename);
+    const card = cards[filename];
     if (!card) {
         throw new Error(`card not found ${filename}`);
     }
@@ -27,102 +27,73 @@ export const stackCards = (cards: CardData[]): Map<SerializedCard, CardWithAmoun
     return acc;
 }, new Map());
 
-const cards: CardData[] = [
-    {
+const cards: Record<SerializedCard, CardData> = {
+    "mysterious_elf": {
         name: "Mysterious Elf",
         strength: 0,
         filename: "mysterious_elf",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-            "spy",
-        ],
+        abilities: ["hero", "spy"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "decoy": {
         name: "Decoy",
         strength: 0,
         filename: "decoy",
         maxPerDeck: 3,
-        abilities: [
-            "decoy",
-        ],
+        abilities: ["decoy"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-            "siege",
-        ],
+        rows: ["close", "ranged", "siege"],
     },
-    {
+    "frost": {
         name: "Biting Frost",
         filename: "frost",
         maxPerDeck: 3,
-        abilities: [
-            "frost",
-        ],
+        abilities: ["frost"],
         faction: "neutral",
         type: "weather",
     },
-    {
+    "ciri": {
         name: "Cirilla Fiona Elen Riannon",
         strength: 15,
         filename: "ciri",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "clear": {
         name: "Clear Weather",
         filename: "clear",
         maxPerDeck: 2,
-        abilities: [
-            "clear",
-        ],
+        abilities: ["clear"],
         faction: "neutral",
         type: "weather",
     },
-    {
+    "horn": {
         name: "Commander's Horn",
         filename: "horn",
         maxPerDeck: 3,
-        abilities: [
-            "horn",
-        ],
+        abilities: ["horn"],
         faction: "neutral",
         type: "special",
-        rows: [
-            "close",
-            "ranged",
-            "siege",
-        ],
+        rows: ["close", "ranged", "siege"],
     },
-    {
+    "dandelion": {
         name: "Dandelion",
         strength: 2,
         filename: "dandelion",
         maxPerDeck: 1,
-        abilities: [
-            "horn",
-        ],
+        abilities: ["horn"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "emiel": {
         name: "Emiel Regis Rohellec Terzieff",
         strength: 5,
         filename: "emiel",
@@ -130,69 +101,53 @@ const cards: CardData[] = [
         abilities: [],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "geralt": {
         name: "Geralt of Rivia",
         strength: 15,
         filename: "geralt",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "fog": {
         name: "Impenetrable Fog",
         filename: "fog",
         maxPerDeck: 3,
-        abilities: [
-            "fog",
-        ],
+        abilities: ["fog"],
         faction: "neutral",
         type: "weather",
     },
-    {
+    "scorch": {
         name: "Scorch",
         filename: "scorch",
         maxPerDeck: 3,
-        abilities: [
-            "scorch",
-        ],
+        abilities: ["scorch"],
         faction: "neutral",
         type: "weather",
     },
-    {
+    "rain": {
         name: "Torrential Rain",
         filename: "rain",
         maxPerDeck: 2,
-        abilities: [
-            "rain",
-        ],
+        abilities: ["rain"],
         faction: "neutral",
         type: "weather",
     },
-    {
+    "triss": {
         name: "Triss Merigold",
         strength: 7,
         filename: "triss",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "vesemir": {
         name: "Vesemir",
         strength: 6,
         filename: "vesemir",
@@ -200,40 +155,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "villen": {
         name: "Villentretenmerth",
         strength: 7,
         filename: "villen",
         maxPerDeck: 1,
-        abilities: [
-            "scorch_c",
-        ],
+        abilities: ["scorch_c"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "yennefer": {
         name: "Yennefer of Vengerberg",
         strength: 7,
         filename: "yennefer",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-            "medic",
-        ],
+        abilities: ["hero", "medic"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "zoltan": {
         name: "Zoltan Chivay",
         strength: 5,
         filename: "zoltan",
@@ -241,69 +185,49 @@ const cards: CardData[] = [
         abilities: [],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "olgierd": {
         name: "Olgierd von Everec",
         strength: 6,
         filename: "olgierd",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-            "morale",
-        ],
+        abilities: ["agile", "morale"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "gaunter_odimm": {
         name: "Gaunter O'Dimm",
         strength: 2,
         filename: "gaunter_odimm",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "gaunter_odimm_darkness": {
         name: "Gaunter O'Dimm - Darkness",
         strength: 4,
         filename: "gaunter_odimm_darkness",
         maxPerDeck: 3,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "cow": {
         name: "Cow",
         strength: 0,
         filename: "cow",
         maxPerDeck: 1,
-        abilities: [
-            "avenger",
-        ],
+        abilities: ["avenger"],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "chort": {
         name: "Bovine Defense Force",
         strength: 8,
         filename: "chort",
@@ -311,61 +235,49 @@ const cards: CardData[] = [
         abilities: [],
         faction: "neutral",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "foltest_silver": {
         name: "Foltest - King of Temeria",
         filename: "foltest_silver",
         maxPerDeck: 1,
-        abilities: [
-            "foltest_king",
-        ],
+        abilities: ["foltest_king"],
         faction: "realms",
         type: "leader",
     },
-    {
+    "foltest_gold": {
         name: "Foltest - Lord Commander of the North",
         filename: "foltest_gold",
         maxPerDeck: 1,
-        abilities: [
-            "foltest_lord",
-        ],
+        abilities: ["foltest_lord"],
         faction: "realms",
         type: "leader",
     },
-    {
+    "foltest_copper": {
         name: "Foltest - The Siegemaster",
         filename: "foltest_copper",
         maxPerDeck: 1,
-        abilities: [
-            "foltest_siegemaster",
-        ],
+        abilities: ["foltest_siegemaster"],
         faction: "realms",
         type: "leader",
     },
-    {
+    "foltest_bronze": {
         name: "Foltest - The Steel-Forged",
         filename: "foltest_bronze",
         maxPerDeck: 1,
-        abilities: [
-            "foltest_steelforged",
-        ],
+        abilities: ["foltest_steelforged"],
         faction: "realms",
         type: "leader",
     },
-    {
+    "foltest_son_of_medell": {
         name: "Foltest - Son of Medell",
         filename: "foltest_son_of_medell",
         maxPerDeck: 1,
-        abilities: [
-            "foltest_son",
-        ],
+        abilities: ["foltest_son"],
         faction: "realms",
         type: "leader",
     },
-    {
+    "ballista": {
         name: "Ballista",
         strength: 6,
         filename: "ballista",
@@ -373,53 +285,39 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "blue_stripes": {
         name: "Blue Stripes Commando",
         strength: 4,
         filename: "blue_stripes",
         maxPerDeck: 3,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "catapult_1": {
         name: "Catapult",
         strength: 8,
         filename: "catapult_1",
         maxPerDeck: 2,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "crinfrid": {
         name: "Crinfrid Reavers Dragon Hunter",
         strength: 5,
         filename: "crinfrid",
         maxPerDeck: 3,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "dethmold": {
         name: "Dethmold",
         strength: 6,
         filename: "dethmold",
@@ -427,95 +325,69 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "banner_nurse": {
         name: "Dun Banner Medic",
         strength: 5,
         filename: "banner_nurse",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "esterad": {
         name: "Esterad Thyssen",
         strength: 10,
         filename: "esterad",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "natalis": {
         name: "John Natalis",
         strength: 10,
         filename: "natalis",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "kaedwen_siege": {
         name: "Kaedweni Siege Expert",
         strength: 1,
         filename: "kaedwen_siege",
         maxPerDeck: 1,
-        abilities: [
-            "morale",
-        ],
+        abilities: ["morale"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "kaedwen_siege_1": {
         name: "Kaedweni Siege Expert",
         strength: 1,
         filename: "kaedwen_siege_1",
         maxPerDeck: 1,
-        abilities: [
-            "morale",
-        ],
+        abilities: ["morale"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "kaedwen_siege_2": {
         name: "Kaedweni Siege Expert",
         strength: 1,
         filename: "kaedwen_siege_2",
         maxPerDeck: 1,
-        abilities: [
-            "morale",
-        ],
+        abilities: ["morale"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "keira": {
         name: "Keira Metz",
         strength: 5,
         filename: "keira",
@@ -523,53 +395,39 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "philippa": {
         name: "Philippa Eilhart",
         strength: 10,
         filename: "philippa",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "poor_infantry": {
         name: "Poor Fucking Infantry",
         strength: 1,
         filename: "poor_infantry",
         maxPerDeck: 4,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "stennis": {
         name: "Prince Stennis",
         strength: 5,
         filename: "stennis",
         maxPerDeck: 1,
-        abilities: [
-            "spy",
-        ],
+        abilities: ["spy"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "redania": {
         name: "Redanian Foot Soldier",
         strength: 1,
         filename: "redania",
@@ -577,11 +435,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "redania_1": {
         name: "Redanian Foot Soldier",
         strength: 1,
         filename: "redania_1",
@@ -589,11 +445,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "sheldon": {
         name: "Sheldon Skaggs",
         strength: 4,
         filename: "sheldon",
@@ -601,11 +455,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "siege_tower": {
         name: "Siege Tower",
         strength: 6,
         filename: "siege_tower",
@@ -613,11 +465,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "siegfried": {
         name: "Siegfried of Denesle",
         strength: 5,
         filename: "siegfried",
@@ -625,25 +475,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "dijkstra": {
         name: "Sigismund Dijkstra",
         strength: 4,
         filename: "dijkstra",
         maxPerDeck: 1,
-        abilities: [
-            "spy",
-        ],
+        abilities: ["spy"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "sheala": {
         name: "Síle de Tansarville",
         strength: 5,
         filename: "sheala",
@@ -651,25 +495,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "thaler": {
         name: "Thaler",
         strength: 1,
         filename: "thaler",
         maxPerDeck: 1,
-        abilities: [
-            "spy",
-        ],
+        abilities: ["spy"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "sabrina": {
         name: "Sabrina Glevissig",
         strength: 4,
         filename: "sabrina",
@@ -677,25 +515,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "vernon": {
         name: "Vernon Roche",
         strength: 10,
         filename: "vernon",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "ves": {
         name: "Ves",
         strength: 5,
         filename: "ves",
@@ -703,11 +535,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "yarpen": {
         name: "Yarpen Zigrin",
         strength: 2,
         filename: "yarpen",
@@ -715,11 +545,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "trebuchet": {
         name: "Trebuchet",
         strength: 6,
         filename: "trebuchet",
@@ -727,11 +555,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "trebuchet_1": {
         name: "Trebuchet",
         strength: 6,
         filename: "trebuchet_1",
@@ -739,61 +565,49 @@ const cards: CardData[] = [
         abilities: [],
         faction: "realms",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "emhyr_silver": {
         name: "Emhyr var Emreis - His Imperial Majesty",
         filename: "emhyr_silver",
         maxPerDeck: 1,
-        abilities: [
-            "emhyr_imperial",
-        ],
+        abilities: ["emhyr_imperial"],
         faction: "nilfgaard",
         type: "leader",
     },
-    {
+    "emhyr_copper": {
         name: "Emhyr var Emreis - Emperor of Nilfgaard",
         filename: "emhyr_copper",
         maxPerDeck: 1,
-        abilities: [
-            "emhyr_emperor",
-        ],
+        abilities: ["emhyr_emperor"],
         faction: "nilfgaard",
         type: "leader",
     },
-    {
+    "emhyr_bronze": {
         name: "Emhyr var Emreis - the White Flame",
         filename: "emhyr_bronze",
         maxPerDeck: 1,
-        abilities: [
-            "emhyr_whiteflame",
-        ],
+        abilities: ["emhyr_whiteflame"],
         faction: "nilfgaard",
         type: "leader",
     },
-    {
+    "emhyr_gold": {
         name: "Emhyr var Emreis - The Relentless",
         filename: "emhyr_gold",
         maxPerDeck: 1,
-        abilities: [
-            "emhyr_relentless",
-        ],
+        abilities: ["emhyr_relentless"],
         faction: "nilfgaard",
         type: "leader",
     },
-    {
+    "emhyr_invader_of_the_north": {
         name: "Emhyr var Emreis - Invader of the North",
         filename: "emhyr_invader_of_the_north",
         maxPerDeck: 1,
-        abilities: [
-            "emhyr_invader",
-        ],
+        abilities: ["emhyr_invader"],
         faction: "nilfgaard",
         type: "leader",
     },
-    {
+    "albrich": {
         name: "Albrich",
         strength: 2,
         filename: "albrich",
@@ -801,11 +615,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "assire": {
         name: "Assire var Anahid",
         strength: 6,
         filename: "assire",
@@ -813,11 +625,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "black_archer": {
         name: "Black Infantry Archer",
         strength: 10,
         filename: "black_archer",
@@ -825,11 +635,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "black_archer_1": {
         name: "Black Infantry Archer",
         strength: 10,
         filename: "black_archer_1",
@@ -837,11 +645,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "cahir": {
         name: "Cahir Mawr Dyffryn aep Ceallach",
         strength: 6,
         filename: "cahir",
@@ -849,11 +655,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "cynthia": {
         name: "Cynthia",
         strength: 4,
         filename: "cynthia",
@@ -861,39 +665,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "archer_support": {
         name: "Etolian Auxiliary Archers",
         strength: 1,
         filename: "archer_support",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "archer_support_1": {
         name: "Etolian Auxiliary Archers",
         strength: 1,
         filename: "archer_support_1",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "fringilla": {
         name: "Fringilla Vigo",
         strength: 6,
         filename: "fringilla",
@@ -901,11 +695,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "heavy_zerri": {
         name: "Heavy Zerrikanian Fire Scorpion",
         strength: 10,
         filename: "heavy_zerri",
@@ -913,54 +705,39 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "imperal_brigade": {
         name: "Impera Brigade Guard",
         strength: 3,
         filename: "imperal_brigade",
         maxPerDeck: 4,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "letho": {
         name: "Letho of Gulet",
         strength: 10,
         filename: "letho",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "menno": {
         name: "Menno Coehoorn",
         strength: 10,
         filename: "menno",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-            "medic",
-        ],
+        abilities: ["hero", "medic"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "morteisen": {
         name: "Morteisen",
         strength: 3,
         filename: "morteisen",
@@ -968,39 +745,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "moorvran": {
         name: "Morvran Voorhis",
         strength: 10,
         filename: "moorvran",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "nauzicaa_2": {
         name: "Nausicaa Cavalry Rider",
         strength: 2,
         filename: "nauzicaa_2",
         maxPerDeck: 3,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "puttkammer": {
         name: "Puttkammer",
         strength: 3,
         filename: "puttkammer",
@@ -1008,11 +775,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "rainfarn": {
         name: "Rainfarn",
         strength: 4,
         filename: "rainfarn",
@@ -1020,11 +785,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "renuald": {
         name: "Renuald aep Matsen",
         strength: 5,
         filename: "renuald",
@@ -1032,11 +795,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "rotten": {
         name: "Rotten Mangonel",
         strength: 3,
         filename: "rotten",
@@ -1044,25 +805,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "shilard": {
         name: "Shilard Fitz-Oesterlen",
         strength: 7,
         filename: "shilard",
         maxPerDeck: 1,
-        abilities: [
-            "spy",
-        ],
+        abilities: ["spy"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "siege_engineer": {
         name: "Siege Engineer",
         strength: 6,
         filename: "siege_engineer",
@@ -1070,39 +825,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "siege_support": {
         name: "Siege Technician",
         strength: 0,
         filename: "siege_support",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "stefan": {
         name: "Stefan Skellen",
         strength: 9,
         filename: "stefan",
         maxPerDeck: 1,
-        abilities: [
-            "spy",
-        ],
+        abilities: ["spy"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "sweers": {
         name: "Sweers",
         strength: 2,
         filename: "sweers",
@@ -1110,25 +855,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "tibor": {
         name: "Tibor Eggebracht",
         strength: 10,
         filename: "tibor",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "vanhemar": {
         name: "Vanhemar",
         strength: 4,
         filename: "vanhemar",
@@ -1136,25 +875,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "vattier": {
         name: "Vattier de Rideaux",
         strength: 4,
         filename: "vattier",
         maxPerDeck: 1,
-        abilities: [
-            "spy",
-        ],
+        abilities: ["spy"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "vreemde": {
         name: "Vreemde",
         strength: 2,
         filename: "vreemde",
@@ -1162,39 +895,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "young_emissary": {
         name: "Young Emissary",
         strength: 5,
         filename: "young_emissary",
         maxPerDeck: 1,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "young_emissary_1": {
         name: "Young Emissary",
         strength: 5,
         filename: "young_emissary_1",
         maxPerDeck: 1,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "zerri": {
         name: "Zerrikanian Fire Scorpion",
         strength: 5,
         filename: "zerri",
@@ -1202,117 +925,89 @@ const cards: CardData[] = [
         abilities: [],
         faction: "nilfgaard",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "eredin_silver": {
         name: "Eredin - Commander of the Red Riders",
         filename: "eredin_silver",
         maxPerDeck: 1,
-        abilities: [
-            "eredin_commander",
-        ],
+        abilities: ["eredin_commander"],
         faction: "monsters",
         type: "leader",
     },
-    {
+    "eredin_bronze": {
         name: "Eredin - Bringer of Death",
         filename: "eredin_bronze",
         maxPerDeck: 1,
-        abilities: [
-            "eredin_bringer_of_death",
-        ],
+        abilities: ["eredin_bringer_of_death"],
         faction: "monsters",
         type: "leader",
     },
-    {
+    "eredin_gold": {
         name: "Eredin - Destroyer of Worlds",
         filename: "eredin_gold",
         maxPerDeck: 1,
-        abilities: [
-            "eredin_destroyer",
-        ],
+        abilities: ["eredin_destroyer"],
         faction: "monsters",
         type: "leader",
     },
-    {
+    "eredin_copper": {
         name: "Eredin - King of the Wild Hunt",
         filename: "eredin_copper",
         maxPerDeck: 1,
-        abilities: [
-            "eredin_king",
-        ],
+        abilities: ["eredin_king"],
         faction: "monsters",
         type: "leader",
     },
-    {
+    "eredin_the_treacherous": {
         name: "Eredin Bréacc Glas - The Treacherous",
         filename: "eredin_the_treacherous",
         maxPerDeck: 1,
-        abilities: [
-            "eredin_treacherous",
-        ],
+        abilities: ["eredin_treacherous"],
         faction: "monsters",
         type: "leader",
     },
-    {
+    "arachas": {
         name: "Arachas ",
         strength: 4,
         filename: "arachas",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "arachas_1": {
         name: "Arachas ",
         strength: 4,
         filename: "arachas_1",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "arachas_2": {
         name: "Arachas ",
         strength: 4,
         filename: "arachas_2",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "arachas_behemoth": {
         name: "Arachas- Behemoth",
         strength: 6,
         filename: "arachas_behemoth",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "poroniec": {
         name: "Botchling",
         strength: 4,
         filename: "poroniec",
@@ -1320,26 +1015,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "celaeno_harpy": {
         name: "Celaeno Harpy",
         strength: 2,
         filename: "celaeno_harpy",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "cockatrice": {
         name: "Cockatrice",
         strength: 2,
         filename: "cockatrice",
@@ -1347,67 +1035,49 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "witch_velen": {
         name: "Crone - Brewess",
         strength: 6,
         filename: "witch_velen",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "witch_velen_1": {
         name: "Crone - Weavess",
         strength: 6,
         filename: "witch_velen_1",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "witch_velen_2": {
         name: "Crone - Whispess",
         strength: 6,
         filename: "witch_velen_2",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "draug": {
         name: "Draug",
         strength: 10,
         filename: "draug",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "earth_elemental": {
         name: "Earth Elemental",
         strength: 6,
         filename: "earth_elemental",
@@ -1415,11 +1085,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "endrega": {
         name: "Endrega",
         strength: 2,
         filename: "endrega",
@@ -1427,11 +1095,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "fiend": {
         name: "Fiend",
         strength: 6,
         filename: "fiend",
@@ -1439,11 +1105,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "fire_elemental": {
         name: "Fire Elemental",
         strength: 6,
         filename: "fire_elemental",
@@ -1451,11 +1115,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "fogling": {
         name: "Foglet",
         strength: 2,
         filename: "fogling",
@@ -1463,11 +1125,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "forktail": {
         name: "Forktail",
         strength: 5,
         filename: "forktail",
@@ -1475,11 +1135,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "frightener": {
         name: "Frightener",
         strength: 5,
         filename: "frightener",
@@ -1487,11 +1145,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "gargoyle": {
         name: "Gargoyle",
         strength: 2,
         filename: "gargoyle",
@@ -1499,53 +1155,39 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "ghoul": {
         name: "Ghoul",
         strength: 1,
         filename: "ghoul",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "ghoul_1": {
         name: "Ghoul",
         strength: 1,
         filename: "ghoul_1",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "ghoul_2": {
         name: "Ghoul",
         strength: 1,
         filename: "ghoul_2",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "gravehag": {
         name: "Grave Hag",
         strength: 5,
         filename: "gravehag",
@@ -1553,11 +1195,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "gryffin": {
         name: "Griffin",
         strength: 5,
         filename: "gryffin",
@@ -1565,26 +1205,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "harpy": {
         name: "Harpy",
         strength: 2,
         filename: "harpy",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "frost_giant": {
         name: "Ice Giant",
         strength: 5,
         filename: "frost_giant",
@@ -1592,98 +1225,69 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "imlerith": {
         name: "Imlerith",
         strength: 10,
         filename: "imlerith",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "kayran": {
         name: "Kayran",
         strength: 8,
         filename: "kayran",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-            "agile",
-            "morale",
-        ],
+        abilities: ["hero", "agile", "morale"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "leshen": {
         name: "Leshen",
         strength: 10,
         filename: "leshen",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "nekker": {
         name: "Nekker",
         strength: 2,
         filename: "nekker",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "nekker_1": {
         name: "Nekker",
         strength: 2,
         filename: "nekker_1",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "nekker_2": {
         name: "Nekker",
         strength: 2,
         filename: "nekker_2",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "mighty_maiden": {
         name: "Plague Maiden",
         strength: 5,
         filename: "mighty_maiden",
@@ -1691,81 +1295,59 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "bruxa": {
         name: "Vampire - Bruxa",
         strength: 4,
         filename: "bruxa",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "ekkima": {
         name: "Vampire - Ekimmara",
         strength: 4,
         filename: "ekkima",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "fleder": {
         name: "Vampire - Fleder",
         strength: 4,
         filename: "fleder",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "garkain": {
         name: "Vampire - Garkain",
         strength: 4,
         filename: "garkain",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "katakan": {
         name: "Vampire - Katakan",
         strength: 5,
         filename: "katakan",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "werewolf": {
         name: "Werewolf",
         strength: 5,
         filename: "werewolf",
@@ -1773,11 +1355,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "wyvern": {
         name: "Wyvern",
         strength: 2,
         filename: "wyvern",
@@ -1785,105 +1365,79 @@ const cards: CardData[] = [
         abilities: [],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "toad": {
         name: "Toad",
         strength: 7,
         filename: "toad",
         maxPerDeck: 1,
-        abilities: [
-            "scorch_r",
-        ],
+        abilities: ["scorch_r"],
         faction: "monsters",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "francesca_silver": {
         name: "Francesca Findabair - Queen of Dol Blathanna",
         filename: "francesca_silver",
         maxPerDeck: 1,
-        abilities: [
-            "francesca_queen",
-        ],
+        abilities: ["francesca_queen"],
         faction: "scoiatael",
         type: "leader",
     },
-    {
+    "francesca_gold": {
         name: "Francesca Findabair - the Beautiful",
         filename: "francesca_gold",
         maxPerDeck: 1,
-        abilities: [
-            "francesca_beautiful",
-        ],
+        abilities: ["francesca_beautiful"],
         faction: "scoiatael",
         type: "leader",
     },
-    {
+    "francesca_copper": {
         name: "Francesca Findabair - Daisy of the Valley",
         filename: "francesca_copper",
         maxPerDeck: 1,
-        abilities: [
-            "francesca_daisy",
-        ],
+        abilities: ["francesca_daisy"],
         faction: "scoiatael",
         type: "leader",
     },
-    {
+    "francesca_bronze": {
         name: "Francesca Findabair - Pureblood Elf",
         filename: "francesca_bronze",
         maxPerDeck: 1,
-        abilities: [
-            "francesca_pureblood",
-        ],
+        abilities: ["francesca_pureblood"],
         faction: "scoiatael",
         type: "leader",
     },
-    {
+    "francesca_hope_of_the_aen_seidhe": {
         name: "Francesca Findabair - Hope of the Aen Seidhe",
         filename: "francesca_hope_of_the_aen_seidhe",
         maxPerDeck: 1,
-        abilities: [
-            "francesca_hope",
-        ],
+        abilities: ["francesca_hope"],
         faction: "scoiatael",
         type: "leader",
     },
-    {
+    "ciaran": {
         name: "Ciaran aep Easnillien",
         strength: 3,
         filename: "ciaran",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "barclay": {
         name: "Barclay Els",
         strength: 6,
         filename: "barclay",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "dennis": {
         name: "Dennis Cranmer",
         strength: 6,
         filename: "dennis",
@@ -1891,11 +1445,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "dol_archer": {
         name: "Dol Blathanna Archer",
         strength: 4,
         filename: "dol_archer",
@@ -1903,253 +1455,179 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "dol_infantry": {
         name: "Dol Blathanna Scout",
         strength: 6,
         filename: "dol_infantry",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "dol_infantry_1": {
         name: "Dol Blathanna Scout",
         strength: 6,
         filename: "dol_infantry_1",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "dol_infantry_2": {
         name: "Dol Blathanna Scout",
         strength: 6,
         filename: "dol_infantry_2",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "dwarf": {
         name: "Dwarven Skirmisher",
         strength: 3,
         filename: "dwarf",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "dwarf_1": {
         name: "Dwarven Skirmisher",
         strength: 3,
         filename: "dwarf_1",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "dwarf_2": {
         name: "Dwarven Skirmisher",
         strength: 3,
         filename: "dwarf_2",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "eithne": {
         name: "Eithné",
         strength: 10,
         filename: "eithne",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "elf_skirmisher": {
         name: "Elven Skirmisher",
         strength: 2,
         filename: "elf_skirmisher",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "elf_skirmisher_1": {
         name: "Elven Skirmisher",
         strength: 2,
         filename: "elf_skirmisher_1",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "elf_skirmisher_2": {
         name: "Elven Skirmisher",
         strength: 2,
         filename: "elf_skirmisher_2",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "filavandrel": {
         name: "Filavandrel aen Fidhail",
         strength: 6,
         filename: "filavandrel",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "havekar_nurse": {
         name: "Havekar Healer",
         strength: 0,
         filename: "havekar_nurse",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "havekar_nurse_1": {
         name: "Havekar Healer",
         strength: 0,
         filename: "havekar_nurse_1",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "havekar_nurse_2": {
         name: "Havekar Healer",
         strength: 0,
         filename: "havekar_nurse_2",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "havekar_support": {
         name: "Havekar Smuggler",
         strength: 5,
         filename: "havekar_support",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "havekar_support_1": {
         name: "Havekar Smuggler",
         strength: 5,
         filename: "havekar_support_1",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "havekar_support_2": {
         name: "Havekar Smuggler",
         strength: 5,
         filename: "havekar_support_2",
         maxPerDeck: 1,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "ida": {
         name: "Ida Emean aep Sivney",
         strength: 6,
         filename: "ida",
@@ -2157,40 +1635,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "iorveth": {
         name: "Iorveth",
         strength: 10,
         filename: "iorveth",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "isengrim": {
         name: "Isengrim Faoiltiarna",
         strength: 10,
         filename: "isengrim",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-            "morale",
-        ],
+        abilities: ["hero", "morale"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "mahakam": {
         name: "Mahakaman Defender",
         strength: 5,
         filename: "mahakam",
@@ -2198,11 +1665,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "mahakam_1": {
         name: "Mahakaman Defender",
         strength: 5,
         filename: "mahakam_1",
@@ -2210,11 +1675,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "mahakam_2": {
         name: "Mahakaman Defender",
         strength: 5,
         filename: "mahakam_2",
@@ -2222,11 +1685,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "mahakam_3": {
         name: "Mahakaman Defender",
         strength: 5,
         filename: "mahakam_3",
@@ -2234,11 +1695,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "mahakam_4": {
         name: "Mahakaman Defender",
         strength: 5,
         filename: "mahakam_4",
@@ -2246,25 +1705,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "milva": {
         name: "Milva",
         strength: 10,
         filename: "milva",
         maxPerDeck: 1,
-        abilities: [
-            "morale",
-        ],
+        abilities: ["morale"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "riordain": {
         name: "Riordain",
         strength: 1,
         filename: "riordain",
@@ -2272,25 +1725,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "saskia": {
         name: "Saesenthessis",
         strength: 10,
         filename: "saskia",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "toruviel": {
         name: "Toruviel",
         strength: 2,
         filename: "toruviel",
@@ -2298,11 +1745,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "vrihedd_cadet": {
         name: "Vrihedd Brigade Recruit",
         strength: 4,
         filename: "vrihedd_cadet",
@@ -2310,84 +1755,59 @@ const cards: CardData[] = [
         abilities: [],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "vrihedd_brigade": {
         name: "Vrihedd Brigade Veteran",
         strength: 5,
         filename: "vrihedd_brigade",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "vrihedd_brigade_1": {
         name: "Vrihedd Brigade Veteran",
         strength: 5,
         filename: "vrihedd_brigade_1",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "yaevinn": {
         name: "Yaevinn",
         strength: 6,
         filename: "yaevinn",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-        ],
+        abilities: ["agile"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "berserker": {
         name: "Berserker",
         strength: 4,
         filename: "berserker",
         maxPerDeck: 1,
-        abilities: [
-            "berserker",
-        ],
+        abilities: ["berserker"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "birna": {
         name: "Birna Bran",
         strength: 2,
         filename: "birna",
         maxPerDeck: 1,
-        abilities: [
-            "medic",
-        ],
+        abilities: ["medic"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "blueboy": {
         name: "Blueboy Lugos",
         strength: 6,
         filename: "blueboy",
@@ -2395,26 +1815,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "cerys": {
         name: "Cerys",
         strength: 10,
         filename: "cerys",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-            "muster",
-        ],
+        abilities: ["hero", "muster"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "brokva_archer": {
         name: "Clan Brokva Archer",
         strength: 6,
         filename: "brokva_archer",
@@ -2422,67 +1835,49 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "dimun_pirate": {
         name: "Clan Dimun Pirate",
         strength: 6,
         filename: "dimun_pirate",
         maxPerDeck: 1,
-        abilities: [
-            "scorch",
-        ],
+        abilities: ["scorch"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "shield_maiden": {
         name: "Cerys - Clan Drummond Shield Maiden",
         strength: 4,
         filename: "shield_maiden",
         maxPerDeck: 1,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "shield_maiden_1": {
         name: "Cerys - Clan Drummond Shield Maiden",
         strength: 4,
         filename: "shield_maiden_1",
         maxPerDeck: 1,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "shield_maiden_2": {
         name: "Cerys - Clan Drummond Shield Maiden",
         strength: 4,
         filename: "shield_maiden_2",
         maxPerDeck: 1,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "heymaey": {
         name: "Clan Heymaey Skald",
         strength: 4,
         filename: "heymaey",
@@ -2490,11 +1885,9 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "tordarroch": {
         name: "Clan Tordarroch Armorsmith",
         strength: 4,
         filename: "tordarroch",
@@ -2502,25 +1895,19 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "craite_warrior": {
         name: "Clan an Craite Warrior",
         strength: 6,
         filename: "craite_warrior",
         maxPerDeck: 3,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "donar": {
         name: "Donar an Hindar",
         strength: 4,
         filename: "donar",
@@ -2528,68 +1915,49 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "draig": {
         name: "Draig Bon-Dhu",
         strength: 2,
         filename: "draig",
         maxPerDeck: 1,
-        abilities: [
-            "horn",
-        ],
+        abilities: ["horn"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "ermion": {
         name: "Ermion",
         strength: 8,
         filename: "ermion",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-            "mardroeme",
-        ],
+        abilities: ["hero", "mardroeme"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "hemdall": {
         name: "Hemdall",
         strength: 11,
         filename: "hemdall",
         maxPerDeck: 0,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "hjalmar": {
         name: "Hjalmar",
         strength: 10,
         filename: "hjalmar",
         maxPerDeck: 1,
-        abilities: [
-            "hero",
-        ],
+        abilities: ["hero"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "holger": {
         name: "Holger Blackhand",
         strength: 4,
         filename: "holger",
@@ -2597,39 +1965,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "kambi": {
         name: "Kambi",
         strength: 0,
         filename: "kambi",
         maxPerDeck: 1,
-        abilities: [
-            "avenger_kambi",
-        ],
+        abilities: ["avenger_kambi"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "light_longship": {
         name: "Light Longship",
         strength: 4,
         filename: "light_longship",
         maxPerDeck: 3,
-        abilities: [
-            "muster",
-        ],
+        abilities: ["muster"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "madmad_lugos": {
         name: "Madman Lugos",
         strength: 6,
         filename: "madmad_lugos",
@@ -2637,53 +1995,36 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "mardroeme": {
         name: "Mardroeme",
         filename: "mardroeme",
         maxPerDeck: 3,
-        abilities: [
-            "mardroeme",
-        ],
+        abilities: ["mardroeme"],
         faction: "neutral",
         type: "special",
-        rows: [
-            "close",
-            "ranged",
-            "siege",
-        ],
+        rows: ["close", "ranged", "siege"],
     },
-    {
+    "olaf": {
         name: "Olaf",
         strength: 12,
         filename: "olaf",
         maxPerDeck: 1,
-        abilities: [
-            "agile",
-            "morale",
-        ],
+        abilities: ["agile", "morale"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-            "ranged",
-        ],
+        rows: ["close", "ranged"],
     },
-    {
+    "storm": {
         name: "Skellige Storm",
         filename: "storm",
         maxPerDeck: 3,
-        abilities: [
-            "rain",
-            "fog",
-        ],
+        abilities: ["rain", "fog"],
         faction: "neutral",
         type: "weather",
     },
-    {
+    "svanrige": {
         name: "Svanrige",
         strength: 4,
         filename: "svanrige",
@@ -2691,39 +2032,29 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "vildkaarl": {
         name: "Transformed Vildkaarl",
         strength: 14,
         filename: "vildkaarl",
         maxPerDeck: 0,
-        abilities: [
-            "morale",
-        ],
+        abilities: ["morale"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "young_vildkaarl": {
         name: "Transformed Young Vildkaarl",
         strength: 8,
         filename: "young_vildkaarl",
         maxPerDeck: 0,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "udalryk": {
         name: "Udalryk",
         strength: 4,
         filename: "udalryk",
@@ -2731,72 +2062,56 @@ const cards: CardData[] = [
         abilities: [],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "close",
-        ],
+        rows: ["close"],
     },
-    {
+    "war_longship": {
         name: "War Longship",
         strength: 6,
         filename: "war_longship",
         maxPerDeck: 2,
-        abilities: [
-            "bond",
-        ],
+        abilities: ["bond"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-    {
+    "young_berserker": {
         name: "Young Berserker",
         strength: 2,
         filename: "young_berserker",
         maxPerDeck: 3,
-        abilities: [
-            "berserker",
-        ],
+        abilities: ["berserker"],
         faction: "skellige",
         type: "unit",
-        rows: [
-            "ranged",
-        ],
+        rows: ["ranged"],
     },
-    {
+    "crach_an_craite": {
         name: "Crach an Craite",
         filename: "crach_an_craite",
         maxPerDeck: 0,
-        abilities: [
-            "crach_an_craite",
-        ],
+        abilities: ["crach_an_craite"],
         faction: "skellige",
         type: "leader",
     },
-    {
+    "king_bran": {
         name: "King Bran",
         filename: "king_bran",
         maxPerDeck: 0,
-        abilities: [
-            "king_bran",
-        ],
+        abilities: ["king_bran"],
         faction: "skellige",
         type: "leader",
     },
-    {
+    "schirru": {
         name: "Schirru",
         strength: 8,
         filename: "schirru",
         maxPerDeck: 1,
-        abilities: [
-            "scorch_s",
-        ],
+        abilities: ["scorch_s"],
         faction: "scoiatael",
         type: "unit",
-        rows: [
-            "siege",
-        ],
+        rows: ["siege"],
     },
-];
+};
+
+export const cardsArray = Object.values(cards);
 
 export default cards;

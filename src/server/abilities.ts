@@ -37,8 +37,8 @@ const playLeaderHorn = (game: Game, playerIndex: PlayerIndex, row: UnitRow): voi
         return;
     }
 
-    const horn = cards.find(({filename}) => filename === "horn");
-    if (!horn || horn.type !== "special") {
+    const horn = cards["horn"];
+    if (horn?.type !== "special") {
         throw new Error("could not find horn");
     }
 
@@ -47,7 +47,7 @@ const playLeaderHorn = (game: Game, playerIndex: PlayerIndex, row: UnitRow): voi
 };
 
 const playAvenger = (game: Game, playerIndex: PlayerIndex, filename: CardData["filename"]): void => {
-    const card = cards.find((card) => card.filename === filename);
+    const card = cards[filename];
     if (!card) {
         return;
     }
@@ -80,10 +80,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             berserkers.forEach(() => {
                 playerRow.remove(card);
                 const transformed = card.name === "Young Berserker" ?
-                    cards.find(({filename}) => filename === "Transformed Young Vildkaarl") :
-                    cards.find(({filename}) => filename === "Transformed Vildkaarl");
+                    cards["young_vildkaarl"] :
+                    cards["vildkaarl"];
 
-                if (!transformed || transformed.type !== "unit") {
+                if (transformed?.type !== "unit") {
                     return;
                 }
 

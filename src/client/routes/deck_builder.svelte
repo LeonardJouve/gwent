@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onDestroy, onMount} from "svelte";
     import {navigate} from "svelte5-router";
-    import cards, {stackCards} from "@shared/cards";
+    import {stackCards, cardsArray} from "@shared/cards";
     import factions from "@shared/factions";
     import FactionHeader from "../components/faction_header.svelte";
     import GameCarousel from "../components/game_carousel.svelte";
@@ -26,7 +26,7 @@
     const bank = $derived.by(() => {
         const deckCardsWithAmount = stackCards(deck);
 
-        return sortCards(cards
+        return sortCards(cardsArray
             .filter(({faction, type}) => (faction === "neutral" || faction === factionName) && type !== "leader")
             .flatMap((card) => Array.from({length: card.maxPerDeck - (deckCardsWithAmount.get(card.filename)?.amount ?? 0)}, () => card)));
     });

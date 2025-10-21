@@ -4,7 +4,7 @@
     import DeckStats from "../components/deck_stats.svelte";
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import {openCarousel} from "../store/carousel.svelte";
-    import cards from "@shared/cards";
+    import {cardsArray} from "@shared/cards";
 
     type Props = {
         leader: LeaderCardData;
@@ -26,7 +26,7 @@
     };
 
     const handleSelectLeader = () => {
-        const c = cards.filter(({faction, type}) => (faction === "neutral" || faction === leader.faction) && type === "leader");
+        const c = cardsArray.filter(({faction, type}) => (faction === "neutral" || faction === leader.faction) && type === "leader");
 
         openCarousel({
             amount: 1,

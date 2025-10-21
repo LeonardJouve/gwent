@@ -8,7 +8,7 @@ import type {Canvas, Image} from "canvas";
 
 const generateSMCard = (file: fs.Dirent<string>, imagePath: string, dimensions: ISize): Promise<Image|Canvas> => {
     const {name} = path.parse(file.name);
-    const card = cards.find(({filename}) => filename === name);
+    const card = cards[name];
     if (!card) {
         throw new Error(`could not find card with filename: ${name}`);
     }

@@ -16,7 +16,7 @@ type GameStore = State & {
     result?: GameResult;
 };
 
-const leader = cards.find(({faction, type}) => faction === "realms" && type === "leader");
+const leader = cards["foltest_silver"];
 if (leader?.type !== "leader") {
     throw new Error("leader not found");
 }
