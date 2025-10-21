@@ -35,10 +35,6 @@
         store.result = undefined;
         navigate("/");
     };
-
-    const handleReplay = () => {
-        // TODO
-    };
 </script>
 
 <dialog
@@ -79,18 +75,11 @@
                 {/each}
             </tbody>
         </table>
-        <div class="actions">
-            <Button
-                onclick={handleMenu}
-                content="Menu"
-                variant="large"
-            />
-            <Button
-                onclick={handleReplay}
-                content="Replay"
-                variant="large"
-            />
-        </div>
+        <Button
+            onclick={handleMenu}
+            content="Menu"
+            variant="large"
+        />
     {/if}
 </dialog>
 
@@ -130,11 +119,6 @@
 
     .name, .winner {
         color: goldenrod;
-    }
-
-    .actions {
-        display: flex;
-        justify-content: space-evenly;
     }
 
     th, td {

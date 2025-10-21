@@ -21,7 +21,7 @@ if (leader?.type !== "leader") {
     throw new Error("leader not found");
 }
 
-export const store = $state<GameStore>({
+const getEmptyGame = (): GameStore => ({
     turn: "me",
     players: {
         me: {
@@ -81,6 +81,20 @@ export const store = $state<GameStore>({
         weather: [],
     },
 });
+
+export const resetGame = () => {
+    const emptyGame = getEmptyGame();
+
+    store.askPlay = undefined;
+    store.askStart = undefined;
+    store.result = undefined;
+    store.selectedCard = undefined;
+    store.turn = "me";
+    store.board = emptyGame.board;
+    store.players = emptyGame.players;
+};
+
+export const store = $state<GameStore>(getEmptyGame());
 
 export const getPlayerScore = (player: PlayerIndicator): number => Object.keys(store.board.rows[player])
     .reduce((acc, rowName) => acc + getRowScore(rowName as keyof PlayerBoard, player), 0);

@@ -21,22 +21,9 @@
     import ScoiataelModal from "../components/scoiatael_modal.svelte";
     import {imgURL} from "../utils/utils";
     import {SocketDataSchema} from "@shared/types/socket";
+    import {resetGame} from "../store/game.svelte";
 
     let socketHandler = $state<SocketHandler|null>(null);
-
-    onMount(() => {
-        try {
-            const url = new URL(window.location.href);
-            const socketData = SocketDataSchema.parse({
-                id: url.searchParams.get("id"),
-                matchId: url.searchParams.get("matchId"),
-            });
-
-            socketHandler = new SocketHandler(socketData);
-        } catch (_) {
-            navigate("/");
-        }
-    });
 
     type Rect = {
         top: number;
@@ -77,6 +64,20 @@
     const rows: UnitRow[] = ["close", "ranged", "siege"];
 
     onMount(() => {
+        resetGame();
+
+        try {
+            const url = new URL(window.location.href);
+            const socketData = SocketDataSchema.parse({
+                id: url.searchParams.get("id"),
+                matchId: url.searchParams.get("matchId"),
+            });
+
+            socketHandler = new SocketHandler(socketData);
+        } catch (_) {
+            navigate("/");
+        }
+
         const observer = new ResizeObserver(() => {
             const imageRatio = boardImage.naturalWidth / boardImage.naturalHeight;
             const viewportRatio = window.innerWidth / window.innerHeight;

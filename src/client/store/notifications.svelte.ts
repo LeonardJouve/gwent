@@ -7,3 +7,7 @@ type WeatherStore = {
 export const store = $state<WeatherStore>({
     notifications: [],
 });
+
+export const clearNotifications = () => {
+    store.notifications = [];
+};

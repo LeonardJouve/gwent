@@ -33,7 +33,7 @@ export const openCarousel = ({amount, onClose, isClosable, cards, startIndex}: O
     store.isOpen = true;
 };
 
-export const closeCarousel = (cards: CardData[]): void => {
+export const closeCarousel = (cards: CardData[] = []): void => {
     store.onClose?.(cards);
     store.isOpen = false;
     store.cards = undefined;

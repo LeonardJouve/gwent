@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {onDestroy} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import {navigate} from "svelte5-router";
     import cards, {stackCards} from "@shared/cards";
     import factions from "@shared/factions";
@@ -13,6 +13,8 @@
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import type {FactionName} from "@shared/types/faction";
     import type {SerializedMatchmake} from "@shared/types/matchmake";
+    import {closeCarousel} from "../store/carousel.svelte";
+    import {clearNotifications} from "../store/notifications.svelte";
 
     const lastFactionName = getLastFaction() || "realms";
     let factionName = $state<FactionName>(lastFactionName);
@@ -61,6 +63,11 @@
     let isInQueue = $state<boolean>(false);
     const id = $state<string>(crypto.randomUUID());
     let abortController = $state<AbortController>(new AbortController());
+
+    onMount(() => {
+        closeCarousel();
+        clearNotifications();
+    });
 
     onDestroy(() => {
         if (!isInQueue) return;
@@ -131,6 +138,7 @@
             leader={leader}
             deck={deck}
             onSelectLeader={handleSelectLeader}
+            isInQueue={isInQueue}
             onQueue={handleQueue}
         />
     </div>

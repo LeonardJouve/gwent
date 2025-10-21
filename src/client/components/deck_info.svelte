@@ -9,10 +9,11 @@
     type Props = {
         leader: LeaderCardData;
         deck: CardData[];
+        isInQueue: boolean;
         onSelectLeader: (leader: LeaderCardData) => void;
         onQueue: (username: string) => void;
     };
-    const {leader, deck, onSelectLeader, onQueue}: Props = $props();
+    const {leader, deck, isInQueue, onSelectLeader, onQueue}: Props = $props();
 
     let username = $state<string>("");
     let isDeckValid = $state<boolean>(false);
@@ -73,7 +74,7 @@
             class="queue"
             disabled={!isDeckValid}
         >
-            Find match
+            {isInQueue ? "Waiting...": "Find match"}
         </button>
     </form>
 </div>
