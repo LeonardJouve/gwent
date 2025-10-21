@@ -1,4 +1,4 @@
-import type {CardData, SpecialCardData, UnitCardData, UnitRow, WeatherCardData} from "./card.js";
+import type {CardData, LeaderCardData, SpecialCardData, UnitCardData, UnitRow, WeatherCardData} from "./card.js";
 import type {Matchmake} from "./matchmake.js";
 import type {PlayerIndicator} from "./player.js";
 
@@ -32,6 +32,7 @@ export type Board = {
 export type Player = Omit<Matchmake, "deck"> & {
     isLeaderAvailable: boolean;
     gems: number;
+    leader: LeaderCardData;
     hasPassed: boolean;
     grave: CardData[];
 };

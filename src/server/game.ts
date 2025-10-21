@@ -10,7 +10,6 @@ import type {Matchmake} from "@shared/types/matchmake.js";
 
 type GamePlayer = Omit<Player, "grave"> & {
     cards: Cards;
-    leader: LeaderCardData;
 };
 
 type Effect = {
