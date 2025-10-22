@@ -40,10 +40,11 @@ export default class Cards {
     }
 
     static filterCards<T extends CardData>(from: T[], cards: T[]): T[] {
+        const c = [...cards];
         return from.filter((card) => {
-            const playingCardIndex = cards.findIndex(({filename}) => filename === card.filename);
+            const playingCardIndex = c.findIndex(({filename}) => filename === card.filename);
             if (playingCardIndex !== -1) {
-                cards.splice(playingCardIndex, 1);
+                c.splice(playingCardIndex, 1);
                 return false;
             }
 
