@@ -2,7 +2,7 @@ FROM node:alpine
 
 WORKDIR /app
 
-RUN apk update && apk add build-base
+RUN apk update && apk add build-base g++ cairo-dev pango-dev giflib-dev
 
 COPY . .
 
