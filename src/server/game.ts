@@ -374,6 +374,8 @@ export default class Game {
         switch (card.type) {
         case "weather":
             // TODO
+            this.players[playerIndex].cards.play(card);
+
             this.board.playWeather(card, playerIndex);
 
             await this.placeCard(card, playerIndex, null);
@@ -384,6 +386,8 @@ export default class Game {
             if (!row) {
                 return false;
             }
+
+            this.players[playerIndex].cards.play(card);
 
             this.board.playSpecial(card, playerIndex, row);
 
