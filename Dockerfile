@@ -8,6 +8,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+RUN npm run generate
 RUN npm run build
 
 FROM node:alpine
