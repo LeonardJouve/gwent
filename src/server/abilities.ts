@@ -131,16 +131,13 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             const cardName = i === -1 ? card.name : card.name.substring(0, i);
             const predicate = (c: CardData): boolean => c.name.startsWith(cardName);
             const playerCards = game.getPlayerCards(playerIndex);
-            const units = playerCards.hand
-                .filter(predicate)
-                .concat(playerCards.deck
-                    .filter(predicate));
 
-            if (units.length === 0) {
-                return;
+            playerCards.drawCard(...playerCards.deck.filter(predicate));
+
+            let unit: CardData;
+            while (unit = playerCards.hand.find(predicate)) {
+                game.playCard(unit, playerIndex);
             }
-
-            units.forEach((c) => game.playCard(c, playerIndex));
         },
     },
     spy: {
