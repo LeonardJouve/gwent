@@ -399,7 +399,11 @@ export default class Game {
             // TODO
             const r = row ?? (card.abilities.includes("agile") ? "close" : card.rows[0]);
 
-            const ok = this.board.playUnit(card, playerIndex, r);
+            const playerRow = card.abilities.includes("spy") ?
+                this.getOpponentIndex(playerIndex) :
+                playerIndex;
+
+            const ok = this.board.playUnit(card, playerRow, r);
             if (!ok) {
                 return false;
             }

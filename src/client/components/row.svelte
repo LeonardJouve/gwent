@@ -16,11 +16,11 @@
 
     const weather = $derived(getRowWeather(rowName));
 
-    const canPlay = $derived(store.selectedCard && store.turn === "me" && store.askPlay);
+    const canPlay = $derived(store.selectedCard && store.turn === "me" && store.askPlay && (Number(player === "me") ^ Number(store.selectedCard.abilities.includes("spy"))));
 
     const handleRowClick = (type: CardData["type"]) => () => {
-        if (canPlay && store.selectedCard?.type === type && store.askPlay) {
-            store.askPlay({
+        if (canPlay && store.selectedCard?.type === type) {
+            store.askPlay?.({
                 type: "card",
                 card: store.selectedCard.filename,
                 row: rowName,
