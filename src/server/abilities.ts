@@ -52,8 +52,13 @@ const playAvenger = (game: Game, playerIndex: PlayerIndex, filename: CardData["f
         return;
     }
 
-    game.playCard(card, playerIndex);
-    cancelDiscard(game, playerIndex, filename);
+    game.onRoundStart.push({
+        once: true,
+        run: async () => {
+            await game.playCard(card, playerIndex);
+            cancelDiscard(game, playerIndex, filename);
+        },
+    });
 };
 
 type Ability = {

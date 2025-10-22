@@ -22,7 +22,7 @@ export default class Cards {
     }
 
     static isNormalUnit({abilities, type}: CardData): boolean {
-        return !abilities.includes("hero") && type === "unit";
+        return !abilities.includes("hero") && !abilities.includes("decoy") && type === "unit";
     }
 
     static getRandom(cards: CardData[], amount: number): CardData[] {

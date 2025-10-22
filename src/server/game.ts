@@ -315,12 +315,18 @@ export default class Game {
         this.onRoundEnd = await Game.runEffects(this.onRoundEnd);
 
         this.players.forEach((player, i) => {
-            Object.values(this.board.getPlayerBoard(i))
-                .forEach((row) => player.cards.discard(
-                    ...row.getUnits(),
-                    ...row.getSpecial(),
-                    ...this.board.getPlayerWeather(i),
-                ));
+            Object.entries(this.board.getPlayerBoard(i))
+                .forEach(([rowName, row]) => {
+                    const toDiscard = [
+                        ...row.getUnits(),
+                        ...row.getSpecial(),
+                        ...this.board.getPlayerWeather(i),
+                    ];
+
+                    toDiscard.forEach((c) => this.removeCard(c, i, rowName as UnitRow));
+
+                    player.cards.discard(...toDiscard);
+                });
 
             const result = winner === null ?
                 "draw" :
@@ -331,6 +337,10 @@ export default class Game {
         });
 
         this.board.clear();
+    }
+
+    private async removeCard(card: CardData, playerIndex: PlayerIndex, row: UnitRow): Promise<void> {
+        card.abilities.forEach((ability) => abilities[ability]?.onRemoved?.(this, playerIndex, row, card));
     }
 
     private async executePlay(play: Play): Promise<boolean> {
