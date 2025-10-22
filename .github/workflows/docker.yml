@@ -1,0 +1,24 @@
+name: Publish Docker Image
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build Docker image
+      run: |
+        IMAGE_NAME=ghcr.io/$(echo "${{ github.repository_owner }}/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+        docker build . -t $IMAGE_NAME:latest
+        docker push $IMAGE_NAME:latest
