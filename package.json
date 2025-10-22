@@ -6,8 +6,9 @@
 		"dev:kit": "vite dev --config src/client/vite.config.js",
 		"dev:server": "tsx watch --tsconfig src/server/tsconfig.json --env-file=src/server/.env src/server",
 		"build:kit": "npm run check && vite build --config src/client/vite.config.ts --emptyOutDir",
-		"build:server": "tsc --project src/server/tsconfig.json",
+		"build:server": "tsup src/server/index.ts --tsconfig src/server/tsconfig.json --format esm --out-dir dist",
 		"build": "npm run build:kit && npm run build:server",
+		"start": "node dist/index.js",
 		"prepare": "npm run generate || echo ''",
 		"check": "svelte-check --tsconfig src/client/tsconfig.json",
 		"lint": "eslint ."
@@ -25,6 +26,7 @@
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"svelte5-router": "^3.0.2",
+		"tsup": "^8.5.0",
 		"tsx": "^4.20.3",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",

@@ -3,12 +3,12 @@ import type {ServerType} from "@hono/node-server";
 import type {ClientToServerEvents, ServerToClientEvents, SocketData} from "@shared/types/socket.js";
 import Match from "./match.js";
 
-export const initSocketIO = (server: ServerType, clientURL: string): void => {
+export const initSocketIO = (server: ServerType, clientURL?: string): void => {
     const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents, never, SocketData>(server, {
-        cors: {
+        cors: clientURL ? {
             origin: clientURL,
             methods: ["GET", "POST"],
-        },
+        } : undefined,
     });
 
     io.on("connection", (socket) => {
