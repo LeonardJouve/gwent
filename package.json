@@ -9,7 +9,7 @@
 		"build:server": "tsup src/server/index.ts --tsconfig src/server/tsconfig.json --format esm --out-dir dist",
 		"build": "npm run build:kit && npm run build:server",
 		"start": "node dist/index.js",
-		"prepare": "npm run generate || echo ''",
+		"postinstall": "npm run generate",
 		"check": "svelte-check --tsconfig src/client/tsconfig.json",
 		"lint": "eslint ."
 	},
