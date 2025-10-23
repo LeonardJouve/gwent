@@ -1,6 +1,7 @@
 <script lang="ts">
     import {onDestroy, onMount} from "svelte";
     import {navigate} from "svelte5-router";
+    import {v4 as uuidv4} from 'uuid';
     import {stackCards, cardsArray} from "@shared/cards";
     import factions from "@shared/factions";
     import FactionHeader from "../components/faction_header.svelte";
@@ -61,7 +62,7 @@
     };
 
     let isInQueue = $state<boolean>(false);
-    const id = $state<string>(crypto.randomUUID());
+    const id = $state<string>(uuidv4());
     let abortController = $state<AbortController>(new AbortController());
 
     onMount(() => {
