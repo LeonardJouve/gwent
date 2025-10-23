@@ -55,7 +55,7 @@
 
         border-width: 15px;
         border-style: solid;
-        border-image-source: url("assets/img/dialog_border.svg");
+        border-image-source: url("/assets/img/dialog_border.svg");
         border-image-slice: 49% 49%;
 
         &::backdrop {
