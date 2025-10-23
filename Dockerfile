@@ -2,7 +2,7 @@ FROM node:alpine as builder
 
 WORKDIR /app
 
-RUN apk update && apk add build-base g++ cairo-dev pango-dev giflib-dev libjpeg-turbo
+RUN apk update && apk add build-base g++ cairo-dev pango-dev giflib-dev libjpeg-turbo-dev
 
 COPY package*.json ./
 RUN npm install
