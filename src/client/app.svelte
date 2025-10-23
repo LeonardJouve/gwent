@@ -35,7 +35,7 @@
 
     :global(html, body) {
         font-family: "GWENT", Regular;
-        cursor: url("assets/img/icons/cursor.png"), auto;
+        cursor: url("/assets/img/icons/cursor.png"), auto;
     }
 
     :global(*) {
