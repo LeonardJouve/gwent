@@ -13,7 +13,7 @@ export type ServerToClientEvents = {
     get_data: (callback: (data: SocketData) => void) => void;
     ask_start: (callback: (player: PlayerIndicator) => void) => void;
     ask_play: (callback: (play: Play) => void) => void;
-    select_cards: (cards: CardData[], amount: number, isClosable: boolean, callback: (cards: SerializedCard[]) => void) => void;
+    select_cards: (cards: CardData[], amount: number, isClosable: boolean, startIndex: number, callback: (cards: SerializedCard[]) => void) => void;
     notify: (name: NotificationName) => void;
     show_cards: (cards: CardData[], callback: () => void) => void;
     show_results: (results: RoundResult[], winner: PlayerIndicator|null) => void;

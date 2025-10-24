@@ -4,9 +4,6 @@ TODOS:
 - #each with keys
 - Card animations
 
-- Escape on carousel bugs it
-- Arrows on carousel / space / mouse wheel
-- Redraw a card reopens carousel from index 0
 - Decoy on empty row
 - Scorch close
 - Players are swapped

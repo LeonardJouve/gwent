@@ -248,12 +248,15 @@ export default class Game {
         this.sendState();
 
         await Promise.all(this.players.map(async (player, playerIndex) => {
+            let startIndex = 0;
             for (let i = 0; i < 2; ++i) {
                 if (!player.cards.deck.length) {
                     break;
                 }
 
-                const [card] = await this.listeners.selectCards(playerIndex, player.cards.hand, 1, true);
+                const {hand} = player.cards;
+                const [card] = await this.listeners.selectCards(playerIndex, hand, 1, true, startIndex);
+                startIndex = hand.findIndex(({filename}) => filename === card.filename);
                 if (!card) {
                     break;
                 }

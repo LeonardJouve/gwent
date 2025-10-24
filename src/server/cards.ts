@@ -58,14 +58,11 @@ export default class Cards {
             return;
         }
 
-        this.hand.splice(cardIndex, 1);
 
         const [newCard] = Cards.getRandom(this.deck, 1);
         const newCardIndex = this.deck.findIndex(({filename}) => filename === newCard.filename);
-        if (newCardIndex !== -1) {
-            this.deck.splice(newCardIndex, 1);
-            this.hand.push(newCard);
-        }
+        this.deck.splice(newCardIndex, 1);
+        this.hand.splice(cardIndex, 1, newCard);
 
         this.deck.splice(Math.floor(Math.random() * this.deck.length), 0, card);
     }

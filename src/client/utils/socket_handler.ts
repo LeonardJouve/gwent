@@ -56,10 +56,11 @@ export class SocketHandler {
         };
     }
 
-    static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, callback: (cards: CardData["filename"][]) => void): void {
+    static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, startIndex: number, callback: (cards: CardData["filename"][]) => void): void {
         openCarousel({
             amount,
             isClosable,
+            startIndex,
             cards,
             onClose: (c: CardData[]): void => callback(c.map(serialize)),
         });
