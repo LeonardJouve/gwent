@@ -86,6 +86,11 @@
         img {
             width: 2.5vw;
         }
+
+        p {
+            text-align: center;
+            font-size: 1vw;
+        }
     }
 
     .danger {

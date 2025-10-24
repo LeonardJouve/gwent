@@ -19,18 +19,10 @@
     import PassIndicator from "../components/pass_indicator.svelte";
     import Result from "../components/result.svelte";
     import ScoiataelModal from "../components/scoiatael_modal.svelte";
-    import {imgURL} from "../utils/utils";
     import {SocketDataSchema} from "@shared/types/socket";
     import {resetGame} from "../store/game.svelte";
 
     let socketHandler = $state<SocketHandler|null>(null);
-
-    type Rect = {
-        top: number;
-        left: number;
-        width: number;
-        height: number;
-    };
 
     const rowTopPercents = [
         1.4,
@@ -51,15 +43,6 @@
 
     const laneLeftPercent = 29.7;
 
-    let gameContainer: HTMLDivElement;
-    let boardImage: HTMLImageElement;
-    let boardBoundingRect = $state<Rect>({
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-    });
-
     const players: PlayerIndicator[] = ["opponent", "me"];
     const rows: UnitRow[] = ["close", "ranged", "siege"];
 
@@ -77,36 +60,14 @@
         } catch (_) {
             navigate("/");
         }
-
-        const observer = new ResizeObserver(() => {
-            const imageRatio = boardImage.naturalWidth / boardImage.naturalHeight;
-            const viewportRatio = window.innerWidth / window.innerHeight;
-
-            if (imageRatio < viewportRatio) {
-                boardImage.style.width = "auto";
-                boardImage.style.height = "100%";
-            } else {
-                boardImage.style.width = "100%";
-                boardImage.style.height = "auto";
-            }
-
-            boardBoundingRect = boardImage.getBoundingClientRect();
-        });
-        observer.observe(boardImage);
-        observer.observe(gameContainer);
-
-        return () => observer.disconnect();
     });
 
     const getPosition = $derived((leftPercent: number, widthPercent: number, topPercent: number, heightPercent: number) => {
-        const horizontalPercent = boardBoundingRect.width / 100;
-        const verticalPercent = boardBoundingRect.height / 100;
-
         const position = "position: absolute";
-        const left = `left: ${boardBoundingRect.left + leftPercent * horizontalPercent}px`;
-        const top = `top: ${boardBoundingRect.top + topPercent * verticalPercent}px`;
-        const width = `width: ${widthPercent * horizontalPercent}px`;
-        const height = `height: ${heightPercent * verticalPercent}px`;
+        const left = `left: ${leftPercent}%`;
+        const top = `top: ${topPercent}%`;
+        const width = `width: ${widthPercent}%`;
+        const height = `height: ${heightPercent}%`;
         return [position, left, top, width, height].join("; ");
     });
 
@@ -209,17 +170,7 @@
     });
 </script>
 
-<div
-    class="game"
-    bind:this={gameContainer}
->
-    <img
-        class="board"
-        alt="board"
-        src={imgURL("board", "jpg")}
-        bind:this={boardImage}
-    />
-
+<div class="game">
     {#each players as player, i}
         {#each rows as _, j}
             {@const isMe = player === "me"}
@@ -252,19 +203,19 @@
         </div>
     {/each}
 
-    <div style={passButtonPosition}>
+    <div style={getPosition(17, 0, 80.5, 0)}>
         <PassButton/>
     </div>
-    <div style={handPosition}>
+    <div style={getPosition(laneLeftPercent, 49.4, 77.8, 12)}>
         <Hand/>
     </div>
-    <div style={weatherPosition}>
+    <div style={getPosition(7.3, 14.6, 41.3, 13)}>
         <Weather/>
     </div>
-    <div style={soundtrackTogglePosition}>
+    <div style={getPosition(26, 3.5, 81, 6)}>
         <SoundtrackToggle/>
     </div>
-    <div style={selectedCardPosition}>
+    <div style={getPosition(79.3, 17, 20, 56.3)}>
         <SelectedCard/>
     </div>
     <Notification/>
@@ -275,19 +226,10 @@
 
 <style>
     .game {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         position: relative;
-        background-color: rgba(10,10,10,.95);
         z-index: 0;
-    }
-
-    .board {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
     }
 
     :global(.hoverable) {

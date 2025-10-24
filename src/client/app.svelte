@@ -2,18 +2,54 @@
     import {Router, Route} from "svelte5-router";
     import DeckBuilder from "./routes/deck_builder.svelte";
     import Game from "./routes/game.svelte";
+    import Board from "./components/board.svelte";
+    import type {Rect} from "./types/rect";
 
     import.meta.glob(["./css/**/*.css"], {eager: true});
+
+    let boardBoundingRect = $state<Rect>({
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+    });
+
+    const setBoardBoundingRect = (rect: Rect): void => {
+        boardBoundingRect = rect;
+    };
 </script>
 
 <Router url="">
-    <div>
-        <Route path="/" component={DeckBuilder}/>
-        <Route path="/game" component={Game}/>
+    <div class="container">
+        <div
+            class="content"
+            style:left={`${boardBoundingRect.left}px`}
+            style:top={`${boardBoundingRect.top}px`}
+            style:width={`${boardBoundingRect.width}px`}
+            style:height={`${boardBoundingRect.height}px`}
+        >
+            <Route path="/" component={DeckBuilder}/>
+            <Route path="/game" component={Game}/>
+        </div>
+        <Board setBoundingRect={setBoardBoundingRect}/>
+
     </div>
 </Router>
 
 <style>
+    .container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(10,10,10,.95);
+        z-index: 0;
+    }
+
+    .content {
+        position: absolute;
+        overflow: hidden;
+    }
+
     :global(p, h1, h2, body) {
         margin: 0;
     }

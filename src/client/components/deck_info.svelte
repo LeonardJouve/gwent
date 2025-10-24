@@ -45,19 +45,19 @@
 </script>
 
 <div class="deck-info">
-    <p>Leader</p>
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        class="leader"
-        onclick={handleSelectLeader}
-    >
-        <div class={[largeClass(leader), "width"]}></div>
+    <div class="stats">
+        <p>Leader</p>
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+            onclick={handleSelectLeader}
+            class={[largeClass(leader), "leader"]}
+        ></div>
+        <DeckStats
+            deck={deck}
+            setIsDeckValid={handleIsDeckValid}
+        />
     </div>
-    <DeckStats
-        deck={deck}
-        setIsDeckValid={handleIsDeckValid}
-    />
     <SoundtrackToggle/>
     <form
         class="form"
@@ -85,8 +85,8 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        grid-area: info;
         color: tan;
+        height: 100%;
     }
 
     .queue {
@@ -95,12 +95,21 @@
     }
 
     .leader {
-        width: 70%;
+        width: 50%;
     }
 
     .form {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
+    }
+
+    .stats {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: scroll;
+        width: 100%;
+        gap: 10px;
     }
 </style>

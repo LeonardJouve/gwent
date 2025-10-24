@@ -128,64 +128,62 @@
         />
         <h2>Cards in Deck</h2>
     </div>
-    <div class="bank">
-        <CardList
-            cards={bank}
-            onClick={handleAddToDeck}
-        />
-    </div>
-    <div class="info">
-        <DeckInfo
-            leader={leader}
-            deck={deck}
-            onSelectLeader={handleSelectLeader}
-            isInQueue={isInQueue}
-            onQueue={handleQueue}
-        />
-    </div>
-    <div class="deck">
-        <CardList
-            cards={deck}
-            onClick={handleRemoveFromDeck}
-        />
+    <div class="content">
+        <div class="bank">
+            <CardList
+                cards={bank}
+                onClick={handleAddToDeck}
+            />
+        </div>
+        <div class="info">
+            <DeckInfo
+                leader={leader}
+                deck={deck}
+                onSelectLeader={handleSelectLeader}
+                isInQueue={isInQueue}
+                onQueue={handleQueue}
+            />
+        </div>
+        <div class="deck">
+            <CardList
+                cards={deck}
+                onClick={handleRemoveFromDeck}
+            />
+        </div>
     </div>
     <GameCarousel/>
 </section>
 
 <style>
     .deck-maker {
-        display: grid;
-        grid-template-areas:
-            "header header header"
-            "bank info deck";
-        grid-template-columns: 1fr auto 1fr;
-        grid-template-rows: auto 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 10px;
         box-sizing: border-box;
-        max-width: 100vw;
-        max-height: 100vh;
-        padding: 35px 60px 35px 60px;
-        background-color: rgba(10,10,10,.95);
+        width: 100%;
+        height: 100%;
+        padding: 35px 60px 0px 60px;
+        background-color: rgba(10,10,10,.75);
         color: white;
     }
 
-    .bank {
-        grid-area: bank;
+    .bank, .deck {
+        flex: 3;
         overflow-y: scroll;
     }
 
     .info {
-        grid-area: info;
-        display: flex;
+        flex: 1;
     }
 
-    .deck {
-        grid-area: deck;
-        overflow-y: scroll;
+    .content {
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        gap: 5px;
     }
 
     .header {
-        grid-area: header;
         display: flex;
         justify-content: space-between;
         align-items: center;
