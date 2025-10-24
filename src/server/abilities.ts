@@ -108,8 +108,12 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 .getUnits()
                 .filter((card) => !card.abilities.includes("hero") && !card.abilities.includes("decoy"));
 
+            if (!units) {
+                return;
+            }
+
             const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
-            if (card.type !== "unit") {
+            if (card?.type !== "unit") {
                 return;
             }
 
