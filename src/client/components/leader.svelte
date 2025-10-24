@@ -15,7 +15,6 @@
 
     const handleSelect = (card: CardData) => {
         openCarousel({
-            amount: 1,
             isClosable: true,
             cards: [card],
             onClose: () => {

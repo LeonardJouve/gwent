@@ -3,7 +3,7 @@ import Listeners from "./listeners.js";
 import type {PlayerIndex, RoundResult} from "./types/game.js";
 import type {CardData} from "@shared/types/card.js";
 import type {NotificationName} from "@shared/types/notification.js";
-import type {ServerSideSocket} from "@shared/types/socket.js";
+import type {CardSelection, ServerSideSocket} from "@shared/types/socket.js";
 import type {Play, State} from "@shared/types/game.js";
 import type {PlayerIndicator} from "@shared/types/player.js";
 import type {RoundResult as SocketRoundResult} from "@shared/types/game.js";
@@ -14,7 +14,7 @@ export default class Match extends Listeners {
     static matches = new Map<string, Match>();
     public id: string;
     private playerIds: string[];
-    private sockets: ServerSideSocket[];
+    private sockets: (ServerSideSocket|null)[];
     private game: Game;
 
     constructor(playerDatas: (Matchmake & {id: string})[]) {
@@ -32,7 +32,7 @@ export default class Match extends Listeners {
 
     join(socket: ServerSideSocket): boolean {
         const playerIndex = this.playerIds.findIndex((playerId) => socket.data.id === playerId);
-        if (playerIndex === -1 || this.sockets.some(({data}) => data.id === socket.data.id)) {
+        if (playerIndex === -1 || this.sockets.some((s) => s?.data.id === socket.data.id)) {
             return false;
         }
 
@@ -64,20 +64,23 @@ export default class Match extends Listeners {
     }
 
     async askStart(playerIndex: PlayerIndex): Promise<PlayerIndex> {
-        const player = await new Promise<PlayerIndicator>((resolve) => this.sockets[playerIndex].emit("ask_start", resolve));
+        const player = await new Promise<PlayerIndicator>((resolve) => this.sockets[playerIndex]?.emit("ask_start", resolve));
         return player === "me" ? playerIndex : this.game.getOpponentIndex(playerIndex);
     }
 
-    selectCards(playerIndex: PlayerIndex, cards: CardData[], amount: number, isClosable: boolean, startIndex = 0): Promise<CardData[]> {
-        return new Promise<CardData[]>((resolve) => this.sockets[playerIndex].emit("select_cards", cards, amount, isClosable, startIndex, (filenames) => resolve(filenames.map(deserialize))));
+    selectCard(playerIndex: PlayerIndex, cards: CardData[], isClosable: boolean, startIndex = 0): Promise<CardSelection|null> {
+        return new Promise<CardSelection|null>((resolve) => this.sockets[playerIndex]?.emit("select_card", cards, isClosable, startIndex, (selection) => resolve(selection ? {
+            item: deserialize(selection.item),
+            index: selection.index,
+        } : null)));
     }
 
     showCards(playerIndex: PlayerIndex, cards: CardData[]): Promise<void> {
-        return new Promise<void>((resolve) => this.sockets[playerIndex].emit("show_cards", cards, resolve));
+        return new Promise<void>((resolve) => this.sockets[playerIndex]?.emit("show_cards", cards, resolve));
     }
 
     notify(playerIndex: PlayerIndex, name: NotificationName): void {
-        this.sockets[playerIndex].emit("notify", name);
+        this.sockets[playerIndex]?.emit("notify", name);
     }
 
     showResults(playerIndex: PlayerIndex, results: RoundResult[], winner: PlayerIndex|null): void {
@@ -103,16 +106,16 @@ export default class Match extends Listeners {
             }),
         }));
 
-        this.sockets[playerIndex].emit("show_results", socketResults, winnerIndicator);
+        this.sockets[playerIndex]?.emit("show_results", socketResults, winnerIndicator);
 
         this.remove();
     }
 
     askPlay(playerIndex: PlayerIndex): Promise<Play> {
-        return new Promise<Play>((resolve) => this.sockets[playerIndex].emit("ask_play", resolve));
+        return new Promise<Play>((resolve) => this.sockets[playerIndex]?.emit("ask_play", resolve));
     }
 
     sendState(playerIndex: PlayerIndex, state: State): void {
-        this.sockets[playerIndex].emit("send_state", state);
+        this.sockets[playerIndex]?.emit("send_state", state);
     }
 }

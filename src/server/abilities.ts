@@ -108,17 +108,17 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 .getUnits()
                 .filter((card) => !card.abilities.includes("hero") && !card.abilities.includes("decoy"));
 
-            if (!units) {
+            if (!units.length) {
                 return;
             }
 
-            const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
-            if (card?.type !== "unit") {
+            const {item} = await game.listeners.selectCard(playerIndex, units, false);
+            if (item.type !== "unit") {
                 return;
             }
 
-            playerRow.remove(card);
-            game.getPlayerCards(playerIndex).hand.push(card);
+            playerRow.remove(item);
+            game.getPlayerCards(playerIndex).hand.push(item);
         },
     },
     scorch: {
@@ -165,7 +165,8 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             if (game.getOptions().randomRespawn) {
                 [card] = Cards.getRandom(units, 1);
             } else {
-                [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
+                const {item} = await game.listeners.selectCard(playerIndex, units, false);
+                card = item;
             }
 
             playerCards.restore(card);
@@ -215,12 +216,12 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 return;
             }
 
-            const [card] = await game.listeners.selectCards(playerIndex, units, 1, false);
-            const index = opponentGrave.findIndex(({filename}) => filename === card.filename);
+            const {item} = await game.listeners.selectCard(playerIndex, units, false);
+            const index = opponentGrave.findIndex(({filename}) => filename === item.filename);
             if (index !== -1) {
                 opponentGrave.splice(index, 1);
             }
-            game.getPlayerCards(playerIndex).hand.push(card);
+            game.getPlayerCards(playerIndex).hand.push(item);
         },
     },
     emhyr_invader: {
@@ -231,13 +232,13 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
     },
     eredin_bringer_of_death: {
         onPlaced: async (game, playerIndex) => {
-            const playerCards = game.getPlayerCards(playerIndex);
-            if (!playerCards.grave.length) {
+            const {grave} = game.getPlayerCards(playerIndex);
+            if (!grave.length) {
                 return;
             }
 
-            const [card] = await game.listeners.selectCards(playerIndex, playerCards.grave, 1, false);
-            game.getPlayerCards(playerIndex).restore(card);
+            const {item} = await game.listeners.selectCard(playerIndex, grave, false);
+            game.getPlayerCards(playerIndex).restore(item);
         },
     },
     eredin_destroyer: {
@@ -245,18 +246,22 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             const playerCards = game.getPlayerCards(playerIndex);
             const {hand, deck} = playerCards;
 
-            const toDiscard = await game.listeners.selectCards(playerIndex, hand, 2, false);
-            playerCards.discard(...toDiscard);
+            let startIndex = 0;
+            for (let i = 0; i < 2; ++i) {
+                const {item: toDiscard, index} = await game.listeners.selectCard(playerIndex, hand, false, startIndex);
+                playerCards.discard(toDiscard);
+                startIndex = Math.max(index, hand.length - 1);
+            }
 
-            const [toDraw] = await game.listeners.selectCards(playerIndex, deck, 1, false);
+            const {item: toDraw} = await game.listeners.selectCard(playerIndex, deck, false);
             playerCards.drawCard(toDraw);
         },
     },
     eredin_king: {
         onPlaced: async (game, playerIndex) => {
             const weather = game.getPlayerCards(playerIndex).deck.filter(({type}) => type === "weather");
-            const [card] = await game.listeners.selectCards(playerIndex, weather, 1, false);
-            game.playCard(card, playerIndex);
+            const {item} = await game.listeners.selectCard(playerIndex, weather, false);
+            game.playCard(item, playerIndex);
         },
     },
     eredin_treacherous: {

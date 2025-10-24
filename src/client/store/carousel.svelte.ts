@@ -1,31 +1,29 @@
 import type {CardData} from "@shared/types/card";
+import type {CardSelection} from "@shared/types/socket";
 
 export type Modal = {
     isOpen: true;
     cards: CardData[];
-    amount: number;
     isClosable: boolean;
     startIndex?: number;
-    onClose: (cards: CardData[]) => void;
+    onClose: (selection: CardSelection|null) => void;
 };
 
 type CarouselStore = Modal | {
     isOpen: false;
     cards?: CardData[];
-    amount?: number;
     isClosable?: boolean;
     startIndex?: number;
-    onClose?: (cards: CardData[]) => void;
+    onClose?: (selection: CardSelection|null) => void;
 };
 
 export const store = $state<CarouselStore>({isOpen: false});
 
-export const openCarousel = ({amount, onClose, isClosable, cards, startIndex}: Omit<Modal, "isOpen">): void => {
+export const openCarousel = ({onClose, isClosable, cards, startIndex}: Omit<Modal, "isOpen">): void => {
     if (!cards.length) {
         return;
     }
 
-    store.amount = amount;
     store.onClose = onClose;
     store.isClosable = isClosable;
     store.cards = cards;
@@ -33,11 +31,10 @@ export const openCarousel = ({amount, onClose, isClosable, cards, startIndex}: O
     store.isOpen = true;
 };
 
-export const closeCarousel = (cards: CardData[] = []): void => {
-    store.onClose?.(cards);
+export const resetCarousel = (): void => {
+    store.onClose = undefined;
     store.isOpen = false;
     store.cards = undefined;
-    store.amount = undefined;
     store.isClosable = undefined;
     store.onClose = undefined;
 };

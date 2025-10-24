@@ -9,11 +9,20 @@ import type {PlayerIndicator} from "./player.js";
 
 export type ClientToServerEvents = never;
 
+export type CarouselSelection<T> = {
+    item: T;
+    index: number;
+};
+
+export type CardSelection = CarouselSelection<CardData>;
+
+export type SerializedCardSelection = CarouselSelection<SerializedCard>;
+
 export type ServerToClientEvents = {
     get_data: (callback: (data: SocketData) => void) => void;
     ask_start: (callback: (player: PlayerIndicator) => void) => void;
     ask_play: (callback: (play: Play) => void) => void;
-    select_cards: (cards: CardData[], amount: number, isClosable: boolean, startIndex: number, callback: (cards: SerializedCard[]) => void) => void;
+    select_card: (cards: CardData[], isClosable: boolean, startIndex: number, callback: (selection: SerializedCardSelection|null) => void) => void;
     notify: (name: NotificationName) => void;
     show_cards: (cards: CardData[], callback: () => void) => void;
     show_results: (results: RoundResult[], winner: PlayerIndicator|null) => void;

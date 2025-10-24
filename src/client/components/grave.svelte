@@ -15,7 +15,6 @@
     const handleOpenCarousel = (): void => openCarousel({
         cards: grave,
         isClosable: true,
-        amount: 1,
         onClose: () => {},
     });
 </script>

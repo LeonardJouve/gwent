@@ -14,7 +14,7 @@
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import type {FactionName} from "@shared/types/faction";
     import type {SerializedMatchmake} from "@shared/types/matchmake";
-    import {closeCarousel} from "../store/carousel.svelte";
+    import {resetCarousel} from "../store/carousel.svelte";
     import {clearNotifications} from "../store/notifications.svelte";
 
     const lastFactionName = getLastFaction() || "realms";
@@ -66,7 +66,7 @@
     let abortController = $state<AbortController>(new AbortController());
 
     onMount(() => {
-        closeCarousel();
+        resetCarousel();
         clearNotifications();
     });
 

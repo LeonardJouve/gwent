@@ -2,6 +2,7 @@
     import type {CardData} from "@shared/types/card";
     import Card from "../components/card.svelte";
     import {openCarousel} from "../store/carousel.svelte";
+    import type {CardSelection} from "@shared/types/socket";
 
     type Props = {
         cards: CardData[];
@@ -28,16 +29,13 @@
 
     const handleOpenCarousel = (index?: number) => openCarousel({
         cards,
-        amount: 1,
         startIndex: index,
         isClosable: true,
-        onClose: (cards: CardData[]) => {
-            if (!cards.length) {
+        onClose: (selection: CardSelection|null) => {
+            if (!selection) {
                 return;
             }
-
-            const [card] = cards;
-            onSelect?.(card);
+            onSelect?.(selection.item)
         },
     });
 

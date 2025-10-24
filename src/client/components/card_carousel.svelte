@@ -2,14 +2,14 @@
     import Carousel from "../components/carousel.svelte";
     import LargeCard from "../components/large_card.svelte";
     import CardDescription from "../components/card_description.svelte";
-    import {type CardData} from "@shared/types/card";
+    import type {CardData} from "@shared/types/card";
+    import type {CardSelection} from "@shared/types/socket";
 
     type Props = {
-        onClose: (cards: CardData[]) => void;
+        onClose: (selection: CardSelection|null) => void;
         cards: CardData[];
         isClosable?: boolean;
         startIndex?: number;
-        amount?: number;
     };
     const {cards, ...props}: Props = $props();
 </script>

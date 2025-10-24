@@ -1,5 +1,5 @@
 import {io} from "socket.io-client";
-import type {SocketData, ClientSideSocket} from "@shared/types/socket";
+import type {SocketData, ClientSideSocket, SerializedCardSelection, CardSelection} from "@shared/types/socket";
 import type {Play, RoundResult, State} from "@shared/types/game";
 import {store as gameStore} from "../store/game.svelte";
 import {store as notificationStore} from "../store/notifications.svelte";
@@ -25,7 +25,7 @@ export class SocketHandler {
         this.socket.on("send_state", SocketHandler.handleSendState);
         this.socket.on("ask_start", SocketHandler.handleAskStart);
         this.socket.on("ask_play", SocketHandler.handleAskPlay);
-        this.socket.on("select_cards", SocketHandler.handleSelectCards);
+        this.socket.on("select_card", SocketHandler.handleSelectCards);
         this.socket.on("notify", SocketHandler.handleNotify);
         this.socket.on("show_cards", SocketHandler.handleShowCards);
         this.socket.on("show_results", SocketHandler.handleShowResults);
@@ -56,13 +56,17 @@ export class SocketHandler {
         };
     }
 
-    static handleSelectCards(cards: CardData[], amount: number, isClosable: boolean, startIndex: number, callback: (cards: CardData["filename"][]) => void): void {
+    static handleSelectCards(cards: CardData[], isClosable: boolean, startIndex: number, callback: (selection: SerializedCardSelection|null) => void): void {
         openCarousel({
-            amount,
             isClosable,
             startIndex,
             cards,
-            onClose: (c: CardData[]): void => callback(c.map(serialize)),
+            onClose: (selection: CardSelection|null): void => {
+                callback(selection ? {
+                    item: serialize(selection.item),
+                    index: selection.index,
+                } : null);
+            },
         });
     }
 
@@ -72,7 +76,6 @@ export class SocketHandler {
 
     static handleShowCards(cards: CardData[], callback: () => void): void {
         openCarousel({
-            amount: 1,
             isClosable: true,
             cards,
             onClose: callback,

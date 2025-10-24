@@ -27,20 +27,19 @@
     };
 
     const handleSelectLeader = () => {
-        const c = cardsArray.filter(({faction, type}) => (faction === "neutral" || faction === leader.faction) && type === "leader");
+        const cards = cardsArray.filter(({faction, type}) => (faction === "neutral" || faction === leader.faction) && type === "leader");
 
         openCarousel({
-            amount: 1,
             isClosable: true,
-            startIndex: c.findIndex(({filename}) => filename === leader.filename),
-            onClose: ([card]) => {
-                if (card?.type !== "leader") {
+            startIndex: cards.findIndex(({filename}) => filename === leader.filename),
+            onClose: (selection) => {
+                if (selection?.item.type !== "leader") {
                     return;
                 }
 
-                onSelectLeader(card);
+                onSelectLeader(selection.item);
             },
-            cards: c,
+            cards,
         });
     };
 

@@ -255,13 +255,13 @@ export default class Game {
                 }
 
                 const {hand} = player.cards;
-                const [card] = await this.listeners.selectCards(playerIndex, hand, 1, true, startIndex);
-                startIndex = hand.findIndex(({filename}) => filename === card.filename);
-                if (!card) {
+                const selection = await this.listeners.selectCard(playerIndex, hand, true, startIndex);
+                if (!selection) {
                     break;
                 }
+                startIndex = selection.index;
 
-                player.cards.redraw(card);
+                player.cards.redraw(selection.item);
                 this.sendState();
             }
         }));

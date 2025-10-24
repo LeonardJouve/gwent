@@ -1,9 +1,10 @@
 <script lang="ts" generics="T = CardData">
-    import type {CardData} from "@shared/types/card";
     import {onMount, type Snippet} from "svelte";
+    import type {CardData} from "@shared/types/card";
+    import type {CarouselSelection} from "@shared/types/socket";
 
     type Props = {
-        onClose: (items: T[]) => void;
+        onClose: (selection: CarouselSelection<T>|null) => void;
         items: T[];
         isClosable?: boolean;
         startIndex?: number;
@@ -15,12 +16,10 @@
         items,
         isClosable,
         render,
-        amount = 1,
         startIndex = 0,
     }: Props = $props();
 
     let index = $state(startIndex);
-    const selectedItems = $state<T[]>([]);
 
     let modal: HTMLDialogElement;
 
@@ -30,25 +29,24 @@
     const currentSlide = $derived(items[index]);
     const rightSlides = $derived(items.slice(index + 1));
 
-    const handleClose = $derived(() => {
-        onClose(selectedItems);
+    const handleClose = $derived((selection: CarouselSelection<T>|null) => {
+        onClose(selection);
         modal.close();
     });
 
     const handleSelect = $derived((event: Event) => {
         event.stopPropagation();
-        selectedItems.push(currentSlide);
-
-        if (selectedItems.length === amount) {
-            handleClose();
-        }
+        handleClose({
+            item: currentSlide,
+            index,
+        });
     });
 
     const handleBackdropClick = $derived((event: Event) => {
         event.stopPropagation();
 
         if (isClosable) {
-            handleClose();
+            handleClose(null);
         }
     });
 

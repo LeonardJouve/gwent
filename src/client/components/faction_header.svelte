@@ -4,6 +4,7 @@
     import Carousel from "../components/carousel.svelte";
     import Description from "./description.svelte";
     import factions from "@shared/factions";
+    import type {CarouselSelection} from "@shared/types/socket";
 
     type Props = {
         faction: Faction;
@@ -18,14 +19,14 @@
 
     const handleOpenCarousel = () => isCarouselOpen = true;
 
-    const handleCloseCarousel = ([newFaction]: FactionName[]) => {
+    const handleCloseCarousel = (selection: CarouselSelection<FactionName>|null) => {
         isCarouselOpen = false;
 
-        if (!newFaction) {
+        if (!selection) {
             return;
         }
 
-        onChangeFaction(newFaction);
+        onChangeFaction(selection.item);
     };
 </script>
 
