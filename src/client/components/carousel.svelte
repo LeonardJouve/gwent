@@ -35,16 +35,16 @@
         modal.close();
     });
 
-    const handleSelect = $derived((event: MouseEvent, item: T) => {
+    const handleSelect = $derived((event: Event) => {
         event.stopPropagation();
-        selectedItems.push(item);
+        selectedItems.push(currentSlide);
 
         if (selectedItems.length === amount) {
             handleClose();
         }
     });
 
-    const handleBackdropClick = $derived((event: MouseEvent) => {
+    const handleBackdropClick = $derived((event: Event) => {
         event.stopPropagation();
 
         if (isClosable) {
@@ -52,16 +52,67 @@
         }
     });
 
-    const handleClick = (event: MouseEvent, _: T, i: number) => {
+    const handleClick = (event: Event, i: number) => {
         event.stopPropagation();
         index = i;
     };
+
+    const handleLeft = () => {
+        if (index <= 0) {
+            return;
+        }
+
+        --index;
+    };
+
+    const handleRight = () => {
+        if (index >= items.length - 1) {
+            return;
+        }
+
+        ++index;
+    };
+
+    const handleKeydown = (event: KeyboardEvent) => {
+        switch (event.key) {
+        case "ArrowLeft":
+            event.preventDefault();
+            handleLeft();
+            break;
+        case "ArrowRight":
+            event.preventDefault();
+            handleRight();
+            break;
+        case " ":
+        case "Spacebar":
+            event.preventDefault();
+            handleSelect(event);
+            break;
+        case "Escape":
+            event.preventDefault();
+            handleBackdropClick(event);
+            break;
+        }
+    };
+
+    const handleWheel = (event: WheelEvent) => {
+        event.stopPropagation();
+
+        if (event.deltaY > 0) {
+            handleLeft();
+        } else {
+            handleRight();
+        }
+    };
 </script>
+
+<svelte:window onkeydown={handleKeydown}/>
 
 <dialog
     class="modal"
     bind:this={modal}
     onclick={handleBackdropClick}
+    onwheel={handleWheel}
 >
     <div class="carousel">
         <div class="side">
@@ -70,12 +121,12 @@
                     class="slide"
                     style:width={`calc(100% / 2 - ${(i + 1) * 5}%)`}
                 >
-                    {@render render(slide, false, (event) => handleClick(event, slide, leftSlides.length - i - 1))}
+                    {@render render(slide, false, (event) => handleClick(event, leftSlides.length - i - 1))}
                 </div>
             {/each}
         </div>
         <div class="center">
-            {@render render(currentSlide, true, (event) => handleSelect(event, currentSlide))}
+            {@render render(currentSlide, true, handleSelect)}
         </div>
         <div class="side">
             {#each rightSlides as slide, i}
@@ -83,7 +134,7 @@
                     class="slide"
                     style:width={`calc(100% / 2 - ${(i + 1) * 5}%)`}
                 >
-                    {@render render(slide, false, (event) => handleClick(event, slide, leftSlides.length + i + 1))}
+                    {@render render(slide, false, (event) => handleClick(event, leftSlides.length + i + 1))}
                 </div>
             {/each}
         </div>
