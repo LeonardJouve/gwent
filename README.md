@@ -8,15 +8,16 @@ TO TEST:
 - Scorch close
 - Players are swapped
 - Decoy on empty row
+- Scorch decoy
 
 - Refresh page should redirect to lobby
 - Center change faction
 - Scroll bar style
 - Font size card in hand amount, row / player score
-- Scorch decoy
 - North ability
 - Edge double click opens menu
 - More than 10 cards on hand
+- Safari style
 
 src/server/cards.ts -> filterCards
 file:///app/dist/index.js:44

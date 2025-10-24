@@ -120,13 +120,13 @@ export default class Game {
 
         const maxScore = Math.max(...rows.flatMap(({row}) => row
             .getUnits()
-            .filter((card) => !card.abilities.includes("hero"))
+            .filter((card) => !card.abilities.includes("hero") && !card.abilities.includes("decoy"))
             .map((card) => row.getCardScore(card))));
 
         rows.forEach(({row, i}) => row.remove(...row
             .getUnits()
             .filter((card) => {
-                if (row.getCardScore(card) !== maxScore || card.abilities.includes("hero")) {
+                if (row.getCardScore(card) !== maxScore || card.abilities.includes("hero") || card.abilities.includes("decoy")) {
                     return false;
                 }
 
