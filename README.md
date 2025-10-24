@@ -4,9 +4,11 @@ TODOS:
 - #each with keys
 - Card animations
 
-- Decoy on empty row
+TO TEST:
 - Scorch close
 - Players are swapped
+
+- Decoy on empty row
 - Refresh page should redirect to lobby
 - Center change faction
 - Scroll bar style

@@ -51,10 +51,10 @@ const tryStartGame = (): void => {
     const match = new Match(players.map(({resolve: _resolve, context: _context, ...data}) => data));
     Match.matches.set(match.id, match);
 
-    players.forEach(({resolve, context, ...data}) => {
+    players.forEach(({resolve, context, id}) => {
         resolve(context.json({
             matchId: match.id,
-            id: data.id,
+            id,
         } satisfies SocketData, {status: 200}));
     });
 };

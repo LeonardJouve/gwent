@@ -27,17 +27,17 @@ export default class Match extends Listeners {
         this.game = new Game(this, playerDatas);
         this.playerIds = playerDatas.map(({id}) => id);
         this.id = crypto.randomUUID();
-        this.sockets = [];
+        this.sockets = [null, null];
     }
 
     join(socket: ServerSideSocket): boolean {
-        if (!this.playerIds.includes(socket.data.id) || this.sockets.some(({data}) => data.id === socket.data.id)) {
+        const playerIndex = this.playerIds.findIndex((playerId) => socket.data.id === playerId);
+        if (playerIndex === -1 || this.sockets.some(({data}) => data.id === socket.data.id)) {
             return false;
         }
 
-        const playerIndex = this.sockets.length;
+        this.sockets[playerIndex] = socket;
         socket.on("disconnect", () => this.handleDisconnect(playerIndex));
-        this.sockets.push(socket);
 
         this.tryStartMatch();
 
@@ -52,7 +52,7 @@ export default class Match extends Listeners {
     }
 
     private async tryStartMatch(): Promise<void> {
-        if (this.sockets.length !== 2) {
+        if (this.sockets.some((socket) => !socket)) {
             return;
         }
 
