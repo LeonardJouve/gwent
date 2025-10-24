@@ -10,5 +10,5 @@
         isClosable={store.isClosable}
         onClose={closeCarousel}
         startIndex={store.startIndex}
-    />closeCarousel
+    />
 {/if}
