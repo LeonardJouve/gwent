@@ -6,21 +6,20 @@ TODOS:
 
 - Escape on carousel bugs it
 - Arrows on carousel / space / mouse wheel
-- Center change faction
-- Padding input button
-- Scroll bar style
 - Redraw a card reopens carousel from index 0
-- Scorch close
-- Refresh page should redirect to lobby
-- Save username
-- Players are swapped
 - Decoy on empty row
+- Scorch close
+- Players are swapped
+- Refresh page should redirect to lobby
+- Center change faction
+- Scroll bar style
 - Font size card in hand amount, row / player score
 - Scorch decoy
 - North ability
 - Edge double click opens menu
 - More than 10 cards on hand
 
+src/server/cards.ts -> filterCards
 file:///app/dist/index.js:44
       const playingCardIndex = c.findIndex(({ filename }) => filename === card.filename);
                                               ^

@@ -5,6 +5,7 @@
     import type {CardData, LeaderCardData} from "@shared/types/card";
     import {openCarousel} from "../store/carousel.svelte";
     import {cardsArray} from "@shared/cards";
+    import {getLastUsername, setLastUsername} from "../utils/local_storage";
 
     type Props = {
         leader: LeaderCardData;
@@ -15,7 +16,7 @@
     };
     const {leader, deck, isInQueue, onSelectLeader, onQueue}: Props = $props();
 
-    let username = $state<string>("");
+    let username = $state<string>(getLastUsername() ?? "");
     let isDeckValid = $state<boolean>(false);
 
     const handleIsDeckValid = (isValid: boolean) => isDeckValid = isValid;
@@ -41,6 +42,14 @@
             },
             cards: c,
         });
+    };
+
+    const handleUsername = (e: Event) => {
+        if (!(e.target instanceof HTMLInputElement)) {
+            return;
+        }
+
+        setLastUsername(e.target.value);
     };
 </script>
 
@@ -68,6 +77,7 @@
             required={true}
             placeholder="Username"
             bind:value={username}
+            oninput={handleUsername}
         />
         <button
             type="submit"

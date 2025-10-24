@@ -62,3 +62,14 @@ export const getFactionDeck = (faction: FactionName): Deck => {
         }),
     };
 };
+
+const LAST_USERNAME_KEY = "last-username";
+
+export const setLastUsername = (username: string): void => {
+    localStorage.setItem(LAST_USERNAME_KEY, username);
+};
+
+export const getLastUsername = (): string|null => {
+    const lastUsername = localStorage.getItem(LAST_USERNAME_KEY);
+    return lastUsername || null;
+};
