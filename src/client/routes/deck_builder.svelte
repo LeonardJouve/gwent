@@ -185,7 +185,18 @@
 
     .header {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
+        position: relative;
+
+        :first-child {
+            position: absolute;
+            left: 0px;
+        }
+
+        :last-child {
+            position: absolute;
+            right: 0px;
+        }
     }
 </style>

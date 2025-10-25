@@ -10,14 +10,15 @@ TO TEST:
 - Decoy on empty row
 - Scorch decoy
 - Refresh page should redirect to lobby
-
 - Center change faction
+
+- Replace playerIndex with id
 - Scroll bar style
 - Font size card in hand amount, row / player score
 - North ability
 - Edge double click opens menu
 - More than 10 cards on hand
-- Safari style
+- Safari style -> height is set but not width
 
 src/server/cards.ts -> filterCards
 file:///app/dist/index.js:44
