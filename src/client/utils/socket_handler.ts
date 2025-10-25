@@ -12,9 +12,11 @@ import type {PlayerIndicator} from "@shared/types/player";
 export class SocketHandler {
     private socketData: SocketData;
     private socket: ClientSideSocket;
+    private onDisconnect: () => void;
 
-    constructor(socketData: SocketData) {
+    constructor(socketData: SocketData, onDisconnect: () => void) {
         this.socketData = socketData;
+        this.onDisconnect = onDisconnect;
         this.socket = io();
 
         this.handle();
@@ -29,6 +31,11 @@ export class SocketHandler {
         this.socket.on("notify", SocketHandler.handleNotify);
         this.socket.on("show_cards", SocketHandler.handleShowCards);
         this.socket.on("show_results", SocketHandler.handleShowResults);
+        this.socket.on("disconnect", this.handleDisconnect.bind(this));
+    }
+
+    handleDisconnect() {
+        this.onDisconnect();
     }
 
     handleGetData(callback: (data: SocketData) => void): void {

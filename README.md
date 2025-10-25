@@ -9,8 +9,8 @@ TO TEST:
 - Players are swapped
 - Decoy on empty row
 - Scorch decoy
-
 - Refresh page should redirect to lobby
+
 - Center change faction
 - Scroll bar style
 - Font size card in hand amount, row / player score

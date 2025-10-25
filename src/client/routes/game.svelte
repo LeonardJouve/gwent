@@ -56,7 +56,7 @@
                 matchId: url.searchParams.get("matchId"),
             });
 
-            socketHandler = new SocketHandler(socketData);
+            socketHandler = new SocketHandler(socketData, () => navigate("/"));
         } catch (_) {
             navigate("/");
         }
