@@ -12,6 +12,8 @@ TO TEST:
 - Refresh page should redirect to lobby
 - Center change faction
 
+- space to select card
+- arrows / a d to select card
 - Replace playerIndex with id
 - Scroll bar style
 - Font size card in hand amount, row / player score

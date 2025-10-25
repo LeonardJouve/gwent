@@ -72,17 +72,18 @@
     };
 
     const handleKeydown = (event: KeyboardEvent) => {
-        switch (event.key) {
+        switch (event.code) {
+        case "KeyA":
         case "ArrowLeft":
             event.preventDefault();
             handleLeft();
             break;
+        case "KeyD":
         case "ArrowRight":
             event.preventDefault();
             handleRight();
             break;
-        case " ":
-        case "Spacebar":
+        case "Space":
             event.preventDefault();
             handleSelect(event);
             break;
