@@ -7,7 +7,7 @@
     type Props = {
         cards: CardData[];
         scores?: number[];
-        onSelect?: (card: CardData) => void;
+        onSelect?: (card: CardData, index: number) => void;
         onClick?: () => void;
         canOpenCarousel?: boolean;
     };
@@ -21,13 +21,13 @@
 
     const handleClick = () => {
         if (canOpenCarousel) {
-            handleOpenCarousel();
+            handleOpenCarousel(0);
         }
 
         onClick?.();
     };
 
-    const handleOpenCarousel = (index?: number) => openCarousel({
+    const handleOpenCarousel = (index: number) => openCarousel({
         cards,
         startIndex: index,
         isClosable: true,
@@ -35,7 +35,7 @@
             if (!selection) {
                 return;
             }
-            onSelect?.(selection.item)
+            onSelect?.(selection.item, index);
         },
     });
 
@@ -43,7 +43,7 @@
         event.stopPropagation();
 
         if (onSelect) {
-            onSelect(card);
+            onSelect(card, index);
             return;
         }
 
