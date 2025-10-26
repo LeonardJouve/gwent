@@ -2,16 +2,18 @@
     import CardContainer from "./card_container.svelte";
     import {store} from "../store/game.svelte";
 
-    const canPlay = $derived(store.selectedCard?.type === "weather" && store.turn === "me" && store.askPlay);
+    const selectedCard = $derived(store.selectedIndex === undefined ? undefined : store.players["me"].hand[store.selectedIndex]);
+
+    const canPlay = $derived(selectedCard?.type === "weather" && store.turn === "me" && store.askPlay);
 
     const handleClick = () => {
-        if (!canPlay || !store.askPlay || store.selectedCard?.type !== "weather") {
+        if (!canPlay || !store.askPlay || selectedCard?.type !== "weather") {
             return;
         };
 
         store.askPlay({
             type: "card",
-            card: store.selectedCard.filename,
+            card: selectedCard.filename,
         });
     }
 </script>

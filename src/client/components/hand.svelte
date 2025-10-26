@@ -4,62 +4,55 @@
     import {store as carouselStore} from "../store/carousel.svelte";
     import type {CardData} from "@shared/types/card";
 
-    const handleSelect = $derived((_: CardData, index: number) => selectedIndex = index);
     const hand = $derived(gameStore.players["me"].hand);
-    let selectedIndex = $state<number|null>(null);
+    const selectedIndex = $derived<number|undefined>(gameStore.selectedIndex);
+    const selectedCard = $derived(selectedIndex === undefined ? undefined : gameStore.players["me"].hand[selectedIndex]);
 
-    $effect(() => {
-        if (selectedIndex === null) {
-            gameStore.selectedCard = undefined;
-        } else {
-            gameStore.selectedCard = hand[selectedIndex];
-        }
-    });
+    const handleSelect = (_: CardData, index: number) => gameStore.selectedIndex = index;
 
     const handleLeft = (event: Event) => {
         event.preventDefault();
 
-        if (selectedIndex === null) {
-            selectedIndex = 0;
+        if (selectedIndex === undefined) {
+            gameStore.selectedIndex = 0;
         } else {
-            selectedIndex = Math.max(0, selectedIndex - 1);
+            gameStore.selectedIndex = Math.max(0, selectedIndex - 1);
         }
     };
 
     const handleRight = (event: Event) => {
         event.preventDefault();
 
-        if (selectedIndex === null) {
-            selectedIndex = 0;
+        if (selectedIndex === undefined) {
+            gameStore.selectedIndex = 0;
         } else {
-            selectedIndex = Math.min(hand.length - 1, selectedIndex + 1);
+            gameStore.selectedIndex = Math.min(hand.length - 1, selectedIndex + 1);
         }
     };
 
     const handlePlay = (event: Event) => {
         event.preventDefault();
 
-        if (gameStore.turn !== "me" || !gameStore.askPlay || !gameStore.selectedCard) {
+        if (gameStore.turn !== "me" || !gameStore.askPlay || !selectedCard) {
             return;
         }
 
-        if (gameStore.selectedCard.type !== "weather" && (gameStore.selectedCard.type !== "unit" || gameStore.selectedCard.rows.length !== 1)) {
+        if (selectedCard.type !== "weather" && (selectedCard.type !== "unit" || selectedCard.rows.length !== 1)) {
             return;
         }
 
-        selectedIndex = null;
         gameStore.askPlay({
             type: "card",
-            card: gameStore.selectedCard.filename,
-            row: gameStore.selectedCard.type === "unit" ?
-                gameStore.selectedCard.rows[0] :
+            card: selectedCard.filename,
+            row: selectedCard.type === "unit" ?
+                selectedCard.rows[0] :
                 undefined,
         });
     };
 
     const handleDeselect = (event: Event) => {
         event.preventDefault();
-        selectedIndex = null;
+        gameStore.selectedIndex = undefined;
     };
 
     const handleKeydown = (event: KeyboardEvent) => {

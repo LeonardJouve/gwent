@@ -124,50 +124,6 @@
 
         return getPosition(leftPercent, widthPercent, topPercents[index], heightPercent);
     });
-
-    const handPosition = $derived.by(() => {
-        const widthPercent = 49.4;
-        const heightPercent = 12;
-        const topPercent = 77.8;
-
-        return getPosition(laneLeftPercent, widthPercent, topPercent, heightPercent);
-    });
-
-    const weatherPosition = $derived.by(() => {
-        const leftPercent = 7.3;
-        const widthPercent = 14.6;
-        const heightPercent = 13;
-        const topPercent = 41.3;
-
-        return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
-    });
-
-    const soundtrackTogglePosition = $derived.by(() => {
-        const leftPercent = 26;
-        const widthPercent = 3.5;
-        const heightPercent = 6;
-        const topPercent = 81;
-
-        return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
-    });
-
-    const selectedCardPosition = $derived.by(() => {
-        const leftPercent = 79.3;
-        const widthPercent = 17;
-        const heightPercent = 56.3;
-        const topPercent = 20;
-
-        return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
-    });
-
-    const passButtonPosition = $derived.by(() => {
-        const leftPercent = 17;
-        const widthPercent = 0;
-        const heightPercent = 0;
-        const topPercent = 80.5;
-
-        return getPosition(leftPercent, widthPercent, topPercent, heightPercent);
-    });
 </script>
 
 <div class="game">

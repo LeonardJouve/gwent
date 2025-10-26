@@ -59,7 +59,7 @@ export class SocketHandler {
         gameStore.askPlay = (play: Play): void => {
             callback(play);
             gameStore.askPlay = undefined;
-            gameStore.selectedCard = undefined;
+            gameStore.selectedIndex = undefined;
         };
     }
 

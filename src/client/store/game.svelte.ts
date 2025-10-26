@@ -10,7 +10,7 @@ type GameResult = {
 };
 
 type GameStore = State & {
-    selectedCard?: CardData;
+    selectedIndex?: number;
     askPlay?: (play: Play) => void;
     askStart?: (player: PlayerIndicator) => void;
     result?: GameResult;
@@ -88,7 +88,7 @@ export const resetGame = () => {
     store.askPlay = undefined;
     store.askStart = undefined;
     store.result = undefined;
-    store.selectedCard = undefined;
+    store.selectedIndex = undefined;
     store.turn = "me";
     store.board = emptyGame.board;
     store.players = emptyGame.players;

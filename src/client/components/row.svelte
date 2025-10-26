@@ -12,17 +12,19 @@
     };
     const {rowName, player}: Props = $props();
 
+    const selectedCard = $derived(store.selectedIndex === undefined ? undefined : store.players["me"].hand[store.selectedIndex]);
+
     const row = $derived(store.board.rows[player][rowName]);
 
     const weather = $derived(getRowWeather(rowName));
 
-    const canPlay = $derived(store.selectedCard && store.turn === "me" && store.askPlay && (Number(player === "me") ^ Number(store.selectedCard.abilities.includes("spy"))));
+    const canPlay = $derived(selectedCard && store.turn === "me" && store.askPlay && (Number(player === "me") ^ Number(selectedCard.abilities.includes("spy"))));
 
     const handleRowClick = (type: CardData["type"]) => () => {
-        if (canPlay && store.selectedCard?.type === type) {
+        if (canPlay && selectedCard?.type === type) {
             store.askPlay?.({
                 type: "card",
-                card: store.selectedCard.filename,
+                card: selectedCard.filename,
                 row: rowName,
             });
         }

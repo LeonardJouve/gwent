@@ -3,14 +3,14 @@
     import LargeCard from "../components/large_card.svelte";
     import CardDescription from "../components/card_description.svelte";
 
-    const card = $derived(store.selectedCard);
+    const selectedCard = $derived(store.selectedIndex === undefined ? undefined : store.players["me"].hand[store.selectedIndex]);
 </script>
 
-{#if card}
+{#if selectedCard}
     <div class="selected-card">
-        <LargeCard card={card}/>
+        <LargeCard card={selectedCard}/>
         <div class="description">
-            <CardDescription card={card}/>
+            <CardDescription card={selectedCard}/>
         </div>
     </div>
 {/if}
