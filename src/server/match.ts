@@ -1,58 +1,64 @@
 import Game from "./game.js";
 import Listeners from "./listeners.js";
-import type {PlayerIndex, RoundResult} from "./types/game.js";
+import Cards from "./cards.js";
+import {deserialize} from "@shared/cards.js";
+import type {PlayerId, RoundResult} from "./types/game.js";
 import type {CardData} from "@shared/types/card.js";
 import type {NotificationName} from "@shared/types/notification.js";
 import type {CardSelection, ServerSideSocket} from "@shared/types/socket.js";
 import type {Play, State} from "@shared/types/game.js";
 import type {PlayerIndicator} from "@shared/types/player.js";
 import type {RoundResult as SocketRoundResult} from "@shared/types/game.js";
-import {deserialize} from "@shared/cards.js";
 import type {Matchmake} from "@shared/types/matchmake.js";
 
-export default class Match extends Listeners {
+export default class Match implements Listeners {
     static matches = new Map<string, Match>();
     public id: string;
-    private playerIds: string[];
-    private sockets: (ServerSideSocket|null)[];
+    private sockets: Record<PlayerId, ServerSideSocket|null>;
     private game: Game;
 
-    constructor(playerDatas: (Matchmake & {id: string})[]) {
-        super();
-
-        if (playerDatas.length !== 2) {
-            throw new Error("invalid player data amount");
+    constructor(playerDatas: Record<PlayerId, Matchmake>) {
+        const playerIds = Object.keys(playerDatas)
+        if (playerIds.length !== 2) {
+            throw new Error("invalid player amount");
         }
 
-        this.game = new Game(this, playerDatas);
-        this.playerIds = playerDatas.map(({id}) => id);
+        this.game = new Game(this, Object.fromEntries(Object.entries(playerDatas).map(([id, {deck, ...player}]) => [id, {
+            ...player,
+            leader: deck.leader,
+            cards: new Cards(deck.cards),
+            isLeaderAvailable: true,
+            gems: 2,
+            hasPassed: false,
+        }])));
+
         this.id = crypto.randomUUID();
-        this.sockets = [null, null];
+        this.sockets = Object.fromEntries(playerIds.map((id) => [id, null]));
     }
 
     join(socket: ServerSideSocket): boolean {
-        const playerIndex = this.playerIds.findIndex((playerId) => socket.data.id === playerId);
-        if (playerIndex === -1 || this.sockets.some((s) => s?.data.id === socket.data.id)) {
+        const {id} = socket.data;
+        if (this.sockets[id] !== null) {
             return false;
         }
 
-        this.sockets[playerIndex] = socket;
-        socket.on("disconnect", () => this.handleDisconnect(playerIndex));
+        this.sockets[id] = socket;
+        socket.on("disconnect", () => this.handleDisconnect(id));
 
         this.tryStartMatch();
 
         return true;
     }
 
-    handleDisconnect(playerIndex: PlayerIndex): void {
+    handleDisconnect(playerId: PlayerId): void {
         // TODO stop game
-        const otherPlayer = this.game.getOpponentIndex(playerIndex);
+        const otherPlayer = this.game.getOpponentId(playerId);
         this.notify(otherPlayer, "player_left");
         this.showResults(otherPlayer, [], otherPlayer);
     }
 
     private async tryStartMatch(): Promise<void> {
-        if (this.sockets.some((socket) => !socket)) {
+        if (Object.values(this.sockets).some((socket) => !socket)) {
             return;
         }
 
@@ -63,59 +69,49 @@ export default class Match extends Listeners {
         Match.matches.delete(this.id);
     }
 
-    async askStart(playerIndex: PlayerIndex): Promise<PlayerIndex> {
-        const player = await new Promise<PlayerIndicator>((resolve) => this.sockets[playerIndex]?.emit("ask_start", resolve));
-        return player === "me" ? playerIndex : this.game.getOpponentIndex(playerIndex);
+    async askStart(playerId: PlayerId): Promise<PlayerId> {
+        const player = await new Promise<PlayerIndicator>((resolve) => this.sockets[playerId].emit("ask_start", resolve));
+        return player === "me" ? playerId : this.game.getOpponentId(playerId);
     }
 
-    selectCard(playerIndex: PlayerIndex, cards: CardData[], isClosable: boolean, startIndex = 0): Promise<CardSelection|null> {
-        return new Promise<CardSelection|null>((resolve) => this.sockets[playerIndex]?.emit("select_card", cards, isClosable, startIndex, (selection) => resolve(selection ? {
+    selectCard(playerId: PlayerId, cards: CardData[], isClosable: boolean, startIndex = 0): Promise<CardSelection|null> {
+        return new Promise<CardSelection|null>((resolve) => this.sockets[playerId].emit("select_card", cards, isClosable, startIndex, (selection) => resolve(selection ? {
             item: deserialize(selection.item),
             index: selection.index,
         } : null)));
     }
 
-    showCards(playerIndex: PlayerIndex, cards: CardData[]): Promise<void> {
-        return new Promise<void>((resolve) => this.sockets[playerIndex]?.emit("show_cards", cards, resolve));
+    showCards(playerId: PlayerId, cards: CardData[]): Promise<void> {
+        return new Promise<void>((resolve) => this.sockets[playerId].emit("show_cards", cards, resolve));
     }
 
-    notify(playerIndex: PlayerIndex, name: NotificationName): void {
-        this.sockets[playerIndex]?.emit("notify", name);
+    notify(playerId: PlayerId, name: NotificationName): void {
+        this.sockets[playerId].emit("notify", name);
     }
 
-    showResults(playerIndex: PlayerIndex, results: RoundResult[], winner: PlayerIndex|null): void {
+    showResults(playerId: PlayerId, results: RoundResult[], winner: PlayerId|null): void {
         const winnerIndicator = winner === null ?
             null :
-            winner === playerIndex ?
+            winner === playerId ?
                 "me" :
                 "opponent";
 
         const socketResults = results.map<SocketRoundResult>((result) => ({
-            winner: result.winner === playerIndex ? "me" : "opponent",
-            scores: result.scores.reduce((acc, score, i) => {
-                if (playerIndex === i) {
-                    acc["me"] = score;
-                } else {
-                    acc["opponent"] = score;
-                }
-
-                return acc;
-            }, {
-                me: 0,
-                opponent: 0,
-            }),
+            winner: result.winner === playerId ? "me" : "opponent",
+            scores: Object.fromEntries(Object.entries(result.scores)
+                .map(([id, score]) => [id === playerId ? "me" : "opponent", score])) as Record<PlayerIndicator, number>,
         }));
 
-        this.sockets[playerIndex]?.emit("show_results", socketResults, winnerIndicator);
+        this.sockets[playerId].emit("show_results", socketResults, winnerIndicator);
 
         this.remove();
     }
 
-    askPlay(playerIndex: PlayerIndex): Promise<Play> {
-        return new Promise<Play>((resolve) => this.sockets[playerIndex]?.emit("ask_play", resolve));
+    askPlay(playerId: PlayerId): Promise<Play> {
+        return new Promise<Play>((resolve) => this.sockets[playerId].emit("ask_play", resolve));
     }
 
-    sendState(playerIndex: PlayerIndex, state: State): void {
-        this.sockets[playerIndex]?.emit("send_state", state);
+    sendState(playerId: PlayerId, state: State): void {
+        this.sockets[playerId].emit("send_state", state);
     }
 }

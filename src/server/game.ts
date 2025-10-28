@@ -2,15 +2,10 @@ import Cards from "./cards.js";
 import Board from "./board.js";
 import abilities from "./abilities.js";
 import factions from "./factions.js";
-import type {GameOptions, PlayerIndex, RoundResult} from "./types/game.js";
-import type {CardData, LeaderCardData, UnitRow} from "@shared/types/card.js";
+import type {GameOptions, GamePlayer, PlayerId, RoundResult} from "./types/game.js";
+import type {CardData, UnitRow} from "@shared/types/card.js";
 import type Listeners from "./listeners.js";
-import type {PlayerBoard, Play, State, Player} from "@shared/types/game.js";
-import type {Matchmake} from "@shared/types/matchmake.js";
-
-type GamePlayer = Omit<Player, "grave"> & {
-    cards: Cards;
-};
+import type {PlayerBoard, Play, State} from "@shared/types/game.js";
 
 type Effect = {
     once: boolean;
@@ -19,8 +14,8 @@ type Effect = {
 
 export default class Game {
     private options: GameOptions;
-    public players: GamePlayer[];
-    public currentPlayerIndex: PlayerIndex;
+    public players: Record<PlayerId, GamePlayer>;
+    public currentPlayerId: PlayerId;
     private roundResults: RoundResult[];
     public onGameStart: Effect[];
     public onRoundStart: Effect[];
@@ -28,10 +23,9 @@ export default class Game {
     public board: Board;
     public listeners: Listeners;
 
-    constructor(listeners: Listeners, requests: Matchmake[]) {
+    constructor(listeners: Listeners, players: Record<PlayerId, GamePlayer>) {
         this.listeners = listeners;
-        this.board = new Board(this.getOptions.bind(this));
-        this.currentPlayerIndex = 0;
+        this.board = new Board(this.getOptions.bind(this), Object.keys(players));
         this.roundResults = [];
         this.onGameStart = [];
         this.onRoundStart = [];
@@ -41,19 +35,23 @@ export default class Game {
             halfWeather: false,
             randomRespawn: false,
         };
-        this.players = requests.map(({deck, ...player}) => ({
-            ...player,
-            leader: deck.leader,
-            cards: new Cards(deck.cards),
-            isLeaderAvailable: true,
-            gems: 2,
-            hasPassed: false,
+        this.players = players;
+    }
+
+    private getPlayerIds(): PlayerId[] {
+        return Object.keys(this.players);
+    }
+
+    private getPlayers(): {id: PlayerId, player: GamePlayer}[] {
+        return Object.entries(this.players).map(([id, player]) => ({
+            id,
+            player,
         }));
     }
 
     private tossCoin(): void {
-        this.currentPlayerIndex = Math.round(Math.random());
-        this.players.forEach((_, i) => this.listeners.notify(i, `coin_${this.currentPlayerIndex === i ? "me" : "op"}`));
+        this.currentPlayerId = this.getPlayerIds()[Math.round(Math.random())];
+        this.getPlayerIds().forEach((id) => this.listeners.notify(id, `coin_${this.currentPlayerId === id ? "me" : "op"}`));
     }
 
     enableDoubleSpyPower(): void {
@@ -69,19 +67,19 @@ export default class Game {
     }
 
     disableLeaders(): void {
-        this.players.forEach((player) => player.isLeaderAvailable = false);
+        this.getPlayers().forEach(({player}) => player.isLeaderAvailable = false);
     }
 
-    getOpponentIndex(playerIndex: PlayerIndex): PlayerIndex {
-        return (playerIndex + 1) % this.players.length;
+    getOpponentId(playerId: PlayerId): PlayerId {
+        return this.getPlayerIds().find((id) => playerId !== id);
     }
 
-    getPlayer(playerIndex: PlayerIndex): GamePlayer {
-        return this.players[playerIndex];
+    getPlayer(playerId: PlayerId): GamePlayer {
+        return this.players[playerId];
     }
 
-    getPlayerCards(playerIndex: PlayerIndex): Cards {
-        return this.players[playerIndex].cards;
+    getPlayerCards(playerId: PlayerId): Cards {
+        return this.getPlayer(playerId).cards;
     }
 
     getOptions(): GameOptions {
@@ -101,36 +99,35 @@ export default class Game {
     }
 
     playersHaveSameFaction(): boolean {
-        const [firstPlayer, secondPlayer] = this.players;
+        const [firstFaction, secondFaction] = this.getPlayers().map(({player}) => player.faction);
 
-        return firstPlayer.faction === secondPlayer.faction;
+        return firstFaction === secondFaction;
     }
 
 
-    scorch(rowName?: UnitRow, playerIndex?: PlayerIndex): void {
-        const rows = this.players
-            .filter((_, i) => playerIndex === undefined || i === playerIndex)
-            .map((_, i) => this.board.getPlayerBoard(i))
-            .flatMap((playerBoard, i) => Object.entries(playerBoard)
+    scorch(rowName?: UnitRow, playerId?: PlayerId): void {
+        const rows = this.getPlayerIds()
+            .filter((id) => !playerId || id === playerId)
+            .map((id) => ({
+                id,
+                board: this.board.getPlayerBoard(id),
+            }))
+            .flatMap(({id, board}) => Object.entries(board)
                 .filter(([name]) => !rowName || rowName === name)
-                .map(([_, row]) => ({
-                    row,
-                    i,
-                })));
+                .map(([_, row]) => ({row, id})));
 
         const maxScore = Math.max(...rows.flatMap(({row}) => row
             .getUnits()
             .filter((card) => !card.abilities.includes("hero") && !card.abilities.includes("decoy"))
             .map((card) => row.getCardScore(card))));
 
-        rows.forEach(({row, i}) => row.remove(...row
-            .getUnits()
+        rows.forEach(({row, id}) => row.remove(...row.getUnits()
             .filter((card) => {
                 if (row.getCardScore(card) !== maxScore || card.abilities.includes("hero") || card.abilities.includes("decoy")) {
                     return false;
                 }
 
-                this.players[i].cards.discard(card);
+                this.getPlayer(id).cards.discard(card);
                 return true;
             })));
     }
@@ -142,15 +139,15 @@ export default class Game {
     }
 
     private sendState(): void {
-        const players = this.players.map(({cards, ...player}) => ({
+        const players = Object.fromEntries(this.getPlayers().map(({id, player: {cards, ...player}}) => [id, {
             ...player,
             ...cards,
-        }));
+        }]));
 
-        const board = this.players.map((_, i) => {
-            const playerBoard = this.board.getPlayerBoard(i);
+        const board = Object.entries(this.getPlayerIds().map((id) => {
+            const playerBoard = this.board.getPlayerBoard(id);
 
-            return Object.fromEntries(
+            return [id, Object.fromEntries(
                 Object.entries(playerBoard).map(([rowName, row]) => [
                     rowName, {
                         special: row.special,
@@ -160,16 +157,16 @@ export default class Game {
                         })),
                     },
                 ]),
-            ) as PlayerBoard;
-        });
+            ) as PlayerBoard];
+        }));
 
-        this.players.forEach((_, i) => {
-            const {deck, hand, ...rest} = players[this.getOpponentIndex(i)];
+        this.getPlayerIds().forEach((id) => {
+            const {deck, hand, ...rest} = players[this.getOpponentId(id)];
 
             const state: State = {
-                turn: this.currentPlayerIndex === i ? "me" : "opponent",
+                turn: this.currentPlayerId === id ? "me" : "opponent",
                 players: {
-                    me: players[i],
+                    me: players[id],
                     opponent: {
                         ...rest,
                         deckSize: deck.length,
@@ -178,14 +175,14 @@ export default class Game {
                 },
                 board: {
                     rows: {
-                        me: board[i],
-                        opponent: board[this.getOpponentIndex(i)],
+                        me: board[id],
+                        opponent: board[this.getOpponentId(id)],
                     },
                     weather: this.board.getWeather(),
                 },
             };
 
-            this.listeners.sendState(i, state);
+            this.listeners.sendState(id, state);
         });
     }
 
@@ -194,24 +191,24 @@ export default class Game {
 
         await this.startGame();
 
-        while (this.players.every(({gems}) => gems)) {
+        while (this.getPlayers().every(({player}) => player.gems)) {
             await this.startRound();
 
             this.sendState();
 
-            while (!this.players.every(({hasPassed}) => hasPassed)) {
+            while (!this.getPlayers().every(({player}) => player.hasPassed)) {
                 this.startTurn();
 
-                if (!this.players[this.currentPlayerIndex].hasPassed) {
+                if (!this.getPlayer(this.currentPlayerId).hasPassed) {
                     let ok = false;
                     while (!ok) {
-                        const play = await this.listeners.askPlay(this.currentPlayerIndex);
+                        const play = await this.listeners.askPlay(this.currentPlayerId);
 
                         ok = await this.executePlay(play);
                     }
                 }
 
-                this.currentPlayerIndex = this.getOpponentIndex(this.currentPlayerIndex);
+                this.currentPlayerId = this.getOpponentId(this.currentPlayerId);
 
                 this.sendState();
             }
@@ -219,43 +216,41 @@ export default class Game {
             await this.endRound();
         }
 
-        let winner: PlayerIndex|null = this.players.findIndex((player) => player.gems);
-        if (winner === -1) {
-            winner = null;
-        }
-        this.players.forEach((_, i) => this.listeners.showResults(i, this.roundResults, winner));
+        const winner = this.getPlayers().find(({player}) => player.gems)?.id ?? null;
+        this.getPlayerIds().forEach((id) => this.listeners.showResults(id, this.roundResults, winner));
     }
 
     private async startGame(): Promise<void> {
-        this.players.forEach((player, i) => {
+        this.getPlayers().forEach(({id, player}) => {
             player.cards.deck = Cards.shuffle(player.cards.deck);
 
             player.leader.abilities.forEach((ability) => {
-                abilities[ability]?.onGameStart?.(this, i);
+                abilities[ability]?.onGameStart?.(this, id);
             });
 
-            factions[player.faction](this, i);
+            factions[player.faction](this, id);
 
             player.cards.draw(10);
         });
 
         this.onGameStart = await Game.runEffects(this.onGameStart);
 
-        if (!this.currentPlayerIndex) {
+        if (!this.currentPlayerId) {
             this.tossCoin();
         }
 
         this.sendState();
 
-        await Promise.all(this.players.map(async (player, playerIndex) => {
+        await Promise.all(this.getPlayers().map(async ({id, player}) => {
+            console.log(id);
             let startIndex = 0;
             for (let i = 0; i < 2; ++i) {
-                if (!player.cards.deck.length) {
+                const {deck, hand} = player.cards;
+                if (!deck.length || !hand.length) {
                     break;
                 }
 
-                const {hand} = player.cards;
-                const selection = await this.listeners.selectCard(playerIndex, hand, true, startIndex);
+                const selection = await this.listeners.selectCard(id, hand, true, startIndex);
                 if (!selection) {
                     break;
                 }
@@ -264,21 +259,23 @@ export default class Game {
                 player.cards.redraw(selection.item);
                 this.sendState();
             }
+
+            this.listeners.notify(id, "waiting_for_opponent");
         }));
     }
 
     private async startRound(): Promise<void> {
-        this.players.forEach((player, i) => {
+        this.getPlayers().forEach(({id, player}) => {
             player.hasPassed = false;
-            this.listeners.notify(i, "start_round");
+            this.listeners.notify(id, "start_round");
         });
 
         const lastRoundResult = this.getLastRoundResult();
         if (lastRoundResult) {
             if (lastRoundResult.winner) {
-                this.currentPlayerIndex = lastRoundResult.winner;
+                this.currentPlayerId = lastRoundResult.winner;
 
-                this.players.forEach((_, i) => this.listeners.notify(i, `first_${this.currentPlayerIndex === i ? "me" : "op"}`));
+                this.getPlayerIds().forEach((id) => this.listeners.notify(id, `first_${this.currentPlayerId === id ? "me" : "op"}`));
             } else {
                 this.tossCoin();
             }
@@ -288,9 +285,9 @@ export default class Game {
     }
 
     private startTurn(): void {
-        this.players.forEach((_, i) => this.listeners.notify(i, `turn_${this.currentPlayerIndex === i ? "me" : "op"}`));
+        this.getPlayerIds().forEach((id) => this.listeners.notify(id, `turn_${this.currentPlayerId === id ? "me" : "op"}`));
 
-        const player = this.players[this.currentPlayerIndex];
+        const player = this.getPlayer(this.currentPlayerId);
 
         const canPlay = (player.cards.hand.length > 0 || player.isLeaderAvailable) && !player.hasPassed;
         if (!canPlay) {
@@ -299,11 +296,14 @@ export default class Game {
     }
 
     private async endRound(): Promise<void> {
-        const scores = this.players.map((_, i) => this.board.getPlayerScore(i));
-        const [firstScore, secondScore] = scores;
+        const scores = Object.fromEntries(this.getPlayerIds().map((id) => [id, this.board.getPlayerScore(id)]));
+        const [firstScore, secondScore] = Object.entries(scores)
+            .map(([id, score]) => ({id, score}));
 
-        let winner: PlayerIndex|null = firstScore > secondScore ? 0 : 1;
-        if (firstScore === secondScore) {
+        let winner: PlayerId|null = firstScore.score > secondScore.score ?
+                firstScore.id :
+                secondScore.id;
+        if (firstScore.score === secondScore.score) {
             winner = null;
         }
 
@@ -312,131 +312,128 @@ export default class Game {
             scores,
         });
 
-        this.players.filter((_, i) => i !== winner)
-            .forEach((player) => --player.gems);
+        this.getPlayers().filter(({id}) => id !== winner)
+            .forEach(({player}) => --player.gems);
 
         this.onRoundEnd = await Game.runEffects(this.onRoundEnd);
 
-        this.players.forEach((player, i) => {
-            Object.entries(this.board.getPlayerBoard(i))
+        this.getPlayers().forEach(({id, player}) => {
+            Object.entries(this.board.getPlayerBoard(id))
                 .forEach(([rowName, row]) => {
                     const toDiscard = [
                         ...row.getUnits(),
                         ...row.getSpecial(),
-                        ...this.board.getPlayerWeather(i),
+                        ...this.board.getPlayerWeather(id),
                     ];
 
-                    toDiscard.forEach((c) => this.removeCard(c, i, rowName as UnitRow));
+                    toDiscard.forEach((c) => this.removeCard(c, id, rowName as UnitRow));
 
                     player.cards.discard(...toDiscard);
                 });
 
             const result = winner === null ?
                 "draw" :
-                winner === i ?
+                winner === id ?
                     "win" :
                     "lose";
-            this.listeners.notify(i, `${result}_round`);
+            this.listeners.notify(id, `${result}_round`);
         });
 
         this.board.clear();
     }
 
-    private async removeCard(card: CardData, playerIndex: PlayerIndex, row: UnitRow): Promise<void> {
-        card.abilities.forEach((ability) => abilities[ability]?.onRemoved?.(this, playerIndex, row, card));
+    private async removeCard(card: CardData, playerId: PlayerId, row: UnitRow): Promise<void> {
+        card.abilities.forEach((ability) => abilities[ability]?.onRemoved?.(this, playerId, row, card));
     }
 
     private async executePlay(play: Play): Promise<boolean> {
-        if (this.players[this.currentPlayerIndex].hasPassed) {
+        if (this.getPlayer(this.currentPlayerId).hasPassed) {
             throw new Error("cannot execute play on a player who passed");
         }
 
         switch (play.type) {
         case "pass":
-            this.players[this.currentPlayerIndex].hasPassed = true;
-            this.players.forEach((_, i) => this.listeners.notify(i, `pass_${this.currentPlayerIndex === i ? "me" : "op"}`));
+            this.getPlayer(this.currentPlayerId).hasPassed = true;
+            this.getPlayerIds().forEach((id) => this.listeners.notify(id, `pass_${this.currentPlayerId === id ? "me" : "op"}`));
 
             return true;
         case "leader": {
-            const {leader, isLeaderAvailable} = this.players[this.currentPlayerIndex];
+            const {leader, isLeaderAvailable} = this.getPlayer(this.currentPlayerId);
             if (!isLeaderAvailable) {
                 return false;
             }
 
-            const ok = this.playCard(leader, this.currentPlayerIndex);
+            const ok = this.playCard(leader, this.currentPlayerId);
             if (!ok) {
                 return false;
             }
 
-            this.players[this.currentPlayerIndex].isLeaderAvailable = false;
+            this.getPlayer(this.currentPlayerId).isLeaderAvailable = false;
 
             return true;
         }
         case "card": {
-            const card = this.players[this.currentPlayerIndex].cards.hand.find(({filename}) => filename === play.card);
+            const card = this.getPlayer(this.currentPlayerId).cards.hand.find(({filename}) => filename === play.card);
             if (!card) {
                 return false;
             }
 
-            return this.playCard(card, this.currentPlayerIndex, play.row);
+            return this.playCard(card, this.currentPlayerId, play.row);
         }
         }
     }
 
-    async playCard(card: CardData, playerIndex: PlayerIndex, row?: UnitRow) : Promise<boolean> {
+    async playCard(card: CardData, playerId: PlayerId, row?: UnitRow) : Promise<boolean> {
         switch (card.type) {
         case "weather":
-            // TODO
-            this.players[playerIndex].cards.play(card);
+            this.getPlayer(playerId).cards.play(card);
 
-            this.board.playWeather(card, playerIndex);
+            this.board.playWeather(card, playerId);
 
-            await this.placeCard(card, playerIndex, null);
+            await this.placeCard(card, playerId, null);
 
             return true;
         case "special": {
-            // TODO
             if (!row) {
                 return false;
             }
 
-            this.players[playerIndex].cards.play(card);
+            this.getPlayer(playerId).cards.play(card);
 
-            this.board.playSpecial(card, playerIndex, row);
+            this.board.playSpecial(card, playerId, row);
 
-            await this.placeCard(card, playerIndex, row);
+            await this.placeCard(card, playerId, row);
 
             return true;
         }
         case "unit": {
-            // TODO
             const r = row ?? (card.abilities.includes("agile") ? "close" : card.rows[0]);
 
             const playerRow = card.abilities.includes("spy") ?
-                this.getOpponentIndex(playerIndex) :
-                playerIndex;
+            this.getOpponentId(playerId) :
+            playerId;
 
             const ok = this.board.playUnit(card, playerRow, r);
             if (!ok) {
                 return false;
             }
 
-            this.players[playerIndex].cards.play(card);
+            this.getPlayer(playerId).cards.play(card);
 
-            await this.placeCard(card, playerIndex, r);
+            await this.placeCard(card, playerId, r);
 
             return true;
         }
         case "leader":
-            await this.placeCard(card, playerIndex, null);
+            await this.placeCard(card, playerId, null);
 
             return true;
         }
     }
 
-    private async placeCard(card: CardData, playerIndex: PlayerIndex, row: UnitRow|null): Promise<void> {
+    private async placeCard(card: CardData, playerId: PlayerId, row: UnitRow|null): Promise<void> {
         await Promise.all(card.abilities.map(async (ability) => {
-            await abilities[ability]?.onPlaced?.(this, playerIndex, row, card);
+            await abilities[ability]?.onPlaced?.(this, playerId, row, card);
         }));
     }
 }

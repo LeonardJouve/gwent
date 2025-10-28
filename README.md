@@ -5,7 +5,6 @@ TODOS:
 - Card animations
 
 TO TEST:
-- Scorch close
 - Players are swapped
 - Decoy on empty row
 - Scorch decoy
@@ -14,6 +13,9 @@ TO TEST:
 - space to select card
 - arrows / a d to select card
 
+- Waiting on other player notification
+- Allow multiple time same weather ?
+- Scorch close
 - Replace playerIndex with id
 - Scroll bar style
 - Font size card in hand amount, row / player score

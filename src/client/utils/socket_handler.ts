@@ -78,6 +78,7 @@ export class SocketHandler {
     }
 
     static handleNotify(name: NotificationName): void {
+        console.log("notify");
         notificationStore.notifications.push(name);
     }
 

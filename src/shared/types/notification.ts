@@ -17,7 +17,8 @@ export type NotificationName =
     "scoiatael_op" |
     "skellige_me" |
     "skellige_op" |
-    "player_left";
+    "player_left" |
+    "waiting_for_opponent";
 
 export type Notification = {
     message: string;

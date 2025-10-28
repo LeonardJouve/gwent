@@ -1,16 +1,18 @@
 import Row from "./row.js";
-import type {GameOptions, PlayerIndex} from "./types/game.js";
+import type {GameOptions, PlayerId} from "./types/game.js";
 import type {SpecialCardData, UnitCardData, UnitRow, WeatherCardData} from "@shared/types/card.js";
 import type {Weather} from "@shared/types/weather.js";
 
 type PlayerBoard = Record<UnitRow, Row>;
 
 export default class Board {
-    private board: PlayerBoard[];
-    private weather: WeatherCardData[][];
+    private playerIds: PlayerId[];
+    private board: Record<PlayerId, PlayerBoard>;
+    private weather: Record<PlayerId, WeatherCardData[]>;
     private getOptions: () => GameOptions;
 
-    constructor(getOptions: () => GameOptions) {
+    constructor(getOptions: () => GameOptions, playerIds: PlayerId[]) {
+        this.playerIds = playerIds;
         this.getOptions = getOptions;
         this.board = this.clearBoard();
         this.weather = this.clearWeather();
@@ -21,20 +23,20 @@ export default class Board {
         this.clearWeather();
     }
 
-    clearBoard(): PlayerBoard[] {
-        return this.board = Array.from({length: 2}, () => ["close", "ranged", "siege"].reduce<PlayerBoard>((acc, row) => {
+    clearBoard(): Record<PlayerId, PlayerBoard> {
+        return this.board = Object.fromEntries(this.playerIds.map((id) => [id, ["close", "ranged", "siege"].reduce<PlayerBoard>((acc, row) => {
             acc[row as UnitRow] = new Row(this.getOptions.bind(this), () => this.getRowWeather(row as UnitRow));
 
             return acc;
-        }, {} as PlayerBoard));
+        }, {} as PlayerBoard)]));
     }
 
     getWeather(): WeatherCardData[] {
-        return this.weather.flat();
+        return Object.values(this.weather).flat();
     }
 
-    getPlayerWeather(playerIndex: PlayerIndex): WeatherCardData[] {
-        return this.weather[playerIndex];
+    getPlayerWeather(playerId: PlayerId): WeatherCardData[] {
+        return this.weather[playerId];
     }
 
     getRowWeather(row: UnitRow): boolean {
@@ -53,36 +55,36 @@ export default class Board {
         }));
     }
 
-    getRow(row: UnitRow, playerIndex: PlayerIndex): Row {
-        return this.board[playerIndex][row];
+    getRow(row: UnitRow, playerId: PlayerId): Row {
+        return this.board[playerId][row];
     }
 
-    getPlayerBoard(playerIndex: PlayerIndex): PlayerBoard {
-        return this.board[playerIndex];
+    getPlayerBoard(playerId: PlayerId): PlayerBoard {
+        return this.board[playerId];
     }
 
-    playSpecial(card: SpecialCardData, playerIndex: PlayerIndex, row: UnitRow): void {
-        this.getRow(row, playerIndex).addSpecial(card);
+    playSpecial(card: SpecialCardData, playerId: PlayerId, row: UnitRow): void {
+        this.getRow(row, playerId).addSpecial(card);
     }
 
-    playWeather(card: WeatherCardData, playerIndex: PlayerIndex): void {
-        this.weather[playerIndex].push(card);
+    playWeather(card: WeatherCardData, playerId: PlayerId): void {
+        this.weather[playerId].push(card);
     }
 
-    clearWeather(): WeatherCardData[][] {
-        return this.weather = [[], []];
+    clearWeather(): Record<PlayerId, WeatherCardData[]> {
+        return this.weather = Object.fromEntries(this.playerIds.map((id) => [id, []]));
     }
 
-    getPlayerScore(player: PlayerIndex): number {
-        return Object.values(this.board[player]).reduce((acc, row) => acc + row.getScore(), 0);
+    getPlayerScore(playerId: PlayerId): number {
+        return Object.values(this.board[playerId]).reduce((acc, row) => acc + row.getScore(), 0);
     }
 
-    playUnit(card: UnitCardData, playerIndex: PlayerIndex, row: UnitRow): boolean {
+    playUnit(card: UnitCardData, playerId: PlayerId, row: UnitRow): boolean {
         if (!card.rows.includes(row)) {
             return false;
         }
 
-        this.getRow(row, playerIndex).add(card);
+        this.getRow(row, playerId).add(card);
 
         return true;
     }

@@ -1,27 +1,27 @@
 import Cards from "./cards.js";
 import type Game from "./game.js";
-import type {PlayerIndex} from "./types/game.js";
+import type {PlayerId} from "./types/game.js";
 import type {FactionName} from "@shared/types/faction.js";
 import type {PlayerBoard} from "@shared/types/game.js";
 
-type FactionAbility = (game: Game, playerIndex: PlayerIndex) => void;
+type FactionAbility = (game: Game, playerId: PlayerId) => void;
 
 const factions: Record<FactionName, FactionAbility> = {
-    realms: (game, playerIndex) => {
+    realms: (game, playerId) => {
         game.onRoundStart.push({
             once: false,
             run: async () => {
-                if (game.getLastRoundResult()?.winner !== playerIndex) {
+                if (game.getLastRoundResult()?.winner !== playerId) {
                     return;
                 }
 
-                game.getPlayerCards(playerIndex).draw();
+                game.getPlayerCards(playerId).draw();
 
-                game.players.forEach((_, i) => game.listeners.notify(i, "north"));
+                Object.keys(game.players).forEach((id) => game.listeners.notify(id, "north"));
             },
         });
     },
-    nilfgaard: (game, playerIndex) => {
+    nilfgaard: (game, playerId) => {
         game.onRoundEnd.push({
             once: false,
             run: async () => {
@@ -32,15 +32,15 @@ const factions: Record<FactionName, FactionAbility> = {
                     return;
                 }
 
-                lastRoundResult.winner = playerIndex;
+                lastRoundResult.winner = playerId;
             },
         });
     },
-    monsters: (game, playerIndex) => {
+    monsters: (game, playerId) => {
         game.onRoundEnd.push({
             once: false,
             run: async () => {
-                const units = Object.entries(game.board.getPlayerBoard(playerIndex))
+                const units = Object.entries(game.board.getPlayerBoard(playerId))
                     .flatMap(([rowName, row]) => row
                         .getUnits()
                         .map((card) => ({card, row: rowName as keyof PlayerBoard})));
@@ -54,16 +54,16 @@ const factions: Record<FactionName, FactionAbility> = {
                 game.onRoundStart.push({
                     once: true,
                     run: async () => {
-                        game.getPlayerCards(playerIndex).restore(card);
-                        game.board.getRow(row, playerIndex).add(card);
+                        game.getPlayerCards(playerId).restore(card);
+                        game.board.getRow(row, playerId).add(card);
 
-                        game.players.forEach((_, i) => game.listeners.notify(i, "monsters"));
+                        Object.keys(game.players).forEach((id) => game.listeners.notify(id, "monsters"));
                     },
                 });
             },
         });
     },
-    scoiatael: (game, playerIndex) => {
+    scoiatael: (game, playerId) => {
         game.onGameStart.push({
             once: true,
             run: async () => {
@@ -71,13 +71,13 @@ const factions: Record<FactionName, FactionAbility> = {
                     return;
                 }
 
-                game.currentPlayerIndex = await game.listeners.askStart(playerIndex);
+                game.currentPlayerId = await game.listeners.askStart(playerId);
 
-                game.players.forEach((_, i) => game.listeners.notify(i, `scoiatael_${game.currentPlayerIndex === i ? "me" : "op"}`));
+                Object.keys(game.players).forEach((id) => game.listeners.notify(id, `scoiatael_${game.currentPlayerId === id ? "me" : "op"}`));
             },
         });
     },
-    skellige: (game, playerIndex) => {
+    skellige: (game, playerId) => {
         game.onRoundStart.push({
             once: false,
             run: async () => {
@@ -85,14 +85,14 @@ const factions: Record<FactionName, FactionAbility> = {
                     return;
                 }
 
-                const cards = Cards.getRandom(game.getPlayerCards(playerIndex)
+                const cards = Cards.getRandom(game.getPlayerCards(playerId)
                     .grave
                     .filter(Cards.isNormalUnit), 2);
 
-                game.getPlayerCards(playerIndex).restore(...cards);
-                cards.forEach((card) => game.playCard(card, playerIndex));
+                game.getPlayerCards(playerId).restore(...cards);
+                cards.forEach((card) => game.playCard(card, playerId));
 
-                game.players.forEach((_, i) => game.listeners.notify(i, `skellige_${game.currentPlayerIndex === i ? "me" : "op"}`));
+                Object.keys(game.players).forEach((id) => game.listeners.notify(id, `skellige_${game.currentPlayerId === id ? "me" : "op"}`));
             },
         });
     },

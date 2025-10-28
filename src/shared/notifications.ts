@@ -74,6 +74,9 @@ const notifications: Record<NotificationName, Notification> = {
     player_left: {
         message: "Opponent player left the game",
     },
+    waiting_for_opponent: {
+        message: "Waiting for opponent",
+    },
 };
 
 export default notifications;
