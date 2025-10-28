@@ -144,7 +144,7 @@ export default class Game {
             ...cards,
         }]));
 
-        const board = Object.entries(this.getPlayerIds().map((id) => {
+        const board = Object.fromEntries(this.getPlayerIds().map((id) => {
             const playerBoard = this.board.getPlayerBoard(id);
 
             return [id, Object.fromEntries(
@@ -160,7 +160,7 @@ export default class Game {
             ) as PlayerBoard];
         }));
 
-        this.getPlayerIds().forEach((id) => {
+        Object.keys(players).forEach((id) => {
             const {deck, hand, ...rest} = players[this.getOpponentId(id)];
 
             const state: State = {
@@ -242,7 +242,6 @@ export default class Game {
         this.sendState();
 
         await Promise.all(this.getPlayers().map(async ({id, player}) => {
-            console.log(id);
             let startIndex = 0;
             for (let i = 0; i < 2; ++i) {
                 const {deck, hand} = player.cards;
