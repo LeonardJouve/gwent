@@ -12,11 +12,11 @@ TO TEST:
 - Center change faction
 - space to select card
 - arrows / a d to select card
-
-- Waiting on other player notification
-- Allow multiple time same weather ?
 - Scorch close
+- Waiting on other player notification
 - Replace playerIndex with id
+
+- Allow multiple time same weather ?
 - Scroll bar style
 - Font size card in hand amount, row / player score
 - North ability
