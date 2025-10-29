@@ -43,7 +43,6 @@ export default class Match implements Listeners {
         }
 
         this.sockets[id] = socket;
-        socket.on("disconnect", () => this.handleDisconnect(id));
 
         this.tryStartMatch();
 
@@ -61,6 +60,9 @@ export default class Match implements Listeners {
         if (Object.values(this.sockets).some((socket) => !socket)) {
             return;
         }
+
+        Object.entries(this.sockets)
+            .forEach(([id, socket]) => socket.on("disconnect", () => this.handleDisconnect(id)));
 
         await this.game.playGame();
     }
