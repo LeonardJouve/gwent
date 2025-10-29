@@ -105,7 +105,9 @@ export default class Game {
     }
 
 
-    scorch(rowName?: UnitRow, playerId?: PlayerId): void {
+    scorch(rowName?: UnitRow, playerId?: PlayerId, min?: number): void {
+        const isValidCard = (card: CardData): boolean => !card.abilities.includes("hero") && !card.abilities.includes("decoy");
+
         const rows = this.getPlayerIds()
             .filter((id) => !playerId || id === playerId)
             .map((id) => ({
@@ -113,17 +115,20 @@ export default class Game {
                 board: this.board.getPlayerBoard(id),
             }))
             .flatMap(({id, board}) => Object.entries(board)
-                .filter(([name]) => !rowName || rowName === name)
-                .map(([_, row]) => ({row, id})));
+                .filter(([name, row]) => (!rowName || rowName === name) && (!min || row
+                    .getUnits()
+                    .filter(isValidCard)
+                    .reduce((acc, card) => acc + row.getCardScore(card), 0) >= min))
+                .map(([_, row]) => ({row, id})))
 
         const maxScore = Math.max(...rows.flatMap(({row}) => row
             .getUnits()
-            .filter((card) => !card.abilities.includes("hero") && !card.abilities.includes("decoy"))
+            .filter(isValidCard)
             .map((card) => row.getCardScore(card))));
 
         rows.forEach(({row, id}) => row.remove(...row.getUnits()
             .filter((card) => {
-                if (row.getCardScore(card) !== maxScore || card.abilities.includes("hero") || card.abilities.includes("decoy")) {
+                if (row.getCardScore(card) !== maxScore || !isValidCard(card)) {
                     return false;
                 }
 

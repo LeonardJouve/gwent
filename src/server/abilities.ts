@@ -125,13 +125,13 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onPlaced: async (game) => game.scorch(),
     },
     scorch_c: {
-        onPlaced: async (game, playerId) => game.scorch("close", game.getOpponentId(playerId)),
+        onPlaced: async (game, playerId) => game.scorch("close", game.getOpponentId(playerId), 10),
     },
     scorch_r: {
-        onPlaced: async (game, playerId) => game.scorch("ranged", game.getOpponentId(playerId)),
+        onPlaced: async (game, playerId) => game.scorch("ranged", game.getOpponentId(playerId), 10),
     },
     scorch_s: {
-        onPlaced: async (game, playerId) => game.scorch("siege", game.getOpponentId(playerId)),
+        onPlaced: async (game, playerId) => game.scorch("siege", game.getOpponentId(playerId), 10),
     },
     muster: {
         onPlaced: async (game, playerId, _, card) => {
@@ -191,10 +191,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onPlaced: async (game, playerId) => playLeaderHorn(game, playerId, "siege"),
     },
     foltest_steelforged: {
-        onPlaced: async (game, playerId) => game.scorch("siege", game.getOpponentId(playerId)),
+        onPlaced: async (game, playerId) => game.scorch("siege", game.getOpponentId(playerId), 10),
     },
     foltest_son: {
-        onPlaced: async (game, playerId) => game.scorch("ranged", game.getOpponentId(playerId)),
+        onPlaced: async (game, playerId) => game.scorch("ranged", game.getOpponentId(playerId), 10),
     },
     emhyr_imperial: {
         onPlaced: async (game, playerId) => playLeaderWeather(game, playerId, "Torrential Rain"),
@@ -268,7 +268,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         onGameStart: (game) => game.enableDoubleSpyPower(),
     },
     francesca_queen: {
-        onPlaced: async (game, playerId) => game.scorch("close", game.getOpponentId(playerId)),
+        onPlaced: async (game, playerId) => game.scorch("close", game.getOpponentId(playerId), 10),
     },
     francesca_beautiful: {
         onPlaced: async (game, playerId) => playLeaderHorn(game, playerId, "ranged"),
@@ -304,7 +304,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     crach_an_craite: {
-        onPlaced: async (game) => game.players.forEach((player) => {
+        onPlaced: async (game) => Object.values(game.players).forEach((player) => {
             player.cards.deck = Cards.shuffle([...player.cards.deck, ...player.cards.grave]);
             player.cards.grave = [];
         }),
