@@ -241,7 +241,7 @@ export default class Game {
 
         this.sendState();
 
-        await Promise.all(this.getPlayers().map(async ({id, player}) => {
+        const redrawPromises = this.getPlayers().map(async ({id, player}) => {
             let startIndex = 0;
             for (let i = 0; i < 2; ++i) {
                 const {deck, hand} = player.cards;
@@ -259,8 +259,13 @@ export default class Game {
                 this.sendState();
             }
 
-            this.listeners.notify(id, "waiting_for_opponent");
-        }));
+            return id;
+        });
+
+        Promise.race(redrawPromises)
+            .then((id) => this.listeners.notify(id, "waiting_for_opponent"));
+
+        await Promise.all(redrawPromises);
     }
 
     private async startRound(): Promise<void> {
