@@ -64,6 +64,7 @@
                 isSelectible={true}
                 onSelect={handleSelect(i)}
                 score={scores?.[i]}
+                totalCardAmount={cards.length}
             />
         {/key}
     {/each}
