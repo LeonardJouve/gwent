@@ -77,7 +77,6 @@
         display: flex;
         justify-content: center;
         align-items: end;
-        gap: 3px;
         padding-bottom: 3px;
     }
 </style>

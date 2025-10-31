@@ -27,7 +27,7 @@
         });
         observer.observe(container);
 
-        return observer.disconnect;
+        return () => observer.disconnect();
     });
 
     const isUnit = $derived(card.type === "unit");
@@ -37,25 +37,7 @@
 
     const handleSelect = $derived((event: MouseEvent) => onSelect?.(card, event));
 
-    const overlap = $derived.by(() => {
-        if (!totalCardAmount) {
-            return "0px";
-        }
-
-        return `calc((100% - ${totalCardAmount * width}px) / ${2 * totalCardAmount})`;
-    });
-
-    // resizeCardContainer(overlap_count, gap, coef) {
-	// 	let n = this.elem.children.length;
-	// 	let param = (n < overlap_count) ?  "" + gap+"vw" : defineCardRowMargin(n, coef);
-	// 	let children = this.elem.getElementsByClassName("card");
-	// 	for (let x of children)
-	// 		x.style.marginLeft = x.style.marginRight = param;
-
-	// 	function defineCardRowMargin(n, coef = 0){
-	// 		return "calc((100% - (4.45vw * " + n + ")) / (2*" +n+ ") - (" +coef+ "vw * " +n+ "))";
-	// 	}
-	// }
+    const overlap = $derived(totalCardAmount ? `min(0px, calc(-1 * (${totalCardAmount * width}px - 100%) / ${2 * totalCardAmount}))` : "0px");
 </script>
 
 <button

@@ -15,13 +15,13 @@ TO TEST:
 - Scorch close
 - Waiting on other player notification
 - Replace playerIndex with id
+- Container cards should overlap
 
 - Allow multiple time same weather ?
 - Scroll bar style
 - Font size card in hand amount, row / player score
 - North ability
 - Edge double click opens menu
-- More than 10 cards on hand
 - Safari style -> height is set but not width
 
 src/server/cards.ts -> filterCards
