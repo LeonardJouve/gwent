@@ -117,7 +117,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        overflow-y: scroll;
+        overflow-y: auto;
         width: 100%;
         gap: 10px;
     }

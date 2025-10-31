@@ -16,9 +16,9 @@ TO TEST:
 - Waiting on other player notification
 - Replace playerIndex with id
 - Container cards should overlap
+- Scroll bar style
 
 - Allow multiple time same weather ?
-- Scroll bar style
 - Font size card in hand amount, row / player score
 - North ability
 - Edge double click opens menu

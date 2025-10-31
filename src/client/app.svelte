@@ -77,5 +77,7 @@
     :global(*) {
         font-family: inherit;
         cursor: inherit;
+        scrollbar-color: #555555 #1E1E1E;
+        scrollbar-width: thin;
     }
 </style>
