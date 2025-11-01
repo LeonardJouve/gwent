@@ -144,7 +144,7 @@ const abilities: Record<AbilityId, Ability> = {
     },
     eredin_destroyer: {
         name: "Eredin : Destroyer of Worlds",
-        description: "Discard 2 card and draw 1 card of your choice from your deck.",
+        description: "Discard 2 cards and draw 1 card of your choice from your deck.",
     },
     eredin_king: {
         name: "Eredin : King of the Wild Hunt",
