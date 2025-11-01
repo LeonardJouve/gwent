@@ -121,7 +121,7 @@
 
 <section class="deck-maker">
     <div class="header">
-        <h2>Card Collection test</h2>
+        <h2>Card Collection</h2>
         <FactionHeader
             faction={faction}
             onChangeFaction={handleChangeFaction}
