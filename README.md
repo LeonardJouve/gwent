@@ -15,6 +15,33 @@ TO TEST:
 - North ability
 
 TO DO:
+- ability on carousel should be displayed under card
+- invert scroll on carousel
+- double click on card should play it
+- vectorize music logo
+- skellige crach an craite is disabled
+- decoy has score
+- Skellige storm icon is incorrect on small + ability name is wrong: "Skellige storm"
+- Scorch on row should count heros on the 10
+- Can decoy be res ?
+- Card on grave should not be boosted
+- Discard skellige storm 3x
+- Select card should also include index to reopen on correct index
+- Hand carousel should play card on select
+- Row / Special cards should overlap
+- Wait for reconnection before timeout
+- Resize icon
+- Music state should be shared on entire app
+- Notify other player is in scoiatael dialog
+- Passive kings
+- Eredin destroyer not waiting to end to change current player
+- Eredin destroyer allows to select 2 times
+- Add description to eredin destroyer
+- disable gwent font on card
+- Scorch on row icon is incorrect. Should have horns
+- decoy is affected by moral
+- Cards in discard are not centered
+- Scorch should be discarded
 - Refresh page should redirect to lobby
 - Allow multiple time same weather ?
 - Font size card in hand amount, row / player score
