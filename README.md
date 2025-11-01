@@ -11,14 +11,14 @@ TO TEST:
 - Container cards should overlap
 - Scroll bar style
 - Mardroeme
+- Safari style -> height is set but not width
+- North ability
 
 TO DO:
 - Refresh page should redirect to lobby
 - Allow multiple time same weather ?
 - Font size card in hand amount, row / player score
-- North ability
 - Edge double click opens menu
-- Safari style -> height is set but not width
 
 - Test each abilities
 - Add logs

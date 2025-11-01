@@ -22,5 +22,6 @@ export type NotificationName =
 
 export type Notification = {
     message: string;
+    description?: string;
     imageSource?: string;
 };

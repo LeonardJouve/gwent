@@ -48,19 +48,23 @@ const notifications: Record<NotificationName, Notification> = {
         imageSource: "notif_op_turn",
     },
     north: {
-        message: "Northern Realms faction ability triggered - North draws an additional card.",
+        message: "Northern Realms faction ability triggered",
+        description: "North draws an additional card",
         imageSource: "notif_north",
     },
     monsters: {
-        message: "Monsters faction ability triggered - one randomly-chosen Monster Unit Card stays on the board",
-        imageSource: "notif_monstarts",
+        message: "Monsters faction ability triggered",
+        description: "One randomly-chosen Monster Unit Card stays on the board",
+        imageSource: "notif_monsters",
     },
     scoiatael_me: {
-        message: "Scoia'tael faction perk used, you go first.",
+        message: "Scoia'tael faction perk used",
+        description: "You go first",
         imageSource: "notif_scoiatael",
     },
     scoiatael_op: {
-        message: "Scoia'tael faction perk used, opponent goes first.",
+        message: "Scoia'tael faction perk used",
+        description: "Opponent goes first",
         imageSource: "notif_scoiatael",
     },
     skellige_me: {

@@ -50,7 +50,7 @@
         overflow: hidden;
     }
 
-    :global(p, h1, h2, body) {
+    :global(p, h1, h2, h3, body) {
         margin: 0;
     }
 

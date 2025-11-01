@@ -24,16 +24,23 @@
 
 {#if notification}
     <div class="notification">
-        <h1 class="message">
-            {#if notification.imageSource}
-                <img
-                    class="image"
-                    alt="notification"
-                    src={iconURL(notification.imageSource)}
-                />
+        {#if notification.imageSource}
+            <img
+                class="image"
+                alt="notification"
+                src={iconURL(notification.imageSource)}
+            />
+        {/if}
+        <div class="message">
+            <h1>
+                {notification.message}
+            </h1>
+            {#if notification.description}
+                <h3>
+                    {notification.description}
+                </h3>
             {/if}
-            {notification.message}
-        </h1>
+        </div>
     </div>
 {/if}
 
@@ -59,13 +66,14 @@
     }
 
     .image {
-        position: absolute;
-        left: 0px;
-        top: 50%;
-        transform: translate(-100%, -50%);
+        height: 150%;
     }
 
     .message {
-        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 </style>
