@@ -70,10 +70,14 @@
 
     .special-row {
         flex: 0.15;
+        width: 100%;
+        height: 100%;
     }
 
     .unit-row {
         flex: 1;
+        width: 100%;
+        height: 100%;
     }
 
     .score {

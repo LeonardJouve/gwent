@@ -8,7 +8,6 @@ TO TEST:
 - Players are swapped
 - Decoy on empty row
 - Scorch decoy
-- Refresh page should redirect to lobby
 - Center change faction
 - space to select card
 - arrows / a d to select card
@@ -18,6 +17,8 @@ TO TEST:
 - Container cards should overlap
 - Scroll bar style
 
+- Mardroeme
+- Refresh page should redirect to lobby
 - Allow multiple time same weather ?
 - Font size card in hand amount, row / player score
 - North ability
