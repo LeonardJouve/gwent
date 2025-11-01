@@ -1,9 +1,3 @@
-TODOS:
-- Test each abilities
-- Add logs
-- #each with keys
-- Card animations
-
 TO TEST:
 - Players are swapped
 - Decoy on empty row
@@ -16,8 +10,9 @@ TO TEST:
 - Replace playerIndex with id
 - Container cards should overlap
 - Scroll bar style
-
 - Mardroeme
+
+TO DO:
 - Refresh page should redirect to lobby
 - Allow multiple time same weather ?
 - Font size card in hand amount, row / player score
@@ -25,19 +20,7 @@ TO TEST:
 - Edge double click opens menu
 - Safari style -> height is set but not width
 
-src/server/cards.ts -> filterCards
-file:///app/dist/index.js:44
-      const playingCardIndex = c.findIndex(({ filename }) => filename === card.filename);
-                                              ^
-
-TypeError: Cannot destructure property 'filename' of 'undefined' as it is undefined.
-    at file:///app/dist/index.js:44:47
-    at Array.findIndex (<anonymous>)
-    at file:///app/dist/index.js:44:34
-    at Array.filter (<anonymous>)
-    at _Cards.filterCards (file:///app/dist/index.js:43:17)
-    at _Cards.restore (file:///app/dist/index.js:82:25)
-    at Object.onPlaced (file:///app/dist/index.js:2455:19)
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async file:///app/dist/index.js:2971:7
-    at async Promise.all (index 1)
+- Test each abilities
+- Add logs
+- #each with keys
+- Card animations

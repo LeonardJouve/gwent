@@ -4,7 +4,7 @@ import type Row from "./row.js";
 import cards from "@shared/cards.js";
 import type {PlayerId} from "./types/game.js";
 import type {AbilityId} from "@shared/types/ability.js";
-import type {CardData, UnitRow} from "@shared/types/card.js";
+import type {CardData, UnitCardData, UnitRow} from "@shared/types/card.js";
 
 const cancelDiscard = (game: Game, playerId: PlayerId, filename: CardData["filename"]): void => {
     game.onRoundStart.push({
@@ -69,12 +69,9 @@ type Ability = {
 
 const abilities: Partial<Record<AbilityId, Ability>> = {
     mardroeme: {
-        onPlaced: async (game, playerId, row, card) => {
+        onPlaced: async (game, playerId, row) => {
             if (!row) {
                 throw new Error("mardroeme must be placed on a unit row");
-            }
-            if (card.type !== "unit") {
-                throw new Error("played card must be a unit");
             }
 
             const playerRow = game.board.getRow(row, playerId);
@@ -82,18 +79,10 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
                 .getUnits()
                 .filter((c) => c.abilities.includes("berserker"));
 
-            berserkers.forEach(() => {
-                playerRow.remove(card);
-                const transformed = card.name === "Young Berserker" ?
-                    cards["young_vildkaarl"] :
-                    cards["vildkaarl"];
-
-                if (transformed?.type !== "unit") {
-                    return;
-                }
-
-                playerRow.add(transformed);
-            });
+            playerRow.remove(...berserkers);
+            playerRow.add(...berserkers.map(({name}) => (name === "Young Berserker" ?
+                cards["young_vildkaarl"] :
+                cards["vildkaarl"]) as UnitCardData))
         },
     },
     decoy: {
