@@ -372,7 +372,7 @@ export default class Game {
                 return false;
             }
 
-            const ok = this.playCard(leader, this.currentPlayerId);
+            const ok = await this.playCard(leader, this.currentPlayerId);
             if (!ok) {
                 return false;
             }
@@ -387,7 +387,7 @@ export default class Game {
                 return false;
             }
 
-            return this.playCard(card, this.currentPlayerId, play.row);
+            return await this.playCard(card, this.currentPlayerId, play.row);
         }
         }
     }
