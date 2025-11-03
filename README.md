@@ -14,6 +14,8 @@ TO TEST:
 - Safari style -> height is set but not width
 - North ability
 - invert scroll on carousel
+- decoy is affected by moral
+- Eredin destroyer not waiting to end to change current player
 
 TO DO:
 - ability on carousel should be displayed under card
@@ -34,12 +36,10 @@ TO DO:
 - Music state should be shared on entire app
 - Notify other player is in scoiatael dialog
 - Passive kings
-- Eredin destroyer not waiting to end to change current player
 - Eredin destroyer allows to select 2 times
 - Add description to eredin destroyer
 - disable gwent font on card
 - Scorch on row icon is incorrect. Should have horns
-- decoy is affected by moral
 - Cards in discard are not centered
 - Scorch should be discarded
 - Refresh page should redirect to lobby

@@ -45,7 +45,9 @@ export default class Row {
             total *= Number(bond);
         }
 
-        total += this.getMoraleBoost() - (card.abilities.includes("morale") ? 1 : 0);
+        if (!card.abilities.includes("decoy")) {
+            total += this.getMoraleBoost() - (card.abilities.includes("morale") ? 1 : 0);
+        }
 
         if (this.getHorn() - (card.abilities.includes("horn") ? 1 : 0)) {
             total *= 2;
