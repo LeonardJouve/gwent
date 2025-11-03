@@ -98,9 +98,9 @@
         event.stopPropagation();
 
         if (event.deltaY > 0) {
-            handleLeft();
-        } else {
             handleRight();
+        } else {
+            handleLeft();
         }
     };
 </script>

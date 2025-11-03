@@ -13,11 +13,10 @@ TO TEST:
 - Mardroeme
 - Safari style -> height is set but not width
 - North ability
+- invert scroll on carousel
 
 TO DO:
-- arachaas muster siege
 - ability on carousel should be displayed under card
-- invert scroll on carousel
 - double click on card should play it
 - vectorize music logo
 - skellige crach an craite is disabled
