@@ -1,3 +1,4 @@
+import {z} from "zod/v4";
 import cards, {stackCards} from "@shared/cards";
 import {FactionNameSchema, type FactionName} from "@shared/types/faction";
 import {SerializedDeckSchema, type SerializedDeck} from "@shared/types/deck";
@@ -72,4 +73,15 @@ export const setLastUsername = (username: string): void => {
 export const getLastUsername = (): string|null => {
     const lastUsername = localStorage.getItem(LAST_USERNAME_KEY);
     return lastUsername || null;
+};
+
+const IS_SOUNDTRACK_PLAYING_KEY = "is-soundtrack-playing";
+
+export const setIsSoundtrackPlaying = (isSoundtrackPlaying: boolean): void => {
+    localStorage.setItem(IS_SOUNDTRACK_PLAYING_KEY, String(isSoundtrackPlaying));
+};
+
+export const getIsSoundtrackPlaying = (): boolean => {
+    const isSoundtrackPlaying = localStorage.getItem(IS_SOUNDTRACK_PLAYING_KEY);
+    return isSoundtrackPlaying === String(true);
 };

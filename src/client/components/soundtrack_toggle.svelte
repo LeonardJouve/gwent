@@ -1,10 +1,12 @@
 <script lang="ts">
     import {iconURL} from "../utils/utils";
+    import {getIsSoundtrackPlaying, setIsSoundtrackPlaying} from "../utils/local_storage";
 
-    let muted = $state<boolean>(true);
+    let muted = $state<boolean>(getIsSoundtrackPlaying());
 
     const handleToggle = (): void => {
         muted = !muted;
+        setIsSoundtrackPlaying(!muted);
     };
 
     const opacity = $derived(muted ? 0.4 : 1);

@@ -18,6 +18,7 @@ TO TEST:
 - Eredin destroyer not waiting to end to change current player
 - skellige crach an craite is disabled
 - Redraw reopens carousel on correct index
+- Music state should be shared on entire app
 
 TO DO:
 - ability on carousel should be displayed under card
@@ -33,7 +34,6 @@ TO DO:
 - Row / Special cards should overlap
 - Wait for reconnection before timeout
 - Resize icon
-- Music state should be shared on entire app
 - Notify other player is in scoiatael dialog
 - Passive kings
 - Eredin destroyer allows to select 2 times
