@@ -260,7 +260,7 @@ export default class Game {
                 }
                 startIndex = selection.index;
 
-                player.cards.redraw(selection.item);
+                player.cards.redraw(selection.index);
                 this.sendState();
             }
 

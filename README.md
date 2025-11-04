@@ -16,19 +16,19 @@ TO TEST:
 - invert scroll on carousel
 - decoy is affected by moral
 - Eredin destroyer not waiting to end to change current player
+- skellige crach an craite is disabled
+- Redraw reopens carousel on correct index
 
 TO DO:
 - ability on carousel should be displayed under card
 - double click on card should play it
 - vectorize music logo
-- skellige crach an craite is disabled
 - decoy has score
 - Skellige storm icon is incorrect on small + ability name is wrong: "Skellige storm"
 - Scorch on row should count heros on the 10
 - Can decoy be res ?
 - Card on grave should not be boosted
 - Discard skellige storm 3x
-- Select card should also include index to reopen on correct index
 - Hand carousel should play card on select
 - Row / Special cards should overlap
 - Wait for reconnection before timeout
