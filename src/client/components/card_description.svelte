@@ -17,10 +17,15 @@
         return abilities[card.abilities[card.abilities.length - 1]].name;
     });
 
-    const description = $derived.by(() => card.abilities
-        .map((ability) => abilities[ability].description)
-        .reverse()
-        .join(""));
+    const description = $derived.by(() => {
+        if (!card.abilities.length) {
+            return;
+        }
+
+        const abilityName = card.abilities[card.abilities.length - 1];
+
+        return abilities[abilityName].description;
+    });
 </script>
 
 {#snippet renderHeader()}

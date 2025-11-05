@@ -2020,7 +2020,7 @@ const cards: Record<SerializedCard, CardData> = {
         name: "Skellige Storm",
         filename: "storm",
         maxPerDeck: 3,
-        abilities: ["rain", "fog"],
+        abilities: ["rain", "fog", "storm"],
         faction: "neutral",
         type: "weather",
     },

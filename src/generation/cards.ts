@@ -87,7 +87,7 @@ const getPower = (card: CardData): string|null => {
     }
 
     if (card.type !== "unit") {
-        return "power_" + card.abilities[0];
+        return "power_" + card.abilities[card.abilities.length - 1];
     }
 
     return "power_normal";

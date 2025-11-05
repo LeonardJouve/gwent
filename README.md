@@ -19,13 +19,13 @@ TO TEST:
 - skellige crach an craite is disabled
 - Redraw reopens carousel on correct index
 - Music state should be shared on entire app
+- Skellige storm icon is incorrect on small + ability name is wrong: "Skellige storm"
 
 TO DO:
 - ability on carousel should be displayed under card
 - double click on card should play it
 - vectorize music logo
 - decoy has score
-- Skellige storm icon is incorrect on small + ability name is wrong: "Skellige storm"
 - Scorch on row should count heros on the 10
 - Can decoy be res ?
 - Card on grave should not be boosted
