@@ -16,7 +16,10 @@
 
 {#snippet render(slide: CardData, isCenter: boolean, onClick: (event: MouseEvent) => void)}
     {#if isCenter}
-        <div style:width="100%">
+        <div
+            style:position="relative"
+            style:width="100%"
+        >
             <LargeCard
                 card={slide}
                 size="width"
@@ -34,7 +37,7 @@
                 height: unset;
                 bottom: 0;
                 left: 50%;
-                transform: translate(-50%, 0%);
+                transform: translate(-50%, 100%);
             }
         </style>
     {:else}

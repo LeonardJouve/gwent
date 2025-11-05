@@ -42,7 +42,10 @@
     {#if isCenter}
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div style:width="100%">
+        <div
+            style:positive="relative"
+            style:width="100%"
+        >
             <div
                 class={[backClass(faction), "width"]}
                 onclick={onClick}
@@ -63,7 +66,7 @@
                 height: unset;
                 bottom: 0;
                 left: 50%;
-                transform: translate(-50%, 0%);
+                transform: translate(-50%, 100%);
             }
         </style>
     {:else}

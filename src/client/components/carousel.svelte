@@ -144,6 +144,7 @@
     .modal {
         max-width: none;
         width: 100%;
+        overflow: visible;
 
         &::backdrop {
             background-color: black;
@@ -152,7 +153,7 @@
     }
 
     .carousel {
-        overflow-x: hidden;
+        overflow: visible;
         width: 100%;
 
         --center-size: 20%;
@@ -164,7 +165,6 @@
         > div {
             display: flex;
             height: 100%;
-            overflow-x: hidden;
             align-items: start;
             flex-shrink: 0;
             gap: var(--gap);

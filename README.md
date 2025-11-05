@@ -20,9 +20,10 @@ TO TEST:
 - Redraw reopens carousel on correct index
 - Music state should be shared on entire app
 - Skellige storm icon is incorrect on small + ability name is wrong: "Skellige storm"
+- ability on carousel should be displayed under card
 
 TO DO:
-- ability on carousel should be displayed under card
+- throttle scroll
 - double click on card should play it
 - vectorize music logo
 - decoy has score
