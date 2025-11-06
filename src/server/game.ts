@@ -106,8 +106,6 @@ export default class Game {
 
 
     scorch(rowName?: UnitRow, playerId?: PlayerId, min?: number): void {
-        const isValidCard = (card: CardData): boolean => !card.abilities.includes("hero") && !card.abilities.includes("decoy");
-
         const rows = this.getPlayerIds()
             .filter((id) => !playerId || id === playerId)
             .map((id) => ({
@@ -117,18 +115,17 @@ export default class Game {
             .flatMap(({id, board}) => Object.entries(board)
                 .filter(([name, row]) => (!rowName || rowName === name) && (!min || row
                     .getUnits()
-                    .filter(isValidCard)
                     .reduce((acc, card) => acc + row.getCardScore(card), 0) >= min))
-                .map(([_, row]) => ({row, id})))
+                .map(([_, row]) => ({row, id})));
 
         const maxScore = Math.max(...rows.flatMap(({row}) => row
             .getUnits()
-            .filter(isValidCard)
+            .filter(Cards.isNormalUnit)
             .map((card) => row.getCardScore(card))));
 
         rows.forEach(({row, id}) => row.remove(...row.getUnits()
             .filter((card) => {
-                if (row.getCardScore(card) !== maxScore || !isValidCard(card)) {
+                if (row.getCardScore(card) !== maxScore || !Cards.isNormalUnit(card)) {
                     return false;
                 }
 

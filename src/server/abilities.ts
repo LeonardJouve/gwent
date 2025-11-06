@@ -238,6 +238,7 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
             let startIndex = 0;
             for (let i = 0; i < 2; ++i) {
                 const {item: toDiscard, index} = await game.listeners.selectCard(playerId, hand, false, startIndex);
+                // TODO remove from hand
                 playerCards.discard(toDiscard);
                 startIndex = Math.max(index, hand.length - 1);
             }
