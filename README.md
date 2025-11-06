@@ -24,6 +24,7 @@ TO TEST:
 - Scorch on row should count heros on the 10
 
 TO DO:
+- notifications above carousel
 - throttle scroll
 - double click on card should play it
 - vectorize music logo
