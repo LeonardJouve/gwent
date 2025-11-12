@@ -86,7 +86,7 @@ const getPower = (card: CardData): string|null => {
         return "power_hero";
     }
 
-    if (card.type !== "unit") {
+    if (card.type !== "unit" || card.abilities.includes("decoy")) {
         return "power_" + card.abilities[card.abilities.length - 1];
     }
 
@@ -94,11 +94,12 @@ const getPower = (card: CardData): string|null => {
 };
 
 const getAbility = (card: CardData): string|null => {
-    if (card.type !== "unit" || !card.abilities.filter((ability) => ability !== "hero").length) {
+    const abilities = card.abilities.filter((ability) => ability !== "hero" && ability !== "decoy");
+    if (card.type !== "unit" || !abilities.length) {
         return null;
     }
 
-    let abilityName = card.abilities[card.abilities.length - 1];
+    let abilityName = abilities[card.abilities.length - 1];
     if (abilityName.startsWith("avenger")) {
         abilityName = "avenger";
     } else if (abilityName.startsWith("scorch")) {

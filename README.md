@@ -22,12 +22,12 @@ TO TEST:
 - Skellige storm icon is incorrect on small + ability name is wrong: "Skellige storm"
 - ability on carousel should be displayed under card
 - Scorch on row should count heros on the 10
+- decoy has score
 
 TO DO:
 - throttle scroll
 - double click on card should play it
 - vectorize music logo
-- decoy has score
 - Can decoy be res ?
 - Card on grave should not be boosted
 - Discard skellige storm 3x

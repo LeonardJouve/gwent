@@ -30,7 +30,7 @@
         return () => observer.disconnect();
     });
 
-    const isUnit = $derived(card.type === "unit");
+    const isUnit = $derived(card.type === "unit" && !card.abilities.includes("decoy"));
     const isHero = $derived(card.abilities.includes("hero"));
     const isBuffed = $derived(card.type === "unit" && score > card.strength);
     const isDebuffed = $derived(card.type === "unit" && score < card.strength);
