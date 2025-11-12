@@ -26,6 +26,8 @@ TO TEST:
 - Can decoy be res ?
 - double click on card should play it
 - Hand carousel should play card on select
+- Notify other player is in scoiatael dialog
+- Row / Special cards should overlap
 
 TO DO:
 - notifications above carousel
@@ -33,10 +35,8 @@ TO DO:
 - vectorize music logo
 - Card on grave should not be boosted
 - Discard skellige storm 3x
-- Row / Special cards should overlap
 - Wait for reconnection before timeout
 - Resize icon
-- Notify other player is in scoiatael dialog
 - Passive kings
 - Eredin destroyer allows to select 2 times
 - Add description to eredin destroyer

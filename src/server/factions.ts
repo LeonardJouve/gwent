@@ -71,6 +71,7 @@ const factions: Record<FactionName, FactionAbility> = {
                     return;
                 }
 
+                game.listeners.notify(game.getOpponentId(playerId), "waiting_for_opponent");
                 game.currentPlayerId = await game.listeners.askStart(playerId);
 
                 Object.keys(game.players).forEach((id) => game.listeners.notify(id, `scoiatael_${game.currentPlayerId === id ? "me" : "op"}`));
