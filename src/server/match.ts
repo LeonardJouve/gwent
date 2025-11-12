@@ -1,6 +1,7 @@
 import Game from "./game.js";
 import Listeners from "./listeners.js";
 import Cards from "./cards.js";
+import abilities from "./abilities.js";
 import {deserialize} from "@shared/cards.js";
 import type {PlayerId, RoundResult} from "./types/game.js";
 import type {CardData} from "@shared/types/card.js";
@@ -27,7 +28,7 @@ export default class Match implements Listeners {
             ...player,
             leader: deck.leader,
             cards: new Cards(deck.cards),
-            isLeaderAvailable: true,
+            isLeaderAvailable: deck.leader.abilities.some((ability) => abilities[ability].onPlaced),
             gems: 2,
             hasPassed: false,
         }])));

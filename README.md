@@ -28,6 +28,7 @@ TO TEST:
 - Hand carousel should play card on select
 - Notify other player is in scoiatael dialog
 - Row / Special cards should overlap
+- Passive kings
 
 TO DO:
 - notifications above carousel
@@ -37,7 +38,6 @@ TO DO:
 - Discard skellige storm 3x
 - Wait for reconnection before timeout
 - Resize icon
-- Passive kings
 - Eredin destroyer allows to select 2 times
 - Add description to eredin destroyer
 - disable gwent font on card
