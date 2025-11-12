@@ -8,7 +8,14 @@
     const selectedIndex = $derived<number|undefined>(gameStore.selectedIndex);
     const selectedCard = $derived(selectedIndex === undefined ? undefined : gameStore.players["me"].hand[selectedIndex]);
 
-    const handleSelect = (_: CardData, index: number) => gameStore.selectedIndex = index;
+    const handleSelect = (_: CardData, index: number, isFromCarousel: boolean) => {
+        const isAlreadySelectedCard = gameStore.selectedIndex === index;
+        gameStore.selectedIndex = index;
+
+        if (isFromCarousel || isAlreadySelectedCard) {
+            handlePlay();
+        }
+    };
 
     const handleLeft = (event: Event) => {
         event.preventDefault();
@@ -30,8 +37,8 @@
         }
     };
 
-    const handlePlay = (event: Event) => {
-        event.preventDefault();
+    const handlePlay = (event?: Event) => {
+        event?.preventDefault();
 
         if (gameStore.turn !== "me" || !gameStore.askPlay || !selectedCard) {
             return;

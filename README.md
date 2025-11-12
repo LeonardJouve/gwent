@@ -23,16 +23,16 @@ TO TEST:
 - ability on carousel should be displayed under card
 - Scorch on row should count heros on the 10
 - decoy has score
+- Can decoy be res ?
+- double click on card should play it
+- Hand carousel should play card on select
 
 TO DO:
 - notifications above carousel
 - throttle scroll
-- double click on card should play it
 - vectorize music logo
-- Can decoy be res ?
 - Card on grave should not be boosted
 - Discard skellige storm 3x
-- Hand carousel should play card on select
 - Row / Special cards should overlap
 - Wait for reconnection before timeout
 - Resize icon
