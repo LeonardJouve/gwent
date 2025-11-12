@@ -99,7 +99,7 @@ const getAbility = (card: CardData): string|null => {
         return null;
     }
 
-    let abilityName = abilities[card.abilities.length - 1];
+    let abilityName = abilities[abilities.length - 1];
     if (abilityName.startsWith("avenger")) {
         abilityName = "avenger";
     } else if (abilityName.startsWith("scorch")) {
