@@ -41,7 +41,7 @@ TO DO:
 - Eredin destroyer allows to select 2 times
 - Add description to eredin destroyer
 - disable gwent font on card
-- Scorch on row icon is incorrect. Should have horns
+- Row scorch icon on lg is incorrect. Should have horns
 - Cards in discard are not centered
 - Scorch should be discarded
 - Refresh page should redirect to lobby
