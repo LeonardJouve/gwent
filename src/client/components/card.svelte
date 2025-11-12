@@ -88,6 +88,7 @@
        font-weight: bold;
        color: black;
        z-index: 10;
+       font-family: unset;
     }
 
     .hero {

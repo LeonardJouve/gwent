@@ -29,6 +29,7 @@ TO TEST:
 - Notify other player is in scoiatael dialog
 - Row / Special cards should overlap
 - Passive kings
+- disable gwent font on card
 
 TO DO:
 - notifications above carousel
@@ -40,7 +41,6 @@ TO DO:
 - Resize icon
 - Eredin destroyer allows to select 2 times
 - Add description to eredin destroyer
-- disable gwent font on card
 - Row scorch icon on lg is incorrect. Should have horns
 - Cards in discard are not centered
 - Scorch should be discarded
