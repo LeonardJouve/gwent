@@ -25,6 +25,7 @@ TO TEST:
 - decoy has score
 
 TO DO:
+- notifications above carousel
 - throttle scroll
 - double click on card should play it
 - vectorize music logo
