@@ -9,7 +9,6 @@
         items: T[];
         isClosable?: boolean;
         startIndex?: number;
-        amount?: number;
         render: Snippet<[slide: T, isCenter: boolean, onClick: (event: MouseEvent) => void]>;
     };
     const {
