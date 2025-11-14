@@ -30,10 +30,10 @@ TO TEST:
 - Row / Special cards should overlap
 - Passive kings
 - disable gwent font on card
+- throttle scroll
 
 TO DO:
 - notifications above carousel
-- throttle scroll
 - vectorize music logo
 - Card on grave should not be boosted
 - Discard skellige storm 3x

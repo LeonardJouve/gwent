@@ -39,3 +39,18 @@ export const sortCards = (cards: CardData[]): CardData[] => cards.sort((a, b) =>
 
     return a.name.localeCompare(b.name);
 });
+
+export const throttle = <T extends any[]>(fn: (...args: T) => void, delay: number): (...args: T) => void => {
+    let timeout: NodeJS.Timeout|null = null;
+
+    return (...args) => {
+        if (timeout !== null) {
+            return;
+        }
+
+        fn(...args);
+        timeout = setTimeout(() => {
+            timeout = null;
+        }, delay);
+    };
+};

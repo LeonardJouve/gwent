@@ -2,6 +2,7 @@
     import {onMount, type Snippet} from "svelte";
     import type {CardData} from "@shared/types/card";
     import type {CarouselSelection} from "@shared/types/socket";
+    import {throttle} from "../utils/utils";
 
     type Props = {
         onClose: (selection: CarouselSelection<T>|null) => void;
@@ -94,7 +95,7 @@
         }
     };
 
-    const handleWheel = (event: WheelEvent) => {
+    const handleWheel = throttle((event: WheelEvent) => {
         event.stopPropagation();
 
         if (event.deltaY > 0) {
@@ -102,7 +103,7 @@
         } else {
             handleLeft();
         }
-    };
+    }, 100);
 </script>
 
 <svelte:window onkeydown={handleKeydown}/>
