@@ -111,7 +111,18 @@ const abilities: Partial<Record<AbilityId, Ability>> = {
         },
     },
     scorch: {
-        onPlaced: async (game) => game.scorch(),
+        onPlaced: async (game) => {
+            game.scorch();
+
+            const playerWeather = game.board.getPlayerWeather(game.currentPlayerId);
+            const scorchIndex = playerWeather.findIndex(({abilities}) => abilities.includes("scorch"));
+            if (scorchIndex === -1) {
+                return;
+            }
+
+            const [scorch] = playerWeather.splice(scorchIndex, 1);
+            game.getPlayer(game.currentPlayerId).cards.discard(scorch);
+        },
     },
     scorch_c: {
         onPlaced: async (game, playerId) => game.scorch("close", game.getOpponentId(playerId), 10),

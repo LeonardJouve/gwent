@@ -32,6 +32,7 @@ TO TEST:
 - disable gwent font on card
 - throttle scroll
 - Cards in discard are not centered
+- Scorch should be discarded
 
 TO DO:
 - notifications above carousel
@@ -43,7 +44,6 @@ TO DO:
 - Eredin destroyer allows to select 2 times
 - Add description to eredin destroyer
 - Row scorch icon on lg is incorrect. Should have horns
-- Scorch should be discarded
 - Refresh page should redirect to lobby
 - Allow multiple time same weather ?
 - Font size card in hand amount, row / player score
