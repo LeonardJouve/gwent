@@ -16,8 +16,19 @@
     <div class={[backClass(playerData.faction), "height"]}></div>
 {/snippet}
 
-<CardPile
-    cardAmount={playerData.deck ? playerData.deck.length : playerData.deckSize}
-    showCounter={true}
-    render={cardBack}
-/>
+<div class="container">
+    <CardPile
+        cardAmount={playerData.deck ? playerData.deck.length : playerData.deckSize}
+        showCounter={true}
+        render={cardBack}
+    />
+</div>
+
+<style>
+    .container {
+        width: 100%;
+        height: 100%;
+        border: solid 2px transparent;
+        box-sizing: border-box;
+    }
+</style>

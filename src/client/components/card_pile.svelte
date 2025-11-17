@@ -49,6 +49,8 @@
         bottom: 0px;
         left: 50%;
         box-shadow: -5px -2px 8px rgba(20,20,20, 0.5);
+        display: flex;
+        align-items: end;
     }
 
     .cards {
